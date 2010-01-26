@@ -1,0 +1,182 @@
+==============
+ Meta Tracker
+==============
+
+A bug tracker which is highly extensible through add-ons to synchronize
+bug trackring information with third party bug trackers.
+
+Motivation
+==========
+
+Developers and companies are using different bug trackers. One bug
+tracker providing the possibility to exchange and synchronize
+information with other bug tracking systems would allow storing
+information in one place and synchronize this information only with
+other systems. This would allow that a company with multiple clients and
+their bug-tracking systems can be managed from one single point and via
+multiple bug tracking systems.
+
+
+Personas
+========
+
+Paul McGregor is an application developer and a spare time free software
+contributor. He uses Bugzilla for his spare time projects, because
+another GNOME hosted project he is also contributing to uses Bugzilla.
+At work, he has to use the a work related self-developed solution, which
+is more a hindrance than a bug tracker. He sometimes swears at it,
+although he knows, that Bugzilla also sometimes has it's faults.  But,
+at least, he can better organise his work.
+
+
+Non Goals
+=========
+
+XXX
+
+Open Questions
+==============
+
+    * How do we make sure, that attributes are correctly mapped. For
+      example, if we store the bug status with the fields 'open',
+      'resolved', but the bug tracker we're synching with uses different or
+      more attributes. Either we have to retrieve status values from the
+      synchronising bug-tracker, but what happens if we have more than one
+      bug tracker? Or... we store our own status attributes, but have to
+      provide an interface for a status/attribute mapping, which is *more
+      preferrable*
+
+    * Keeping the synchronization information out of the system would also
+      allow to build a distributed bugtracking system, like a distributed
+      version control. If that is of any use, I wonder.
+
+
+Scenarios
+=========
+
+Adding Projects
+---------------
+
+Paul arrives at work on Monday morning. His Boss tells him, that he has
+to work on a new project: a system for managing people in an aged care
+facility. "Yet another management system.", he thinks. He quickly writes
+a small spec, his boss reviews it and starts creating bugs in the bug
+tracking system his company uses. This time though, he doesn't use the
+administration interface of the company bug tracker, he uses the
+metatracker.
+
+He opens the metatracker, clicks on the `New Project` button. A new
+dialog is displayed where he can enter a `title`, adds categories (or
+components), versions and choose a bug tracker this project bugs should
+synchronized with. He enters a title: `Adult Care` and doesn't choose a
+bug tracker. The company bug tracker has no project created for this
+project yet, but Paul want's to start working on the project.
+
+
+Adding Bugs
+-----------
+
+Paul creates a new bug against his newly created `Adult Care` project.
+He clicks on `New Bug`, a dialog window appears and enters the following
+information:
+
+    * project: `Adult Care`,
+    * version: `current SVN`,
+    * category: `General`,
+
+.. admonition:: Technical note 
+
+    Use Tags for version or category?
+
+He clicks on `Save` to confirm the bug creation.
+
+
+Adding comments to Bugs
+-----------------------
+
+Paul clicks on the `Update` button, which internally updates all bugs of
+the current project. He can see a list of bugs filed against the current
+project. The list is displayed as a table. He notices, that someone
+filed a new bug report, which turns out was his boss. He clicks on the
+new bug, which brings him to a detailed view.
+
+His boss pesters him about a known bug, which seems not to be fixed. At
+least according to his boss. Paul tries to reproduce the problem on the
+life system. He realizes that he forgot to update the life system,
+which he's doing immediately. The bug is fixed according to him. He adds
+a comment in the big textarea which is shown on the bottom of the
+detailed view. He adds the comment by clicking on the `Save Changes`
+button.
+
+
+Resolving Bugs
+--------------
+
+Paul wants to resolve the issue with the filed bug and selects 'Fixed'
+in the status selection box. He adds a small comment and clicks on `Save
+Changes`.
+
+
+Assigning Bug Trackers to a project
+-----------------------------------
+
+The Boss calls Paul into his office. He tells him, that he created a
+project on the companies bug tracker, where Paul should start putting
+bugs in. "Already done.", Paul thinks. He goes back to his metatracker,
+opens up the dialog with a list of projects and clicks on the `Edit
+Project` button.
+
+A dialog pops up where Paul is able to edit the title and add a bug
+tracker this project should synchronize bugs with. A selectionbox is
+shown, which is currently set to `No bug tracker`. He selects `BugZilla`
+from the list.
+
+The dialog now displays an input form for additional, bug relevant
+information: He needs to enter his username, password and a URL to the
+project managed by BugZilla. The username and the password are used to
+log-in to BugZilla and synchronize the bug tracking information. He
+confirms the adding of BugZilla to his project, which closes the
+dialogs.
+
+
+.. admonition:: Technical note 
+
+    Adding more than one bug tracker to a project? What about attributes
+    such as categories, version and other user defined information. Let
+    the user provide a *manual* mapping or can this be automated?
+
+
+Screens
+=======
+
+Overview Screen
+---------------
+
+This is the default screen the user looks at after startup. This screen
+shows all projects and their bugs in tabular form. The user can click on
+a bug to see the `Detailed View` for the selected bug.
+
+Detailed View
+-------------
+
+The detailed view shows detailed attributes such as comments, status,
+version, project, etc. for the selected bug. It additionally shows which
+bug trackers (if any are added) it synchronizes with.
+
+New Bug View
+------------
+
+This view shows a subset of attributes of the `Detailed View`, but hides
+fields which are not important at bug creation.
+
+Manage Projects
+---------------
+
+This screen allows the user to add/edit projects. It shows a list of
+already added projects. If the user clicks on a project, the screen
+shows immediately a form with settings for this project. Settings can be
+title, description, versions, etc.
+
+A `New Project` button adds a new project with a dummy title (e.g.
+`Untitled`) in the list of projects. The project is immediately selected
+and can now be edited by the user.
