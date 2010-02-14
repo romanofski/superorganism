@@ -9,3 +9,11 @@ A bug reflects one distinguishable problem in a software system.
 ...     'This is more information about a bug.')
 >>> bug
 <Bug 1>
+
+We check if the bug really imports it's interface:
+
+>>> import zope.interface.verify
+>>> import metatracker.interfaces
+>>> zope.interface.verify.verifyObject(
+...     metatracker.interfaces.IBug, bug)
+True
