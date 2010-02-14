@@ -3,7 +3,7 @@
 ==============
 
 A bug tracker which is highly extensible through add-ons to synchronize
-bug trackring information with third party bug trackers.
+bug tracking information with third party bug trackers.
 
 Motivation
 ==========
@@ -153,8 +153,26 @@ Overview Screen
 ---------------
 
 This is the default screen the user looks at after startup. This screen
-shows all projects and their bugs in tabular form. The user can click on
-a bug to see the `Detailed View` for the selected bug.
+shows by default:
+
+    * all bugs created by the user
+    * all bugs assigned to the user
+
+Besides this overview, the user can filter the list of listed bugs by
+using a key combination. He can switch to project related overviews,
+which shows initially all newly created bugs.
+
+--------------------------------------- |
+All         | 1 Date "Created By" Title |
+------------| 2 Date "Created By" Title |
+Project A   |                           |
+Project B   |                           |
+            |                           |
+            |                           |
+-----------------------------------------
+
+By clicking on a bug, the user now looks at the `Detailed View`.
+
 
 Detailed View
 -------------
