@@ -1,0 +1,10 @@
+================
+ Buginformation
+================
+
+A bug reflects one distinguishable problem in a software system.
+
+>>> import metatracker.bug
+>>> bug = metatracker.bug.Bug('new bug',
+...     'This is more information about a bug.')
+>>> bug
