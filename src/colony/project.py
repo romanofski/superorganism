@@ -1,11 +1,11 @@
 import zope.interface
-import metatracker.interfaces
+import colony.interfaces
 import persistent
 
 
 class Project(persistent.Persistent):
 
-    zope.interface.implements(metatracker.interfaces.IProject)
+    zope.interface.implements(colony.interfaces.IProject)
 
     components = []
     versions = []

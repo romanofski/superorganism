@@ -1,14 +1,14 @@
 import ZODB.DB
 import ZODB.FileStorage
-import metatracker.bug
-import metatracker.gui.interfaces
+import colony.bug
+import colony.gui.interfaces
 import urwid
 import zope.interface
 
 
 class Application(object):
 
-    zope.interface.implements(metatracker.gui.interfaces.IApplication)
+    zope.interface.implements(colony.gui.interfaces.IApplication)
 
     def __init__(self, tui, config):
         self.tui = tui

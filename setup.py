@@ -2,9 +2,9 @@ from setuptools import setup, find_packages
 
 version = '0.1'
 
-setup(name='metatracker',
+setup(name='colony',
       version=version,
-      description=('Metatracker is a bug tracking system which allows to'
+      description=('Colony is a bug tracking system which allows to'
                    ' follow/synchronize other bug tracking systems'),
       long_description='',
       keywords='Python',

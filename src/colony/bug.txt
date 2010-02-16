@@ -4,8 +4,8 @@
 
 A bug reflects one distinguishable problem in a software system.
 
->>> import metatracker.bug
->>> bug = metatracker.bug.Bug(1, 'new bug',
+>>> import colony.bug
+>>> bug = colony.bug.Bug(1, 'new bug',
 ...     'This is more information about a bug.')
 >>> bug
 <Bug 1>
@@ -13,7 +13,7 @@ A bug reflects one distinguishable problem in a software system.
 We check if the bug really imports it's interface:
 
 >>> import zope.interface.verify
->>> import metatracker.interfaces
+>>> import colony.interfaces
 >>> zope.interface.verify.verifyObject(
-...     metatracker.interfaces.IBug, bug)
+...     colony.interfaces.IBug, bug)
 True

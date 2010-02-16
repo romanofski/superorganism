@@ -1,6 +1,6 @@
-==============
- Meta Tracker
-==============
+==========================
+ Colony a Meta-Bugtracker
+==========================
 
 A bug tracker which is highly extensible through add-ons to synchronize
 bug tracking information with third party bug trackers.
@@ -63,9 +63,9 @@ facility. "Yet another management system.", he thinks. He quickly writes
 a small spec, his boss reviews it and starts creating bugs in the bug
 tracking system his company uses. This time though, he doesn't use the
 administration interface of the company bug tracker, he uses the
-metatracker.
+colony bugtracker.
 
-He opens the metatracker, clicks on the `New Project` button. A new
+He opens the colony bugtracker, clicks on the `New Project` button. A new
 dialog is displayed where he can enter a `title`, adds categories (or
 components), versions and choose a bug tracker this project bugs should
 synchronized with. He enters a title: `Adult Care` and doesn't choose a
@@ -122,7 +122,7 @@ Assigning Bug Trackers to a project
 
 The Boss calls Paul into his office. He tells him, that he created a
 project on the companies bug tracker, where Paul should start putting
-bugs in. "Already done.", Paul thinks. He goes back to his metatracker,
+bugs in. "Already done.", Paul thinks. He goes back to his colony bugtracker,
 opens up the dialog with a list of projects and clicks on the `Edit
 Project` button.
 

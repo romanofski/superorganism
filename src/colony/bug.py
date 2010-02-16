@@ -1,12 +1,12 @@
 import zope.interface
-import metatracker.interfaces
+import colony.interfaces
 import datetime
 import persistent
 
 
 class Bug(persistent.Persistent):
 
-    zope.interface.implements(metatracker.interfaces.IBug)
+    zope.interface.implements(colony.interfaces.IBug)
 
     id = ''
     url = ''
