@@ -9,5 +9,8 @@ def test_suite():
     return TestSuite([
         doctestunit.DocFileSuite(
            'bug.txt', package='metatracker',
+           optionflags=COMPARISON_FLAGS | REPORT_ONLY_FIRST_FAILURE),
+        doctestunit.DocFileSuite(
+           'project.txt', package='metatracker',
            optionflags=COMPARISON_FLAGS | REPORT_ONLY_FIRST_FAILURE)
     ])

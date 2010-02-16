@@ -1,9 +1,10 @@
 import zope.interface
 import metatracker.interfaces
 import datetime
+import persistent
 
 
-class Bug(object):
+class Bug(persistent.Persistent):
 
     zope.interface.implements(metatracker.interfaces.IBug)
 

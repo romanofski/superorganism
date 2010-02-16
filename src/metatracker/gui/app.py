@@ -1,12 +1,23 @@
+import ZODB.DB
+import ZODB.FileStorage
 import metatracker.bug
-import zope.interface
+import metatracker.gui.interfaces
 import urwid
+import zope.interface
+import zope.interface
 
 
 class Application(object):
 
-    def __init__(self, tui):
+    zope.interface.implements(metatracker.gui.interfaces.IApplication)
+
+    def __init__(self, tui, config):
         self.tui = tui
+        self.config = config
+        # ZConfig
+        storage = ZODB.FileStorage.FileStorage(config['database'])
+        self._conn = ZODB.DB(storage).open()
+        self._root = self._conn.root()
         self.tui.register_palette_entry('status', 'white', 'dark blue', None)
         self.tui.register_palette_entry('bg', 'dark blue', 'dark cyan', None)
 
@@ -33,6 +44,7 @@ class Application(object):
                 elif key in ('up', 'down', 'page up', 'page down'):
                     self.listbox.keypress(self.size, key)
                 elif key == 'q':
+                    self._conn.close()
                     return
                 else:
                     self.frame.keypress(self.size, key)
@@ -48,7 +60,10 @@ class Application(object):
 
     def list_bugs(self):
         # read ZODB
-        bug = metatracker.bug.Bug(1, u'Metatracker defunct!', 
-                                  u'this is a defunct product.')
-        text = urwid.Text(u'%s %s %s' % (bug.id, bug.reported, bug.title))
-        return [text]
+        root = self._conn.root()
+        result = []
+        for bug in root.values():
+            result.append(urwid.Text(u'%s %s %s' % (bug.id,
+                                                    bug.reported,
+                                                    bug.title)))
+        return result
