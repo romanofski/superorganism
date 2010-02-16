@@ -43,11 +43,13 @@ class Application(object):
         self.helpbar = urwid.Text(u'Topbar')
         self.lines = self.list_bugs()
         self.listbox = urwid.ListBox(self.lines)
-        self.input = urwid.Edit()
 
-        self.top = urwid.Pile([urwid.AttrMap(self.helpbar, 'status')])
-        self.bframe = urwid.Pile([urwid.AttrMap(self.status, 'status'), self.input])
-        self.frame = urwid.Frame(self.listbox, header=self.top, footer=self.bframe)
+        self.top = urwid.Pile([urwid.AttrMap(self.helpbar, 'helpbar')])
+        self.frame = urwid.Frame(self.listbox,
+                                 header=urwid.AttrMap(self.helpbar,
+                                                      'helpbar'),
+                                 footer=urwid.AttrMap(self.status,
+                                                      'statusbar'))
         self.frame.set_focus('footer')
 
         self.redisplay()
