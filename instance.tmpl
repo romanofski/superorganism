@@ -1,0 +1,33 @@
+#!/opt/python2.4/bin/python2.4
+
+import sys
+sys.path[0:0] = [
+  '/home/roman/works/projects/metatracker/src',
+  '/home/roman/.buildout/eggs/zope.testing-3.8.7-py2.4.egg',
+  '/home/roman/.buildout/eggs/zope.interface-3.5.3-py2.4-linux-i686.egg',
+  '/home/roman/.buildout/eggs/zope.exceptions-3.5.2-py2.4.egg',
+  '/home/roman/.buildout/eggs/setuptools-0.6c11-py2.4.egg',
+  '/home/roman/.buildout/eggs/urwid-0.9.9.1-py2.4-linux-i686.egg',
+  '/home/roman/.buildout/eggs/ZODB3-3.9.0b1-py2.4-linux-i686.egg',
+  '/home/roman/.buildout/eggs/zope.proxy-3.5.0-py2.4-linux-i686.egg',
+  '/home/roman/.buildout/eggs/zope.event-3.4.1-py2.4.egg',
+  '/home/roman/.buildout/eggs/zdaemon-2.0.4-py2.4.egg',
+  '/home/roman/.buildout/eggs/ZConfig-2.6.1-py2.4.egg',
+  '/home/roman/.buildout/eggs/zc.lockfile-1.0.0-py2.4.egg',
+  '/home/roman/.buildout/eggs/transaction-1.0a1-py2.4.egg',
+  '/home/roman/.buildout/eggs/zope.component-3.7.0-py2.4.egg',
+  ]
+
+import metatracker.gui.app
+import metatracker.gui.interfaces
+import urwid.curses_display
+import zope.component
+
+
+if __name__ == '__main__':
+    tui = urwid.curses_display.Screen()
+    app = metatracker.gui.app.Application(tui, $buildout['config'])
+    zope.component.provideUtility(app,
+                                  metatracker.gui.interfaces.IApplication)
+    tui.run_wrapper(app.run)
+
