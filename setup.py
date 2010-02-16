@@ -23,6 +23,7 @@ setup(name='metatracker',
       zip_safe=False,
       install_requires=['ZODB3',
                         'setuptools',
+                        'urwid',
                        ],
     entry_points = """
     """
