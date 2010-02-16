@@ -4,7 +4,6 @@ import metatracker.bug
 import metatracker.gui.interfaces
 import urwid
 import zope.interface
-import zope.interface
 
 
 class Application(object):

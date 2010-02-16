@@ -1,0 +1,10 @@
+=============
+ Datastorage
+=============
+
+The datastorage utility provides transparent access to the database
+(which is currently ZODB).
+
+
+
+
