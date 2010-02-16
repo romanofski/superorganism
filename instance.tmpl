@@ -26,9 +26,9 @@ import zope.component
 if __name__ == '__main__':
     tui = urwid.curses_display.Screen()
     database = colony.database.Database($buildout['config'])
+    zope.component.provideUtility(database, colony.interfaces.IDatabase)
     app = colony.gui.app.Application(tui, $buildout['config'])
     zope.component.provideUtility(app,
                                   colony.gui.interfaces.IApplication)
-    zope.component.provideUtility(database, colony.interfaces.IDatabase)
     tui.run_wrapper(app.run)
 
