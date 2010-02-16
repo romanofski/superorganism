@@ -1,9 +1,8 @@
 import zope.interface
 import colony.interfaces
-import persistent
 
 
-class Project(persistent.Persistent):
+class Project(object):
 
     zope.interface.implements(colony.interfaces.IProject)
 
@@ -11,9 +10,6 @@ class Project(persistent.Persistent):
     versions = []
 
     def __init__(self, title, description):
+        super(Project, self).__init__()
         self.title = title
         self.description = description
-
-    def add_bug(self, bug):
-        app = self.__parent__
-        app[bug.id] = bug
