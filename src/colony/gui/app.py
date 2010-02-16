@@ -3,6 +3,7 @@ import ZODB.DB
 import ZODB.FileStorage
 import colony.gui.interfaces
 import colony.interfaces
+import colony.project
 import os.path
 import transaction
 import urwid
@@ -25,10 +26,19 @@ class Application(object):
         for name, val in guiconf.items('colors'):
             fg, bg = val.split(',')
             self.tui.register_palette_entry(name, fg.strip(), bg.strip(), None)
+        # register projects
+        _projects = guiconf.get('app', 'projects')
+        for proj in _projects.split('\s'):
+            project = colony.project.Project(
+                guiconf.get(proj, 'title'),
+                guiconf.get(proj, 'description'))
+            zope.component.provideUtility(project,
+                                          colony.interfaces.IProject)
 
     def run(self):
         self.size = self.tui.get_cols_rows()
-        self.set_status('0 Bugs')
+        projects = zope.component.getUtilitiesFor(colony.interfaces.IProject)
+        self.set_status('%s Project(s)' % len(list(projects)))
 
         self.lines = self.list_bugs()
         self.listbox = urwid.ListBox(self.lines)
