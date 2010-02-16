@@ -24,6 +24,7 @@ setup(name='metatracker',
       install_requires=['ZODB3',
                         'setuptools',
                         'urwid',
+                        'zope.component',
                        ],
     entry_points = """
     """
