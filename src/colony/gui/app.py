@@ -40,12 +40,14 @@ class Application(object):
         projects = zope.component.getUtilitiesFor(colony.interfaces.IProject)
         self.set_status('%s Project(s)' % len(list(projects)))
 
+        self.helpbar = urwid.Text(u'Topbar')
         self.lines = self.list_bugs()
         self.listbox = urwid.ListBox(self.lines)
         self.input = urwid.Edit()
 
+        self.top = urwid.Pile([urwid.AttrMap(self.helpbar, 'status')])
         self.bframe = urwid.Pile([urwid.AttrMap(self.status, 'status'), self.input])
-        self.frame = urwid.Frame(self.listbox, footer=self.bframe)
+        self.frame = urwid.Frame(self.listbox, header=self.top, footer=self.bframe)
         self.frame.set_focus('footer')
 
         self.redisplay()
