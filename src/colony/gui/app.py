@@ -1,11 +1,12 @@
+import ConfigParser
 import ZODB.DB
 import ZODB.FileStorage
-import colony.bug
-import os.path
 import colony.gui.interfaces
+import colony.interfaces
+import os.path
+import transaction
 import urwid
 import zope.interface
-import ConfigParser
 
 
 class Application(object):
@@ -16,10 +17,6 @@ class Application(object):
         self.tui = tui
         self.config = config
         self.configure()
-        # ZConfig
-        storage = ZODB.FileStorage.FileStorage(config['database'])
-        self._conn = ZODB.DB(storage).open()
-        self._root = self._conn.root()
 
     def configure(self):
         confdir = self.config['configdir']
@@ -52,7 +49,7 @@ class Application(object):
                 elif key in ('up', 'down', 'page up', 'page down'):
                     self.listbox.keypress(self.size, key)
                 elif key == 'q':
-                    self._conn.close()
+                    transaction.commit()
                     return
                 else:
                     self.frame.keypress(self.size, key)
@@ -60,6 +57,7 @@ class Application(object):
                 self.redisplay()
 
     def redisplay(self):
+        transaction.commit()
         canvas = self.frame.render(self.size, focus=True)
         self.tui.draw_screen(self.size, canvas)
 
@@ -68,7 +66,7 @@ class Application(object):
 
     def list_bugs(self):
         # read ZODB
-        root = self._conn.root()
+        root = zope.component.getUtility(colony.interfaces.IDatabase).root
         result = []
         for bug in root.values():
             result.append(urwid.Text(u'%s %s %s' % (bug.id,

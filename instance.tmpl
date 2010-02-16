@@ -16,6 +16,7 @@ sys.path[0:0] = [
   '/home/roman/.buildout/eggs/zope.component-3.7.0-py2.4.egg',
   ]
 
+import colony.database
 import colony.gui.app
 import colony.gui.interfaces
 import urwid.curses_display
@@ -24,8 +25,10 @@ import zope.component
 
 if __name__ == '__main__':
     tui = urwid.curses_display.Screen()
+    database = colony.database.Database($buildout['config'])
     app = colony.gui.app.Application(tui, $buildout['config'])
     zope.component.provideUtility(app,
                                   colony.gui.interfaces.IApplication)
+    zope.component.provideUtility(database, colony.interfaces.IDatabase)
     tui.run_wrapper(app.run)
 

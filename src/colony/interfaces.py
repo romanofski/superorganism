@@ -1,6 +1,10 @@
 import zope.interface
 
 
+class IDatabase(zope.interface.Interface):
+    """Database utility to store data."""
+
+
 class IProject(zope.interface.Interface):
     """A project or product holds general information about bugs,
        milestones, etc.
