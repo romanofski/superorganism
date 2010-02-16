@@ -1,9 +1,11 @@
 import ZODB.DB
 import ZODB.FileStorage
 import colony.bug
+import os.path
 import colony.gui.interfaces
 import urwid
 import zope.interface
+import ConfigParser
 
 
 class Application(object):
@@ -13,12 +15,19 @@ class Application(object):
     def __init__(self, tui, config):
         self.tui = tui
         self.config = config
+        self.configure()
         # ZConfig
         storage = ZODB.FileStorage.FileStorage(config['database'])
         self._conn = ZODB.DB(storage).open()
         self._root = self._conn.root()
-        self.tui.register_palette_entry('status', 'white', 'dark blue', None)
-        self.tui.register_palette_entry('bg', 'dark blue', 'dark cyan', None)
+
+    def configure(self):
+        confdir = self.config['configdir']
+        guiconf = ConfigParser.SafeConfigParser()
+        guiconf.read(os.path.join(confdir, 'gui.cfg'))
+        for name, val in guiconf.items('colors'):
+            fg, bg = val.split(',')
+            self.tui.register_palette_entry(name, fg.strip(), bg.strip(), None)
 
     def run(self):
         self.size = self.tui.get_cols_rows()
