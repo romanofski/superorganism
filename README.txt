@@ -1,6 +1,6 @@
-==============
- About Colony
-==============
+=====================
+ About Superorganism
+=====================
 
 This bugtracker was written in the intention to be a helpful tool.
 
@@ -26,17 +26,19 @@ do the following:
     * Do a buildout: bin/buildout
       This installs all the dependencies.
 
-    * bin/colony runs the program.
+    * bin/superorganism runs the program.
 
 
-Why the name 'Colony'?
-======================
+Why the name 'Superorganism'?
+==============================
 
 From wikipedia:
 
-    Colony (biology), a group of individual organisms of the same
-    species living closely together.
-    http://en.wikipedia.org/wiki/Colony_(biology)
+    A superorganism is an organism consisting of many organisms. This is
+    usually meant to be a social unit of eusocial animals, where
+    division of labour is highly specialised and where individuals are
+    not able to survive by themselves for extended periods of time.
+    http://en.wikipedia.org/wiki/Superorganism
 
 Because *one* bug tracker is used by *many* users (of the same company),
 this bug tracker provides an application for *one* user tracking *many*

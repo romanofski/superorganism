@@ -4,8 +4,8 @@
 
 A bug reflects one distinguishable problem in a software system.
 
->>> import colony.bug
->>> bug = colony.bug.Bug(1, 'new bug',
+>>> import superorganism.bug
+>>> bug = superorganism.bug.Bug(1, 'new bug',
 ...     'This is more information about a bug.')
 >>> bug
 <Bug 1>
@@ -13,7 +13,7 @@ A bug reflects one distinguishable problem in a software system.
 We check if the bug really imports it's interface:
 
 >>> import zope.interface.verify
->>> import colony.interfaces
+>>> import superorganism.interfaces
 >>> zope.interface.verify.verifyObject(
-...     colony.interfaces.IBug, bug)
+...     superorganism.interfaces.IBug, bug)
 True

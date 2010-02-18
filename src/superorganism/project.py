@@ -1,10 +1,10 @@
 import zope.interface
-import colony.interfaces
+import superorganism.interfaces
 
 
 class Project(object):
 
-    zope.interface.implements(colony.interfaces.IProject)
+    zope.interface.implements(superorganism.interfaces.IProject)
 
     components = []
     versions = []

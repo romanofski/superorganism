@@ -1,13 +1,13 @@
 import ZODB.FileStorage
 import ZODB.DemoStorage
 import ZODB.DB
-import colony.interfaces
+import superorganism.interfaces
 import zope.interface
 
 
 class Database(object):
 
-    zope.interface.implements(colony.interfaces.IDatabase)
+    zope.interface.implements(superorganism.interfaces.IDatabase)
 
     def __init__(self, config):
         storage = ZODB.FileStorage.FileStorage(config['database'])

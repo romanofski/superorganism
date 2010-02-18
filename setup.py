@@ -1,12 +1,17 @@
+import os.path
 from setuptools import setup, find_packages
 
-version = '0.1'
 
-setup(name='colony',
+def read(*rnames):
+    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+
+
+version = '0.1'
+setup(name='superorganism',
       version=version,
-      description=('Colony is a bug tracking system which allows to'
+      description=('Superorganism is a bug tracking system which allows to'
                    ' follow/synchronize other bug tracking systems'),
-      long_description='',
+      long_description = read('README.txt'),
       keywords='Python',
       author='Roman Joost',
       author_email='roman@bromeco.de',
@@ -14,7 +19,6 @@ setup(name='colony',
       license='',
       # Get more from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=['Programming Language :: Python',
-                   'Environment :: Web Environment',
                   ],
 
       packages=find_packages('src'),

@@ -1,9 +1,9 @@
 import ConfigParser
 import ZODB.DB
 import ZODB.FileStorage
-import colony.gui.interfaces
-import colony.interfaces
-import colony.project
+import superorganism.gui.interfaces
+import superorganism.interfaces
+import superorganism.project
 import os.path
 import transaction
 import urwid
@@ -12,7 +12,7 @@ import zope.interface
 
 class Application(object):
 
-    zope.interface.implements(colony.gui.interfaces.IApplication)
+    zope.interface.implements(superorganism.gui.interfaces.IApplication)
 
     def __init__(self, tui, config):
         self.tui = tui
@@ -29,15 +29,15 @@ class Application(object):
         # register projects
         _projects = guiconf.get('app', 'projects')
         for proj in _projects.split('\s'):
-            project = colony.project.Project(
+            project = superorganism.project.Project(
                 guiconf.get(proj, 'title'),
                 guiconf.get(proj, 'description'))
             zope.component.provideUtility(project,
-                                          colony.interfaces.IProject)
+                                          superorganism.interfaces.IProject)
 
     def run(self):
         self.size = self.tui.get_cols_rows()
-        projects = zope.component.getUtilitiesFor(colony.interfaces.IProject)
+        projects = zope.component.getUtilitiesFor(superorganism.interfaces.IProject)
         self.set_status('%s Project(s)' % len(list(projects)))
 
         self.helpbar = urwid.Text(u'Topbar')
@@ -80,7 +80,7 @@ class Application(object):
 
     def list_bugs(self):
         # read ZODB
-        root = zope.component.getUtility(colony.interfaces.IDatabase).root
+        root = zope.component.getUtility(superorganism.interfaces.IDatabase).root
         result = []
         for bug in root.values():
             result.append(urwid.Text(u'%s %s %s' % (bug.id,

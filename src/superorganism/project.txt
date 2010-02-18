@@ -1,0 +1,20 @@
+==========
+ Projects
+==========
+
+Projects provide generel information about a software project (a.k.a.
+product).
+
+>>> import superorganism.project
+>>> project = superorganism.project.Project('superorganism buglist',
+...     'The list of bugs for superorganism should be visible on the dashboard.')
+>>> project
+<superorganism.project.Project object at 0x...>
+
+We check if the bug really imports it's interface:
+
+>>> import zope.interface.verify
+>>> import superorganism.interfaces
+>>> zope.interface.verify.verifyObject(
+...     superorganism.interfaces.IProject, project)
+True

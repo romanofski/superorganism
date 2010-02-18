@@ -1,12 +1,12 @@
 import zope.interface
-import colony.interfaces
+import superorganism.interfaces
 import datetime
 import persistent
 
 
 class Bug(persistent.Persistent):
 
-    zope.interface.implements(colony.interfaces.IBug)
+    zope.interface.implements(superorganism.interfaces.IBug)
 
     id = ''
     url = ''

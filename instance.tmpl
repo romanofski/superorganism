@@ -1,34 +1,16 @@
-import sys
-sys.path[0:0] = [
-  '/home/roman/works/projects/colony/src',
-  '/home/roman/.buildout/eggs/zope.testing-3.8.7-py2.4.egg',
-  '/home/roman/.buildout/eggs/zope.interface-3.5.3-py2.4-linux-i686.egg',
-  '/home/roman/.buildout/eggs/zope.exceptions-3.5.2-py2.4.egg',
-  '/home/roman/.buildout/eggs/setuptools-0.6c11-py2.4.egg',
-  '/home/roman/.buildout/eggs/urwid-0.9.9.1-py2.4-linux-i686.egg',
-  '/home/roman/.buildout/eggs/ZODB3-3.9.0b1-py2.4-linux-i686.egg',
-  '/home/roman/.buildout/eggs/zope.proxy-3.5.0-py2.4-linux-i686.egg',
-  '/home/roman/.buildout/eggs/zope.event-3.4.1-py2.4.egg',
-  '/home/roman/.buildout/eggs/zdaemon-2.0.4-py2.4.egg',
-  '/home/roman/.buildout/eggs/ZConfig-2.6.1-py2.4.egg',
-  '/home/roman/.buildout/eggs/zc.lockfile-1.0.0-py2.4.egg',
-  '/home/roman/.buildout/eggs/transaction-1.0a1-py2.4.egg',
-  '/home/roman/.buildout/eggs/zope.component-3.7.0-py2.4.egg',
-  ]
-
-import colony.database
-import colony.gui.app
-import colony.gui.interfaces
+import superorganism.database
+import superorganism.gui.app
+import superorganism.gui.interfaces
 import urwid.curses_display
 import zope.component
 
 
 if __name__ == '__main__':
     tui = urwid.curses_display.Screen()
-    database = colony.database.Database($buildout['config'])
-    zope.component.provideUtility(database, colony.interfaces.IDatabase)
-    app = colony.gui.app.Application(tui, $buildout['config'])
+    database = superorganism.database.Database($buildout['config'])
+    zope.component.provideUtility(database, superorganism.interfaces.IDatabase)
+    app = superorganism.gui.app.Application(tui, $buildout['config'])
     zope.component.provideUtility(app,
-                                  colony.gui.interfaces.IApplication)
+                                  superorganism.gui.interfaces.IApplication)
     tui.run_wrapper(app.run)
 

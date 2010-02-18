@@ -6,8 +6,8 @@ The datastorage utility provides transparent access to the database
 (which is currently ZODB).
 
 >>> import zope.component
->>> import colony.interfaces
->>> storage = zope.component.getUtility(colony.interfaces.IDatabase)
+>>> import superorganism.interfaces
+>>> storage = zope.component.getUtility(superorganism.interfaces.IDatabase)
 >>> storage
-<colony.database.TestDatabase object at 0x...>
+<superorganism.database.TestDatabase object at 0x...>
 
