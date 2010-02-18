@@ -29,6 +29,7 @@ setup(name='superorganism',
                         'setuptools',
                         'urwid',
                         'zope.component',
+                        'repoze.zcml',
                        ],
     entry_points = """
     """
