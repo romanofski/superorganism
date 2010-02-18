@@ -1,6 +1,7 @@
 import ZODB.FileStorage
 import ZODB.DemoStorage
 import ZODB.DB
+import ZODB.config
 import superorganism.interfaces
 import zope.interface
 
@@ -9,9 +10,8 @@ class Database(object):
 
     zope.interface.implements(superorganism.interfaces.IDatabase)
 
-    def __init__(self, config):
-        storage = ZODB.FileStorage.FileStorage(config['database'])
-        self._conn = ZODB.DB(storage).open()
+    def __init__(self, zconfig):
+        self._conn = ZODB.config.databaseFromString(zconfig).open()
         self.root = self._conn.root()
 
 

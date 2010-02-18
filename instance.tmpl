@@ -4,10 +4,12 @@ import superorganism.gui.interfaces
 import urwid.curses_display
 import zope.component
 
+ZCONFIG = """$buildout['superorganism']['database']"""
+
 
 if __name__ == '__main__':
     tui = urwid.curses_display.Screen()
-    database = superorganism.database.Database($buildout['config'])
+    database = superorganism.database.Database(ZCONFIG)
     zope.component.provideUtility(database, superorganism.interfaces.IDatabase)
     app = superorganism.gui.app.Application(tui, $buildout['config'])
     zope.component.provideUtility(app,
