@@ -26,6 +26,11 @@ def test_suite():
                doctest.COMPARISON_FLAGS |
                doctest.REPORT_ONLY_FIRST_FAILURE)),
         zope.testing.doctestunit.DocFileSuite(
+           'config.txt', package='superorganism',
+           optionflags=(
+               doctest.COMPARISON_FLAGS |
+               doctest.REPORT_ONLY_FIRST_FAILURE)),
+        zope.testing.doctestunit.DocFileSuite(
            'database.txt', package='superorganism',
            optionflags=(doctest.COMPARISON_FLAGS |
                         doctest.REPORT_ONLY_FIRST_FAILURE),

@@ -1,6 +1,15 @@
 import zope.interface
 
 
+class IConfiguration(zope.interface.Interface):
+    """Low-level application configuration utility."""
+
+    def reconfigure(configfile):
+        """Reconfigure the application by reloading the configuration or
+           reading another configuration file.
+        """
+
+
 class IDatabase(zope.interface.Interface):
     """Database utility to store data."""
 

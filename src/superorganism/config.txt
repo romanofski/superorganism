@@ -1,0 +1,41 @@
+===============
+ Configuration
+===============
+
+The configuration utility provides low level parsing of the application
+configuration and access to configuration options.
+
+For reading the configuration syntax, ConfigParser is used.
+
+Basic Configuration
+===================
+
+A basic configuration file would look like this:
+
+>>> import StringIO
+>>> app_cfg = """
+... [app]
+... projects = superorganism
+... colors = colors
+... 
+... [colors]
+... statusbar = white, dark cyan
+... 
+... [superorganism]
+... title = Internal Project
+... description = Meta bugtracking project
+... """
+
+We instantiate the configuration with the configuration file:
+
+>>> import superorganism.config
+>>> cfg = superorganism.config.Configuration(StringIO.StringIO(app_cfg))
+>>> cfg
+<superorganism.config.Configuration object at 0x...>
+
+
+Application Configuration
+=========================
+
+To configure the application, wie adapt IConfigurationItem to our
+application:

@@ -52,6 +52,9 @@ License
 
 I'm currently distributing the project under GPL v3. See COPYING.
 
+* most of the content which is managed by every common bug tracker is:
+  text
+
 
 Running
 =======
