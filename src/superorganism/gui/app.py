@@ -51,7 +51,6 @@ class Application(object):
                                  footer=urwid.AttrMap(self.status,
                                                       'statusbar'))
         self.frame.set_focus('footer')
-
         self.redisplay()
 
         while 1:
@@ -63,17 +62,18 @@ class Application(object):
                 elif key in ('up', 'down', 'page up', 'page down'):
                     self.listbox.keypress(self.size, key)
                 elif key == 'q':
-                    transaction.commit()
+                    zope.component.getAdapter(
+                        self,
+                        superorganism.gui.interfaces.IKeyPressEvent,
+                        name='quit')()
                     return
                 else:
                     self.frame.keypress(self.size, key)
 
-                self.redisplay()
-
-    def redisplay(self):
-        transaction.commit()
-        canvas = self.frame.render(self.size, focus=True)
-        self.tui.draw_screen(self.size, canvas)
+    def redisplay(self, name='dashboard'):
+        zope.component.getAdapter(
+            self, superorganism.gui.interfaces.IView,
+            name=name)()
 
     def set_status(self, text, align='left'):
         self.status = urwid.Text(text, align=align)
@@ -87,3 +87,30 @@ class Application(object):
                                                     bug.reported,
                                                     bug.title)))
         return result
+
+
+class QuitHandler(object):
+
+    zope.interface.implements(superorganism.gui.interfaces.IKeyPressEvent)
+    zope.component.adapts(superorganism.gui.interfaces.IApplication)
+
+    def __init__(self, app):
+        self.context = app
+
+    def __call__(self):
+        transaction.commit()
+        return
+
+
+class Dashboard(object):
+
+    zope.interface.implements(superorganism.gui.interfaces.IView)
+    zope.component.adapts(superorganism.gui.interfaces.IApplication)
+
+    def __init__(self, app):
+        self.context = app
+
+    def __call__(self):
+        transaction.commit()
+        canvas = self.context.frame.render(self.context.size, focus=True)
+        self.context.tui.draw_screen(self.context.size, canvas)

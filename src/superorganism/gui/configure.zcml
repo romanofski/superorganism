@@ -1,0 +1,13 @@
+<configure 
+  xmlns="http://namespaces.repoze.org/bfg">
+
+  <adapter
+    factory="superorganism.gui.app.QuitHandler"
+    name="quit"
+    />
+
+  <adapter
+    factory="superorganism.gui.app.Dashboard"
+    name="dashboard"
+    />
+</configure>
