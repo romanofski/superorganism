@@ -37,6 +37,8 @@ XXX
 Open Questions
 ==============
 
+    * How do we implement *searching*?
+
     * How do we make sure, that attributes are correctly mapped. For
       example, if we store the bug status with the fields 'open',
       'resolved', but the bug tracker we're synching with uses different or

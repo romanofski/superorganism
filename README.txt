@@ -2,19 +2,15 @@
  About Superorganism
 =====================
 
-This bugtracker was written in the intention to be a helpful tool.
-
-Motivation
-==========
-
-* Fast (UI is fast, it's possible to use it very fast through the
-  keyboard)
-
-* well documented (zope, ncurses)
+This bugtracker is a prototype of a decentralised bug tracking system.
+See the functional specification for more information.
 
 
 Running
 =======
+
+Dependencies to other software packages are mostly resolved
+automatically, but obviously you need Python (2.5 recommended).
 
 The project uses zc.buildout and a lot of zope components. Therefore you
 do the following:
