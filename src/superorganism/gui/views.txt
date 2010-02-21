@@ -37,16 +37,12 @@ content:
 
 >>> import superorganism.interfaces
 >>> import superorganism.gui.interfaces
+>>> import superorganism.gui.view
 >>> import zope.component
->>> class BugView(object):
+>>> class BugView(superorganism.gui.view.View):
 ...
 ...     zope.interface.implements(superorganism.gui.interfaces.IView)
-...     zope.component.adapts(superorganism.interfaces.IBug,
-...                           IDashboard)
-...
-...     def __init__(self, context, widget):
-...         self.context = context
-...         self.widget = widget
+...     zope.component.adapts(superorganism.interfaces.IBug, IDashboard)
 ...
 ...     def render(self):
 ...         print (self.context, self.widget)

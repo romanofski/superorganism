@@ -34,3 +34,8 @@ class IView(zope.interface.Interface):
     def render(self):
         """Renders the screen elements."""
 
+
+class IWidget(zope.interface.Interface):
+    """A widget encapsulating an urwid widget."""
+
+    __parent__ = zope.interface.Attribute("The parent widget.")
