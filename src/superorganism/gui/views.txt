@@ -10,47 +10,55 @@ user, a view is created.
 Basic View
 ==========
 
-We first create a content object. That will be obviously for a
+We first create we need a content object. That will be obviously for a
 bugtracker a bug:
 
 >>> import superorganism.bug
 >>> bug = superorganism.bug.Bug(1, u'New Bug', u'Bla bla')
 
+We create now a Dashboard widget. This would usually use a urwid widget
+(e.g. frame) to display the text. We just use a dummy type which
+implements IDashboard for this, otherwise we may screw up the tests with
+the ncurses behaviour:
+
+>>> import zope.interface
+>>> class IDashboard(zope.interface.Interface):
+...     """Dashboard widget."""
+...
+>>> class Dashboard(object):
+...     zope.interface.implements(IDashboard)
+...     name = u'Dashboard'
+
+
 For the bug to be rendered, we also need to create a View which renders
-the bug on the users screen:
+the bug on the users screen. The view is a multiadapter adapting the
+content object and the widget in which we would like to render the
+content:
 
 >>> import superorganism.interfaces
 >>> import superorganism.gui.interfaces
->>> import zope.interface
 >>> import zope.component
 >>> class BugView(object):
 ...
 ...     zope.interface.implements(superorganism.gui.interfaces.IView)
 ...     zope.component.adapts(superorganism.interfaces.IBug,
-...                           superorganism.gui.interfaces.IApplication,
-...                           superorganism.gui.interfaces.IKeyPressEvent)
+...                           IDashboard)
 ...
-...     def __init__(self, context, app, keyevent):
+...     def __init__(self, context, widget):
 ...         self.context = context
-...         self.app = app
-...         self.keyevent = keyevent
+...         self.widget = widget
 ...
 ...     def render(self):
-...         print (self.context, self.app, self.keyevent)
+...         print (self.context, self.widget)
 
-We register now the view adapter:
+The adapter now needs to be registered with the component architecture:
 
 >>> import zope.component
 >>> zope.component.provideAdapter(BugView)
 
-We can now adapt the created bug to be rendered on the text UI:
+Let's try out our view:
 
->>> class KeyEvent(object):
-...     zope.interface.implements(superorganism.gui.interfaces.IKeyPressEvent)
-...     key_pressed = 'up'
-
->>> keyevent = KeyEvent()
->>> app = superorganism.gui.tests.TextApplication()
->>> view = zope.component.getMultiAdapter((bug, app, keyevent))
+>>> dash = Dashboard()
+>>> view = zope.component.getMultiAdapter((bug, dash))
 >>> view.render()
-(<Bug 1>, <superorganism.gui.tests.TextApplication object at 0x...>, <KeyEvent object at 0x...>)
+(<Bug 1>, <Dashboard object at 0x...>)
