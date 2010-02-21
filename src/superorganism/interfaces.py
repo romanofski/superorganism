@@ -5,6 +5,19 @@ class IDatabase(zope.interface.Interface):
     """Database utility to store data."""
 
 
+class IContent(zope.interface.Interface):
+    """Basic content object for the bug tracker."""
+
+    uid = zope.interface.Attribute(
+        "A unique ID identifying this object.")
+
+    title = zope.interface.Attribute(
+        "Content title")
+
+    description = zope.interface.Attribute(
+        "Short information this content.")
+
+
 class IProject(zope.interface.Interface):
     """A project or product holds general information about bugs,
        milestones, etc.
@@ -16,14 +29,8 @@ class IProject(zope.interface.Interface):
     versions = zope.interface.Attribute(
         "Information about the various versions.")
 
-    title = zope.interface.Attribute(
-        "Projectsummary")
 
-    description = zope.interface.Attribute(
-        "Short information about the project.")
-
-
-class IExternalBug(zope.interface.Interface):
+class IBug(zope.interface.Interface):
     """A problem or error in a software application, which holds
        information about an external bug.
     """
@@ -52,14 +59,3 @@ class IExternalBug(zope.interface.Interface):
     modified = zope.interface.Attribute(
         "Which was the last modification date of this bug.")
 
-    description = zope.interface.Attribute(
-        "General bug information. How the bug can be reproduced, etc.")
-
-    title = zope.interface.Attribute(
-        "A short summary of the bug/problem.")
-
-
-class IBug(IExternalBug):
-    """A problem or error in a software application."""
-
-    id = zope.interface.Attribute("The internal id for the bug.")
