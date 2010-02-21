@@ -9,7 +9,9 @@ class Project(object):
     components = []
     versions = []
 
-    def __init__(self, title, description):
+    def __init__(self, uid, title, description):
         super(Project, self).__init__()
+        self.uid = uid
         self.title = title
         self.description = description
+

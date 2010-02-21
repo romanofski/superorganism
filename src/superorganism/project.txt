@@ -6,7 +6,7 @@ Projects provide generel information about a software project (a.k.a.
 product).
 
 >>> import superorganism.project
->>> project = superorganism.project.Project('superorganism buglist',
+>>> project = superorganism.project.Project('1ADF', 'superorganism buglist',
 ...     'The list of bugs for superorganism should be visible on the dashboard.')
 >>> project
 <superorganism.project.Project object at 0x...>

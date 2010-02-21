@@ -22,7 +22,7 @@ class IApplication(IContent):
     """The application content object."""
 
 
-class IProject(zope.interface.Interface):
+class IProject(IContent):
     """A project or product holds general information about bugs,
        milestones, etc.
     """
@@ -34,7 +34,7 @@ class IProject(zope.interface.Interface):
         "Information about the various versions.")
 
 
-class IBug(zope.interface.Interface):
+class IBug(IContent):
     """A problem or error in a software application, which holds
        information about an external bug.
     """
