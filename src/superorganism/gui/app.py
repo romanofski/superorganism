@@ -1,42 +1,40 @@
-import ConfigParser
-import ZODB.DB
-import ZODB.FileStorage
 import superorganism.gui.interfaces
+import superorganism.gui.view
 import superorganism.interfaces
 import superorganism.project
-import os.path
 import transaction
 import urwid
 import zope.interface
 
 
-class Application(object):
+class Dashboard(superorganism.gui.view.View):
 
-    zope.interface.implements(superorganism.gui.interfaces.IApplication)
-
-    def __init__(self, tui, config):
-        self.tui = tui
-        self.config = config
-        self.configure()
-
-    def configure(self):
-        confdir = self.config['configdir']
-        guiconf = ConfigParser.SafeConfigParser()
-        guiconf.read(os.path.join(confdir, 'gui.cfg'))
-        for name, val in guiconf.items('colors'):
-            fg, bg = val.split(',')
-            self.tui.register_palette_entry(name, fg.strip(), bg.strip(), None)
-        # register projects
-        _projects = guiconf.get('app', 'projects')
-        for proj in _projects.split('\s'):
-            project = superorganism.project.Project(
-                guiconf.get(proj, 'title'),
-                guiconf.get(proj, 'description'))
-            zope.component.provideUtility(project,
-                                          superorganism.interfaces.IProject)
+    zope.interface.implements(superorganism.gui.interfaces.IDashboard)
+    zope.component.adapts(
+        superorganism.interfaces.IApplication,
+        superorganism.gui.interfaces.IScreen)
 
     def run(self):
-        self.size = self.tui.get_cols_rows()
+        self.render()
+
+        while 1:
+            keys = self.screen.get_input()
+
+            for key in keys:
+                if key == 'window resize':
+                    self.size = self.screen.get_cols_rows()
+                elif key == 'q':
+                    transaction.commit()
+                    return
+                else:
+                    self.frame.keypress(self.size, key)
+
+    def register_colors(self):
+        for name, fg, bg, dummy in self.context.colors:
+            self.screen.register_palette_entry(name, fg.strip(), bg.strip(), None)
+
+    def render(self):
+        self.size = self.screen.get_cols_rows()
         projects = zope.component.getUtilitiesFor(superorganism.interfaces.IProject)
         self.set_status('%s Project(s)' % len(list(projects)))
 
@@ -51,29 +49,9 @@ class Application(object):
                                  footer=urwid.AttrMap(self.status,
                                                       'statusbar'))
         self.frame.set_focus('footer')
-        self.redisplay()
-
-        while 1:
-            keys = self.tui.get_input()
-
-            for key in keys:
-                if key == 'window resize':
-                    self.size = self.tui.get_cols_rows()
-                elif key in ('up', 'down', 'page up', 'page down'):
-                    self.listbox.keypress(self.size, key)
-                elif key == 'q':
-                    zope.component.getAdapter(
-                        self,
-                        superorganism.gui.interfaces.IKeyPressEvent,
-                        name='quit')()
-                    return
-                else:
-                    self.frame.keypress(self.size, key)
-
-    def redisplay(self, name='dashboard'):
-        zope.component.getAdapter(
-            self, superorganism.gui.interfaces.IView,
-            name=name)()
+        canvas = self.frame.render(self.size, focus=True)
+        self.screen.draw_screen(self.size, canvas)
+        transaction.commit()
 
     def set_status(self, text, align='left'):
         self.status = urwid.Text(text, align=align)
@@ -87,30 +65,3 @@ class Application(object):
                                                     bug.reported,
                                                     bug.title)))
         return result
-
-
-class QuitHandler(object):
-
-    zope.interface.implements(superorganism.gui.interfaces.IKeyPressEvent)
-    zope.component.adapts(superorganism.gui.interfaces.IApplication)
-
-    def __init__(self, app):
-        self.context = app
-
-    def __call__(self):
-        transaction.commit()
-        return
-
-
-class Dashboard(object):
-
-    zope.interface.implements(superorganism.gui.interfaces.IView)
-    zope.component.adapts(superorganism.gui.interfaces.IApplication)
-
-    def __init__(self, app):
-        self.context = app
-
-    def __call__(self):
-        transaction.commit()
-        canvas = self.context.frame.render(self.context.size, focus=True)
-        self.context.tui.draw_screen(self.context.size, canvas)

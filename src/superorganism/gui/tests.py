@@ -16,20 +16,3 @@ def test_suite():
                doctest.COMPARISON_FLAGS |
                doctest.REPORT_ONLY_FIRST_FAILURE)),
     ])
-
-
-class TextApplication(object):
-
-    zope.interface.implements(superorganism.gui.interfaces.IApplication)
-
-    def run(self):
-        print "..."
-
-    def configure(self):
-        pass
-
-    def redisplay(self, name):
-        pass
-
-    def set_status(text):
-        print text

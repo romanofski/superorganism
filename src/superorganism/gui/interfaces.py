@@ -1,22 +1,6 @@
 import zope.interface
 
 
-class IApplication(zope.interface.Interface):
-    """The main application module providing the user interface."""
-
-    def run():
-        """The main loop handling key events."""
-
-    def configure(self, config):
-        """Configure the application from a user configuration file."""
-
-    def redisplay(name):
-        """Redisplays the applications UI."""
-
-    def set_status(text):
-        """Set's a message in the statusbar."""
-
-
 class IKeyPressEvent(zope.interface.Interface):
     """An adapter providing different views for the application
        depending on the user input.
@@ -35,7 +19,9 @@ class IView(zope.interface.Interface):
         """Renders the screen elements."""
 
 
-class IWidget(zope.interface.Interface):
-    """A widget encapsulating an urwid widget."""
+class IDashboard(IView):
+    """Dashboard screen."""
 
-    __parent__ = zope.interface.Attribute("The parent widget.")
+
+class IScreen(zope.interface.Interface):
+    """Marker interface for the urwid curses display screen."""

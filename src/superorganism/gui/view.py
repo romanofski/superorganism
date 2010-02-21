@@ -5,9 +5,12 @@ import superorganism.interfaces
 
 class View(object):
 
-    def __init__(self, context, widget):
+    def __init__(self, context, screen):
         self.context = context
-        self.widget = widget
+        self.screen = screen
+
+    def __call__(self):
+        self.render()
 
     def render(self):
         raise NotImplementedError(

@@ -18,6 +18,10 @@ class IContent(zope.interface.Interface):
         "Short information this content.")
 
 
+class IApplication(IContent):
+    """The application content object."""
+
+
 class IProject(zope.interface.Interface):
     """A project or product holds general information about bugs,
        milestones, etc.
