@@ -8,13 +8,16 @@ bug tracking information with third party bug trackers.
 Motivation
 ==========
 
-Developers and companies are using different bug trackers. One bug
-tracker providing the possibility to exchange and synchronize
-information with other bug tracking systems would allow storing
-information in one place and synchronize this information only with
-other systems. This would allow that a company with multiple clients and
-their bug-tracking systems can be managed from one single point and via
-multiple bug tracking systems.
+Developers and companies are using different bug trackers. This has
+causes potential problems:
+
+    * holding login information for several systems
+    * sometimes forces developers to use systems which have a bad
+      usability
+
+Using one bug tracking system would provide one
+interface for juggling bugs of many systems. This bug tracker tries to
+solve those problems.
 
 
 Personas
@@ -67,85 +70,75 @@ tracking system his company uses. This time though, he doesn't use the
 administration interface of the company bug tracker, he uses the
 Superorganism bugtracker.
 
-He opens the Superorganism bugtracker, clicks on the `New Project` button. A new
-dialog is displayed where he can enter a `title`, adds categories (or
-components), versions and choose a bug tracker this project bugs should
-synchronized with. He enters a title: `Adult Care` and doesn't choose a
-bug tracker. The company bug tracker has no project created for this
-project yet, but Paul want's to start working on the project.
+He opens the Superorganism configfile, and adds detailed information
+about the project: a `uid`, `title` (Adult Care) and a `description` to it. He saves
+the configfile with his editor and starts his bug tracker. He can see a
+few bug's he's been working on in the past, but none of them relate to
+his newly created project.
 
 
 Adding Bugs
 -----------
 
-Paul creates a new bug against his newly created `Adult Care` project.
-He clicks on `New Bug`, a dialog window appears and enters the following
-information:
-
-    * project: `Adult Care`,
-    * version: `current SVN`,
-    * category: `General`,
+Paul presses the `b` key. A new dialog is displayed where he can enter a
+`title`, `descriptions` and a set of other attributes. He enters a
+title: `Adult Care` and a description.  He presses the `Enter` key,
+which defaults to the `Save` button displayed on the bottom of the
+dialog. The new bug shows up in the overview screen.
 
 .. admonition:: Technical note 
 
     Use Tags for version or category?
 
-He clicks on `Save` to confirm the bug creation.
 
+Chaning Bugdetails
+------------------
 
-Adding comments to Bugs
------------------------
+Paul forgotten to mention a checkout URL for a depending product to
+solve one of his newly created bugs. It's the bug with the bug number
+`#15` which he can see by looking at the title. All bugs are listed and
+sorted by number showing the title.
 
-Paul clicks on the `Update` button, which internally updates all bugs of
-the current project. He can see a list of bugs filed against the current
-project. The list is displayed as a table. He notices, that someone
-filed a new bug report, which turns out was his boss. He clicks on the
-new bug, which brings him to a detailed view.
-
-His boss pesters him about a known bug, which seems not to be fixed. At
-least according to his boss. Paul tries to reproduce the problem on the
-life system. He realizes that he forgot to update the life system,
-which he's doing immediately. The bug is fixed according to him. He adds
-a comment in the big textarea which is shown on the bottom of the
-detailed view. He adds the comment by clicking on the `Save Changes`
-button.
+He clicks `Enter` on the bug which shows the details. He now presses the
+`c` button which creates a new text field. He adds a note about the
+depending product has to be checked out of a particular repository.
+He presses `Enter` again to save the comment, which appears instantly in
+the details view.
 
 
 Resolving Bugs
 --------------
 
-Paul wants to resolve the issue with the filed bug and selects 'Fixed'
-in the status selection box. He adds a small comment and clicks on `Save
-Changes`.
+Paul wants to resolve the issue with one of the bugs he created, which
+turned out to be already fixed by another employee. He selects the bug
+with the bug number `#7`, navigates to the `state` field, chooses
+`FIXED` and presses the `Enter` button to resolve this bug as fixed.
 
 
-Assigning Bug Trackers to a project
+Retrieving (Remote-) Bugs
 -----------------------------------
 
 The Boss calls Paul into his office. He tells him, that he created a
 project on the companies bug tracker, where Paul should start putting
-bugs in. "Already done.", Paul thinks. He goes back to his Superorganism
-bugtracker, opens up the dialog with a list of projects and clicks on
-the `Edit Project` button.
+bugs in. "Already done.", Paul thinks. He goes back to his computer. He
+opens up a config file and adds a new section for the new project called
+`Adult Care`. He assigns the project URL from BugZilla and adds handler,
+which is a little python script he wrote. The script will be in charge
+of synchronising the bug and project information with Superorganism and
+the company bugtracker.
 
-A dialog pops up where Paul is able to edit the title and add a bug
-tracker this project should synchronize bugs with. A selectionbox is
-shown, which is currently set to `No bug tracker`. He selects `BugZilla`
-from the list.
-
-The dialog now displays an input form for additional, bug relevant
-information: He needs to enter his username, password and a URL to the
-project managed by BugZilla. The username and the password are used to
-log-in to BugZilla and synchronize the bug tracking information. He
-confirms the adding of BugZilla to his project, which closes the
-dialogs.
-
+Done editing, Paul restarts Superorganism and the bug tracker fetches
+the new bug information in the background. Subsequently new bugs are
+displayed on screen.
 
 .. admonition:: Technical note 
 
     Adding more than one bug tracker to a project? What about attributes
     such as categories, version and other user defined information. Let
     the user provide a *manual* mapping or can this be automated?
+
+    Maybe better to just add a list of bugs to a config file which are
+    then tracked, but what about new bugs?
 
 
 Screens
@@ -157,12 +150,18 @@ Overview Screen
 This is the default screen the user looks at after startup. This screen
 shows by default:
 
-    * all bugs created by the user
-    * all bugs assigned to the user
+    * all bugs created by the user (from multiple bug trackers if
+      available)
+    * all bugs assigned to the user (from multiple bug trackers if
+      available)
 
 Besides this overview, the user can filter the list of listed bugs by
-using a key combination. He can switch to project related overviews,
-which shows initially all newly created bugs.
+using a key combination. By doing this, he can filter by any attribute.
+For example, if the user want's to show all bugs for a particular
+project, he would filter by the project=<Projectname> statement.
+
+A visual line shows which bug the user currently selects. He can select
+a different bug by pressing keys as well (preferrably up and down keys).
 
 --------------------------------------- |
 All         | 1 Date "Created By" Title |
@@ -173,7 +172,7 @@ Project B   |                           |
             |                           |
 -----------------------------------------
 
-By clicking on a bug, the user now looks at the `Detailed View`.
+The user can select a bug by pressing a key as well (preferrably Enter).
 
 
 Detailed View
@@ -181,22 +180,14 @@ Detailed View
 
 The detailed view shows detailed attributes such as comments, status,
 version, project, etc. for the selected bug. It additionally shows which
-bug trackers (if any are added) it synchronizes with.
+bug trackers (if any are added) it synchronizes with. He can leave the
+view by pressing the `q` key. He can also select the next bug by
+pressing the `up` or `down` keys.
 
 New Bug View
 ------------
 
-This view shows a subset of attributes of the `Detailed View`, but hides
-fields which are not important at bug creation.
-
-Manage Projects
----------------
-
-This screen allows the user to add/edit projects. It shows a list of
-already added projects. If the user clicks on a project, the screen
-shows immediately a form with settings for this project. Settings can be
-title, description, versions, etc.
-
-A `New Project` button adds a new project with a dummy title (e.g.
-`Untitled`) in the list of projects. The project is immediately selected
-and can now be edited by the user.
+If the user pressed the key for a new bug, a dialog helps him to enter
+relevant bug information. The bug information will be a subset of the
+attributes he normally looks at when choosing the `Detailed View`. By
+pressing the `Enter` key, the bug is created.
