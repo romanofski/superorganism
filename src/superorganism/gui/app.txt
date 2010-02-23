@@ -1,0 +1,40 @@
+===============================
+ The Superorganism Application
+===============================
+
+Application View
+================
+
+To create an application view, we first need to instantiate the
+application itself:
+
+>>> import superorganism.app
+>>> app = superorganism.app.Application({})
+>>> superorganism.interfaces.IApplication.providedBy(app)
+True
+
+Now we also need a screen to render anything on. The screen mock already
+implements IScreen:
+
+>>> import superorganism.gui.tests
+>>> screen = superorganism.gui.tests.Screen()
+>>> superorganism.gui.interfaces.IScreen.providedBy(screen)
+True
+
+We can now adapt the view.
+
+>>> import zope.component
+>>> view = zope.component.getMultiAdapter((app, screen), name='dashboard')
+>>> view.render()
+(helpbar) Topbar
+...
+(statusbar)
+
+We can also change the statusbar text:
+
+>>> view.statusmsg = u'Foobar'
+>>> view.render()
+(helpbar) Topbar
+...
+(statusbar) Foobar
+

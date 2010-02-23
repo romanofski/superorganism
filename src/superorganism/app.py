@@ -13,7 +13,8 @@ class Application(object):
 
     def __init__(self, config):
         self.config = config
-        self.configure()
+        if config:
+            self.configure()
 
     def configure(self):
         confdir = self.config['configdir']
@@ -26,6 +27,7 @@ class Application(object):
         _projects = guiconf.get('app', 'projects')
         for proj in _projects.split('\s'):
             project = superorganism.project.Project(
+                guiconf.get(proj, 'id'),
                 guiconf.get(proj, 'title'),
                 guiconf.get(proj, 'description'))
             zope.component.provideUtility(project,

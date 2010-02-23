@@ -14,7 +14,11 @@ class Dashboard(superorganism.gui.view.View):
         superorganism.interfaces.IApplication,
         superorganism.gui.interfaces.IScreen)
 
+    statusmsg = u''
+
     def run(self):
+        projects = zope.component.getUtilitiesFor(superorganism.interfaces.IProject)
+        self.statusmsg = '%s Project(s)' % len(list(projects))
         self.render()
 
         while 1:
@@ -35,8 +39,7 @@ class Dashboard(superorganism.gui.view.View):
 
     def render(self):
         self.size = self.screen.get_cols_rows()
-        projects = zope.component.getUtilitiesFor(superorganism.interfaces.IProject)
-        self.set_status('%s Project(s)' % len(list(projects)))
+        self.status = urwid.Text(self.statusmsg, align='left')
 
         self.helpbar = urwid.Text(u'Topbar')
         self.lines = self.list_bugs()
@@ -44,17 +47,12 @@ class Dashboard(superorganism.gui.view.View):
 
         self.top = urwid.Pile([urwid.AttrMap(self.helpbar, 'helpbar')])
         self.frame = urwid.Frame(self.listbox,
-                                 header=urwid.AttrMap(self.helpbar,
-                                                      'helpbar'),
-                                 footer=urwid.AttrMap(self.status,
-                                                      'statusbar'))
+                                 header=urwid.AttrMap(self.helpbar, 'helpbar'),
+                                 footer=urwid.AttrMap(self.status, 'statusbar'))
         self.frame.set_focus('footer')
         canvas = self.frame.render(self.size, focus=True)
         self.screen.draw_screen(self.size, canvas)
         transaction.commit()
-
-    def set_status(self, text, align='left'):
-        self.status = urwid.Text(text, align=align)
 
     def list_bugs(self):
         # read ZODB

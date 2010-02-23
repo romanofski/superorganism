@@ -31,3 +31,4 @@ def test_suite():
                         doctest.REPORT_ONLY_FIRST_FAILURE),
            setUp=db_setup),
     ])
+
