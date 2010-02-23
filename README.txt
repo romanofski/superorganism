@@ -15,6 +15,12 @@ style:
     * always absolute imports, sorted by the first module name
     * try to test your code as good as possible
 
+
+License
+=======
+
+I'm currently distributing the project under GPL v3. See COPYING.
+
 Running
 =======
 
