@@ -5,6 +5,15 @@
 This bugtracker is a prototype of a decentralised bug tracking system.
 See the functional specification for more information.
 
+Hacking
+=======
+
+If you would like to hack on the project, please follow the coding
+style:
+
+    * follow PEP8
+    * always absolute imports, sorted by the first module name
+    * try to test your code as good as possible
 
 Running
 =======
