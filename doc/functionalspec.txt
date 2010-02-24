@@ -5,6 +5,14 @@
 A bug tracker which is highly extensible through add-ons to synchronize
 bug tracking information with third party bug trackers.
 
+Current Implementations
+=======================
+
+Following similar projects exist:
+
+    * Launchpad: https://help.launchpad.net/Bugs/PluginAPISpec
+
+
 Personas
 ========
 
