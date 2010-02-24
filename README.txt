@@ -11,15 +11,46 @@ Hacking
 If you would like to hack on the project, please follow the coding
 style:
 
-    * follow PEP8
+    * follow PEP8: http://www.python.org/dev/peps/pep-0008/
     * always absolute imports, sorted by the first module name
     * try to test your code as good as possible
+    * the commit messages follow the GNOME guidelines:
+      http://live.gnome.org/Git/CommitMessages
+
+
+Projectmotivation
+=================
+
+Developers and companies are using different bug trackers. This has
+causes potential problems:
+
+    * holding login information for several systems
+    * sometimes forces developers to use systems which have a bad
+      usability
+
+Using one bug tracking system would provide one
+interface for juggling bugs of many systems. This bug tracker tries to
+solve those problems.
+
+Used Technology
+---------------
+
+I decided to use the following components:
+
+    * urwid - for the UI. Most of the content in bug tracking systems we
+      deal with is text. A text-based application if well implemented,
+      can provide a fast and usable UI for developers.
+    * zope.component - for glueing the components together. This is
+      probably a very subjective decision, but I loved to use the
+      component architecture with Zope (http://www.zope.org).
+    * ZODB - Currently the best choice for storing objects.
 
 
 License
 =======
 
 I'm currently distributing the project under GPL v3. See COPYING.
+
 
 Running
 =======
