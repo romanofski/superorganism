@@ -28,7 +28,18 @@ at least, he can better organise his work.
 Non Goals
 =========
 
-XXX
+    * Yet another bug tracking system: There are already very good bug
+      tracking systems out there.
+
+
+Benefits
+========
+
+    * Fast key-based navigation in a textbased UI
+    * Administrating bugs while offline (adding comments etc)
+    * Highly extensible to interface with bug tracking systems through
+      plug-ins.
+
 
 Open Questions
 ==============
