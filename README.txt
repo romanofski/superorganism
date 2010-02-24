@@ -18,19 +18,17 @@ style:
       http://live.gnome.org/Git/CommitMessages
 
 
-Projectmotivation
-=================
+Why should I use Superorganism?
+===============================
 
-Developers and companies are using different bug trackers. This has
-causes potential problems:
+    * you already have to use a bug tracker which lacks of functionality
+    * you need something small for your own (private) development
+    * you work on many different projects, but need an overview of all
+      outstanding tasks/bugs
 
-    * holding login information for several systems
-    * sometimes forces developers to use systems which have a bad
-      usability
+I can't see any value in using Superorganism, if you already use a very
+good bug tracking system. At least not from now ...
 
-Using one bug tracking system would provide one
-interface for juggling bugs of many systems. This bug tracker tries to
-solve those problems.
 
 Used Technology
 ---------------
@@ -40,9 +38,10 @@ I decided to use the following components:
     * urwid - for the UI. Most of the content in bug tracking systems we
       deal with is text. A text-based application if well implemented,
       can provide a fast and usable UI for developers.
-    * zope.component - for glueing the components together. This is
-      probably a very subjective decision, but I loved to use the
-      component architecture with Zope (http://www.zope.org).
+    * zope.component - for glueing the components together. One of the
+      goals of this bug tracking system is to be highly extensible. The
+      component architecture can provide the glue for creating a highly
+      extensible system.
     * ZODB - Currently the best choice for storing objects.
 
 
@@ -86,3 +85,9 @@ Because *one* bug tracker is used by *many* users (of the same company),
 this bug tracker provides an application for *one* user tracking *many*
 bug trackers. Therefore it deals with bugs from different systems,
 providing a basis for 'living closely together.
+
+I have to admit, that the name may change in the future. I'm not quite
+convinced if it's a good name. I was also considering:
+
+    * colony
+    * magpie

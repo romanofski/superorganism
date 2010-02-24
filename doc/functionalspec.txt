@@ -32,13 +32,19 @@ Non Goals
       tracking systems out there.
 
 
-Benefits
-========
+Motivation
+==========
 
-    * Fast key-based navigation in a textbased UI
-    * Administrating bugs while offline (adding comments etc)
-    * Highly extensible to interface with bug tracking systems through
-      plug-ins.
+Developers and companies are using different bug trackers. This has
+causes potential problems:
+
+    * holding login information for several systems
+    * sometimes forces developers to use systems which have a bad
+      usability
+
+Using one bug tracking system which acts as a client to many others
+would provide one interface for juggling bugs of many systems (esp of
+those ones with bad usability).
 
 
 Open Questions
