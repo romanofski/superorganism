@@ -17,6 +17,8 @@ style:
     * the commit messages follow the GNOME guidelines:
       http://live.gnome.org/Git/CommitMessages
 
+Please read the functional specification in the "doc" directory.
+
 
 Why should I use Superorganism?
 ===============================

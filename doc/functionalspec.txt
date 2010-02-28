@@ -1,14 +1,13 @@
-=================================
- Superorganism a Meta-Bugtracker
-=================================
+======================================
+ Superorganism a Meta-Bugtracker v1.0
+======================================
 
 A bug tracker which is highly extensible through add-ons to synchronize
 bug tracking information with third party bug trackers.
 
+
 Current Implementations
 =======================
-
-Following similar projects exist:
 
     * Launchpad: https://help.launchpad.net/Bugs/PluginAPISpec
 
@@ -75,71 +74,68 @@ Adding Projects
 Paul arrives at work on Monday morning. His Boss tells him, that he has
 to work on a new project: a system for managing people in an aged care
 facility. "Yet another management system.", he thinks. He quickly writes
-a small spec, his boss reviews it and starts creating bugs in the bug
-tracking system his company uses. This time though, he doesn't use the
-administration interface of the company bug tracker, he uses the
-Superorganism bugtracker.
+a small spec. Unfortunately, his boss went off for a shopping spree in
+the city, but Paul would like to start working on the system. No project
+or anything has been created in the company bug tracker. Paul starts on
+his own using Superorganism.
 
 He opens the Superorganism configfile, and adds detailed information
-about the project: a `uid`, `title` (Adult Care) and a `description` to it. He saves
-the configfile with his editor and starts his bug tracker. He can see a
-few bug's he's been working on in the past, but none of them relate to
-his newly created project.
+about the project: a `uid`, `title` (Adult Care) and a `description` to
+it. Additionally he also creates three `versions` which are associated
+with the new project as well.
 
 
 Adding Bugs
 -----------
 
 Paul presses the `b` key. A new dialog is displayed where he can enter a
-`title`, `descriptions` and a set of other attributes. He enters a
-title: `Adult Care` and a description.  He presses the `Enter` key,
-which defaults to the `Save` button displayed on the bottom of the
-dialog. The new bug shows up in the overview screen.
+`title`, `descriptions` and a set of other attributes. He also chooses
+his newly created project from a selection box. Paul enters a title:
+`Adult Care Dashboard` and a description. A `Keywords` field lets him
+quickly enter keywords which describe the bug in a broader sense. He
+navigates to the `Save` button and presses the `Enter` key on his
+keyboard. The dialog disapears, Paul looks at the inital dashboard again
+where his new bug shows up.
 
-.. admonition:: Technical note 
+.. admonition:: Technical note
 
     Use Tags for version or category?
 
 
-Chaning Bugdetails
-------------------
+Changeing Bugdetails
+--------------------
 
 Paul forgotten to mention a checkout URL for a depending product to
-solve one of his newly created bugs. It's the bug with the bug number
-`#15` which he can see by looking at the title. All bugs are listed and
-sorted by number showing the title.
+solve one of his newly created bugs. He looks at the dashboard of the
+Superorganism bugtracker. Because each listed bug shows the title and
+the unique bug number, he finds the corresponding bug with the missing
+URL very quickly.
 
-He clicks `Enter` on the bug which shows the details. He now presses the
-`c` button which creates a new text field. He adds a note about the
-depending product has to be checked out of a particular repository.
-He presses `Enter` again to save the comment, which appears instantly in
-the details view.
+He presses the `Enter` key on the current selected bug to display the
+details. He now presses the `c` button which creates a new text field.
+He adds a note about the depending product has to be checked out of a
+particular repository.  He presses `Enter` again to save the comment,
+which appears instantly in the details view.
 
+.. admonition:: Technical note
 
-Resolving Bugs
---------------
-
-Paul wants to resolve the issue with one of the bugs he created, which
-turned out to be already fixed by another employee. He selects the bug
-with the bug number `#7`, navigates to the `state` field, chooses
-`FIXED` and presses the `Enter` button to resolve this bug as fixed.
+    Using an external editor for longer comments and descriptions?
 
 
 Retrieving (Remote-) Bugs
------------------------------------
+-------------------------
 
 The Boss calls Paul into his office. He tells him, that he created a
 project on the companies bug tracker, where Paul should start putting
 bugs in. "Already done.", Paul thinks. He goes back to his computer. He
 opens up a config file and adds a new section for the new project called
-`Adult Care`. He assigns the project URL from BugZilla and adds handler,
-which is a little python script he wrote. The script will be in charge
-of synchronising the bug and project information with Superorganism and
-the company bugtracker.
+`Adult Care`. He assigns the project URL from BugZilla and adds the name
+of a utility which can synchronize the bug information.
 
 Done editing, Paul restarts Superorganism and the bug tracker fetches
 the new bug information in the background. Subsequently new bugs are
-displayed on screen.
+displayed on screen. Each bug gets a Superorganism id. Additionally, the
+BugZilla id is displayed as well.
 
 .. admonition:: Technical note 
 
@@ -149,6 +145,74 @@ displayed on screen.
 
     Maybe better to just add a list of bugs to a config file which are
     then tracked, but what about new bugs?
+
+
+Managing Bugs with the Same/Similar Content
+-------------------------------------------
+
+During the import, Paul notices, that some of the bugs he already had
+filed in Superorganism, were also filed on the company bug tracker. A
+particular one with the bug no. #44: "Datepicker widget needs JavaScript
+support" is the same as bug no. #21 in Superorganism. He selects the bug
+no. #44, and presses the `e` key for "edit". He navigates to the
+`Duplicate of` field by pressing the `Tab` key and enters: #21. He now
+navigates to the bottom of the dialog, selects `Save` and presses the
+`Enter` key. The dialog closes and the information is saved.
+
+He can now see that bug no 44 is displayed under bug 21. The title is a
+bit indented with a marker.
+
+Paul quickly checks the company bug tracking system and enters the bug
+number #44. Nothing changed here, the changes Paul did, where only
+locally.
+
+
+Synchronizing (Remote-) Buginformation
+--------------------------------------
+
+During the work on the system, more and more bugs are filed on the
+company bug tracker. Paul is filing new bugs in his bug tracker and
+assigns duplicates, which are filed on the company bug tracker to his
+bugs.
+
+.. admonition:: Technical note
+
+    Each "imported" bug from a remote bug tracker is displayed as a
+    duplicate bug and treated as "yet" another bug filed in the system.
+    The bug filed against Superorganism should provide a view which
+    assembles the important comment and attributes of all the duplicates
+    together to a "meta-"view.
+    That provides the flexibility, that the "same" bugs from different
+    bug trackers can be managed under one Superorganism Bug, and comment
+    and attribute changes can be synchronized with the "remote" bug
+    tracking system.
+
+He checks the duplicate of bug no. 21 (which he assigned in the prior
+scenario). Edgar Mull, one of his collegues in the company, finally
+entered the comment Paul was waiting for. Paul opens bug 44 to add
+another comment to thank Edgar. He presses the `c` button, which opens
+his configured external editor (vim). He writes a few words in the
+editor, saves and closes it. The bug appears on the bug view, with a
+little marker meaning that the changes on the comments wasn't
+synchronized yet.
+
+He navigates to the `Save & Synchronise` button, presses enter, which
+synchronises the bug information and closes the dialog.
+
+
+Resolving Bugs
+--------------
+
+Paul wants to resolve the issue with one of the bugs he created, which
+turned out to be already fixed by another employee. He selects the bug
+with the bug number `#7`, navigates to the `state` field, chooses
+`FIXED` and when navigate to the `Save` button a message is displayed,
+that he can't close the bug.
+
+.. admonition:: Open question
+
+    What to do about 'open' duplicates, where Superorganism bugs are
+    already fixed?
 
 
 Screens
