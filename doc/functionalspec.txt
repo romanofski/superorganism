@@ -102,8 +102,8 @@ where his new bug shows up.
     Use Tags for version or category?
 
 
-Changeing Bugdetails
---------------------
+Changeing Bug Details
+---------------------
 
 Paul forgotten to mention a checkout URL for a depending product to
 solve one of his newly created bugs. He looks at the dashboard of the
@@ -137,33 +137,25 @@ the new bug information in the background. Subsequently new bugs are
 displayed on screen. Each bug gets a Superorganism id. Additionally, the
 BugZilla id is displayed as well.
 
-.. admonition:: Technical note 
-
-    Adding more than one bug tracker to a project? What about attributes
-    such as categories, version and other user defined information. Let
-    the user provide a *manual* mapping or can this be automated?
-
-    Maybe better to just add a list of bugs to a config file which are
-    then tracked, but what about new bugs?
-
 
 Managing Bugs with the Same/Similar Content
 -------------------------------------------
 
 During the import, Paul notices, that some of the bugs he already had
 filed in Superorganism, were also filed on the company bug tracker. A
-particular one with the bug no. #44: "Datepicker widget needs JavaScript
-support" is the same as bug no. #21 in Superorganism. He selects the bug
-no. #44, and presses the `e` key for "edit". He navigates to the
-`Duplicate of` field by pressing the `Tab` key and enters: #21. He now
-navigates to the bottom of the dialog, selects `Save` and presses the
-`Enter` key. The dialog closes and the information is saved.
+particular one with the bug no. #42: "Datepicker widget flickrs on the
+23rid of december." is the same as bug no. #23 in Superorganism. He
+selects the bug no. #42, and presses the `e` key for "edit". He
+navigates to the `Duplicate of` field by pressing the `Tab` key and
+enters: #23. He now navigates to the bottom of the dialog, selects
+`Save` and presses the `Enter` key. The dialog closes and the
+information is saved.
 
-He can now see that bug no 44 is displayed under bug 21. The title is a
+He can now see that bug no 42 is displayed under bug 23. The title is a
 bit indented with a marker.
 
 Paul quickly checks the company bug tracking system and enters the bug
-number #44. Nothing changed here, the changes Paul did, where only
+number #42. Nothing changed here, the changes Paul did, where only
 locally.
 
 
@@ -187,9 +179,9 @@ bugs.
     and attribute changes can be synchronized with the "remote" bug
     tracking system.
 
-He checks the duplicate of bug no. 21 (which he assigned in the prior
+He checks the duplicate of bug no. 23 (which he assigned in the prior
 scenario). Edgar Mull, one of his collegues in the company, finally
-entered the comment Paul was waiting for. Paul opens bug 44 to add
+entered the comment Paul was waiting for. Paul opens bug 42 to add
 another comment to thank Edgar. He presses the `c` button, which opens
 his configured external editor (vim). He writes a few words in the
 editor, saves and closes it. The bug appears on the bug view, with a
@@ -205,9 +197,20 @@ Resolving Bugs
 
 Paul wants to resolve the issue with one of the bugs he created, which
 turned out to be already fixed by another employee. He selects the bug
-with the bug number `#7`, navigates to the `state` field, chooses
-`FIXED` and when navigate to the `Save` button a message is displayed,
-that he can't close the bug.
+with the bug number `#7`. This bug was already fixed, before a bug was
+created on the company bug tracker. Therefore only tracked "internally"
+on Pauls Superorganism. He navigates to the `state` field, chooses
+`FIXED`, adds a comment that the bug was already fixed before he had a
+chance to look at, navigates to the `Save` button and presses `Enter`
+which saves and resolves the bug as FIXED.
+
+
+Resolving Bugs with Dependencies
+--------------------------------
+
+A different situation is bug no 23 which has a dependency to bug no 44.
+Because #44 is not yet resolved on the company bug tracker, Paul can't
+resolved his filed bug #23.
 
 .. admonition:: Open question
 

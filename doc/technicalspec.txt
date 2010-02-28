@@ -1,0 +1,15 @@
+==============================================================
+ Technical Specification Superorganism a Meta-Bugtracker v1.0
+==============================================================
+
+This is currently not a technical spec, but merely a collection of
+thoughts, which I don't want to add to the functional spec.
+
+Project Configuration
+=====================
+
+    * we need a start and a final state of a bug, which will help us to
+      determine if the bug has been fixed or not. Some bug trackers and
+      teams, have a fixed state, but additionally also a complete state
+      after QA. So the final state would have been in this example
+      `complete` instead of `fixed`.
