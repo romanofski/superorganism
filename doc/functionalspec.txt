@@ -214,8 +214,10 @@ resolved his filed bug #23.
 
 .. admonition:: Open question
 
-    What to do about 'open' duplicates, where Superorganism bugs are
-    already fixed?
+    Mark the bug as internally fixed, which would mean it disappears
+    from the default overview, but bring it internally into a sort of
+    'reopen' state if something happens with the bug (new comments,
+    etc).
 
 
 Screens
@@ -232,10 +234,10 @@ shows by default:
     * all bugs assigned to the user (from multiple bug trackers if
       available)
 
-Besides this overview, the user can filter the list of listed bugs by
-using a key combination. By doing this, he can filter by any attribute.
-For example, if the user want's to show all bugs for a particular
-project, he would filter by the project=<Projectname> statement.
+Besides this overview, the user can filter the list of bugs by using a
+key combination. By doing this, he can filter by any attribute.  For
+example, if the user want's to show all bugs for a particular project,
+he would filter by the project=<Projectname> statement.
 
 A visual line shows which bug the user currently selects. He can select
 a different bug by pressing keys as well (preferrably up and down keys).
@@ -249,22 +251,30 @@ Project B   |                           |
             |                           |
 -----------------------------------------
 
-The user can select a bug by pressing a key as well (preferrably Enter).
+The user can open the detailed view of a bug by pressing a key, which is
+preferrably Enter.
 
 
 Detailed View
 -------------
 
 The detailed view shows detailed attributes such as comments, status,
-version, project, etc. for the selected bug. It additionally shows which
-bug trackers (if any are added) it synchronizes with. He can leave the
-view by pressing the `q` key. He can also select the next bug by
-pressing the `up` or `down` keys.
+version, project, etc. for the selected bug. The comments are sorted by
+date, showing the most recent on the top and the oldest at the bottom of
+the view.
+
+The detailed view is also a form, allowing changing attributes and
+adding comments. At the bottom of the screen, a button for saving the
+changes is displayed. Alternativly, the changes can also saved by
+pressing a key (or key combination).
+
 
 New Bug View
 ------------
 
-If the user pressed the key for a new bug, a dialog helps him to enter
+If the user is pressing the key for a new bug, a dialog helps him to enter
 relevant bug information. The bug information will be a subset of the
-attributes he normally looks at when choosing the `Detailed View`. By
-pressing the `Enter` key, the bug is created.
+attributes he usually manages in the `Detailed View`. A `Save` button is
+displayed in the lower end of the form, which saves the values entered
+and creates a new bug entry in the system. Alternatively a key or key
+combination can be used for saving the bug information.
