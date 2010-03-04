@@ -1,0 +1,47 @@
+===============
+ Project Views
+===============
+
+Projects are container like objects, which hold bug related information.
+
+Setup
+=====
+
+Before we start with the test, we create the necessary application
+object and a (testing) screen:
+
+>>> import superorganism.app
+>>> import superorganism.gui.tests
+>>> app = superorganism.app.Application({})
+>>> screen = superorganism.gui.tests.Screen()
+
+Adding Projects
+===============
+
+Paul arrives at work on Monday morning. His Boss tells him, that he has
+to work on a new project: a system for managing people in an aged care
+facility. "Yet another management system.", he thinks. He quickly writes
+a small spec and starts Superorganism.
+
+>>> import zope.component
+>>> view = zope.component.getMultiAdapter((app, screen), name='dashboard')
+>>> view.render()
+(helpbar) Topbar
+...
+(statusbar)
+
+He opens Superorganism, presses the "p" key and looks at a simple form
+for his input about the new project.
+
+>>> project_form = zope.component.getMultiAdapter(
+...     (app, screen), name='newproject')
+>>> project_form.render()
+(|) Projecttitle
+(|) Project Description
+...
+
+He fills out the fields about `title` (Adult Care) and a `description`.
+Two text widgets allow entering keyword information. He adds two
+versions, for the `versions` field and two components for the
+`component` field. He navigates to the `Save` button, presses the
+`Enter` key, saves the form and the new Project is created.

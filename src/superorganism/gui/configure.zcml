@@ -5,4 +5,9 @@
     factory="superorganism.gui.app.Dashboard"
     name="dashboard"
     />
+
+  <adapter
+    factory="superorganism.gui.projects.NewProjectForm"
+    name="newproject"
+    />
 </configure>

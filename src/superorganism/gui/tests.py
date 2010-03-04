@@ -11,15 +11,22 @@ def test_suite():
     """ returns the test suite """
     return unittest.TestSuite([
         zope.testing.doctestunit.DocFileSuite(
-            os.path.join('gui','views.txt'),
-            package='superorganism',
+            'views.txt',
+            package='superorganism.gui',
             optionflags=(
                 doctest.COMPARISON_FLAGS |
                 doctest.REPORT_ONLY_FIRST_FAILURE),
             setUp=superorganism.tests.db_setup),
         zope.testing.doctestunit.DocFileSuite(
-            os.path.join('gui','app.txt'),
-            package='superorganism',
+            'app.txt',
+            package='superorganism.gui',
+            optionflags=(
+                doctest.COMPARISON_FLAGS |
+                doctest.REPORT_ONLY_FIRST_FAILURE),
+            setUp=superorganism.tests.db_setup),
+        zope.testing.doctestunit.DocFileSuite(
+            'projects.txt',
+            package='superorganism.gui',
             optionflags=(
                 doctest.COMPARISON_FLAGS |
                 doctest.REPORT_ONLY_FIRST_FAILURE),

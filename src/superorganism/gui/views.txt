@@ -41,7 +41,7 @@ content:
 >>> import zope.component
 >>> class BugView(superorganism.gui.view.View):
 ...
-...     zope.interface.implements(superorganism.gui.interfaces.IView)
+...     zope.interface.implements(superorganism.gui.interfaces.ITerminalView)
 ...     zope.component.adapts(superorganism.interfaces.IBug, IDashboard)
 ...
 ...     def render(self):
