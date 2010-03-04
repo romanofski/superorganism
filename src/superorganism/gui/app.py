@@ -16,6 +16,9 @@ class Dashboard(superorganism.gui.view.View):
 
     statusmsg = u''
 
+    # XXX Todo: that should be refactored into some sort of
+    # key-dispatcher utility, which creates the views depending on the
+    # keypress. Although I'm not sure if that will work out.
     def run(self):
         projects = zope.component.getUtilitiesFor(superorganism.interfaces.IProject)
         self.statusmsg = '%s Project(s)' % len(list(projects))
