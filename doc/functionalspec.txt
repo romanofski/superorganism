@@ -242,14 +242,15 @@ he would filter by the project=<Projectname> statement.
 A visual line shows which bug the user currently selects. He can select
 a different bug by pressing keys as well (preferrably up and down keys).
 
---------------------------------------- |
-All         | 1 Date "Created By" Title |
-------------| 2 Date "Created By" Title |
-Project A   |                           |
-Project B   |                           |
-            |                           |
-            |                           |
------------------------------------------
+------------------------------------------------|
+1 Date "Created By" Title                       |
+3 Date "Created By"     -> Duplicate of Title   |
+2 Date "Created By" Title                       |
+                                                |
+                                                |
+                                                |
+                                                |
+-------------------------------------------------
 
 The user can open the detailed view of a bug by pressing a key, which is
 preferrably Enter.
