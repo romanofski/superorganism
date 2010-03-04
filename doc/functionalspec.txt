@@ -79,11 +79,50 @@ the city, but Paul would like to start working on the system. No project
 or anything has been created in the company bug tracker. Paul starts on
 his own using Superorganism.
 
-He opens the Superorganism configfile, and adds detailed information
-about the project: a `uid`, `title` (Adult Care) and a `description` to
-it. Additionally he also creates three `versions` which are associated
-with the new project as well.
+He opens Superorganism, presses the `p` key and looks at a simple form
+for his input about the new project. He fills out the fields about
+`title` (Adult Care) and a `description`. Two text widgets allow
+entering keyword information. He adds two versions, for the `versions`
+field and two components for the `component` field. He navigates to the
+`Save` button, presses the `Enter` key, saves the form and the new
+Project is created.
 
+
+List of Projects
+----------------
+
+Paul wonders if he already created more than one project in his bug
+tracker. Superorganism already running, he presses the `l` key, to list
+projects. He now looks at a list of projects similar to the list of bugs
+in the dashboard. With the arrow keys on his keyboard he can navigate up
+and down through the list and switch to one of the projects by pressing
+the `Enter` key.
+
+He can see, that only his private pet project is created, which doesn't
+bother him much, so he presses `Enter` again, because his last project
+(Aged Care) was selected by default.
+
+
+Deleting Projects
+-----------------
+
+Paul got an idea: a software which can track changes in a version
+control repository. He creates a new project in Superorganism, so he
+can't forget his idea. I spends the early morning by fixing problems
+regarding to a software developed by the company he's working in.
+
+Lunch time arrives, and he quickly spends some time consulting his
+favorite search engine if similar tools to his idea exist. He can find a
+few, tests them and chooses one, which he likes. Fortunately that means,
+that he doesn't have to invest time writing such a script by himself. He
+opens up Superorganism again, looks at the list of projects and presses
+`d` for deleting his last created project regarding tracking changes in
+a version control system. The system shows a small dialog, asking him if
+he really wants to delete the project. He confirms and the project is
+not listed anymore in the list.
+
+Fortunately no bugs were filed against his "idea-" project, otherwise it
+would not have been possible to delete the project.
 
 Adding Bugs
 -----------
@@ -279,3 +318,44 @@ attributes he usually manages in the `Detailed View`. A `Save` button is
 displayed in the lower end of the form, which saves the values entered
 and creates a new bug entry in the system. Alternatively a key or key
 combination can be used for saving the bug information.
+
+
+List of Projects View
+---------------------
+
+The list of projects view, shows all created projects in a list. Each
+entry shows the project number, the title, and the amount of bugs
+associated with the project. The user can delete projects by a key
+press. This is only possible if a project has no bugs associated with
+it. A confirmation dialog is displayed to confirm, if the user really
+wants to delete the project, to allow him to cancel the deletion.
+
+If a project has bugs assigned, an error message is displayed and the
+action is not performed by the system.
+
+
+New Project View
+----------------
+
+If the user presses the key for a new project, a form is displayed,
+which allows needed input for the project. Usually the information would
+be:
+
+    * title
+    * description
+    * versions - multiple
+    * components - multiple
+
+A `Save` and `Cancel` button is shown on the bottom of the dialog to
+either `Save` and create the project or cancel the dialog.
+
+
+Edit a Project View
+-------------------
+
+The user can edit project details. He can enter this view by pressing
+the edit-project key in the dashboard, which opens the `Edit Project
+View` for the project associated with the listed bug.
+
+Alternatively, he can also enter this view, by changing to the `List of
+Projects View`, select a project and press the edit-project key.
