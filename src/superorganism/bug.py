@@ -1,4 +1,5 @@
 import zope.interface
+import zope.component.factory
 import superorganism.interfaces
 import datetime
 import persistent
@@ -24,3 +25,9 @@ class Bug(persistent.Persistent):
 
     def __repr__(self):
         return "<%s %s>" % (self.__class__.__name__, self.uid)
+
+
+bugFactory = zope.component.factory.Factory(
+    Bug,
+    title=u'Create a new Bug',
+    description=u'Instantiates a new Bug')
