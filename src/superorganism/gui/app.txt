@@ -25,6 +25,20 @@ We can now adapt the view.
 
 >>> import zope.component
 >>> view = zope.component.getMultiAdapter((app, screen), name='dashboard')
+
+Before we test any methods on the view, we verify if the view implements
+it's interface:
+
+>>> import zope.interface.verify
+>>> import superorganism.interfaces
+>>> zope.interface.verify.verifyObject(
+...     superorganism.gui.interfaces.IDashboard, view)
+True
+
+Let's render the initial dashboard screen. Most of the widgets are only
+set for testing purposes, but we want to try if we can see the rendered
+widgets on the screen.
+
 >>> view.render()
 (helpbar) Topbar
 ...

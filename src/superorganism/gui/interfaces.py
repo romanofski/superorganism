@@ -16,12 +16,15 @@ class ITerminalView(zope.interface.Interface):
        depending on the user input.
     """
 
-    def render(self):
+    def render():
         """Renders the screen elements."""
 
 
 class IDashboard(ITerminalView):
     """Dashboard screen."""
+
+    def create_project():
+        """Creates a new project."""
 
 
 class IScreen(zope.interface.Interface):
@@ -39,4 +42,11 @@ class INewProjectForm(ITerminalView):
     description = zope.schema.TextLine(
         title=u"Project Description",
     )
+
+    versions = zope.schema.Set(
+        title=u"Versions",
+        description=(
+            u"A set of possible past and future versions of the project."),
+        value_type=zope.schema.TextLine())
+
 
