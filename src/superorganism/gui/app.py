@@ -7,7 +7,7 @@ import urwid
 import zope.interface
 
 
-class Dashboard(superorganism.gui.view.View):
+class Dashboard(superorganism.gui.view.BaseView):
 
     zope.interface.implements(superorganism.gui.interfaces.IDashboard)
     zope.component.adapts(

@@ -3,7 +3,7 @@ import zope.schema
 import urwid
 
 
-class NewProjectForm(superorganism.gui.view.View):
+class NewProjectForm(superorganism.gui.view.BaseView):
 
     zope.interface.implements(superorganism.gui.interfaces.INewProjectForm)
     zope.component.adapts(

@@ -1,9 +1,4 @@
-import zope.interface
-import superorganism.gui.interfaces
-import superorganism.interfaces
-
-
-class View(object):
+class BaseView(object):
 
     def __init__(self, context, screen):
         self.context = context

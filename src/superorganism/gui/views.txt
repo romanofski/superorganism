@@ -39,7 +39,7 @@ content:
 >>> import superorganism.gui.interfaces
 >>> import superorganism.gui.view
 >>> import zope.component
->>> class BugView(superorganism.gui.view.View):
+>>> class BugView(superorganism.gui.view.BaseView):
 ...
 ...     zope.interface.implements(superorganism.gui.interfaces.ITerminalView)
 ...     zope.component.adapts(superorganism.interfaces.IBug, IDashboard)
