@@ -7,6 +7,10 @@
     component="superorganism.bug.bugFactory"
     name="superorganism.Bug"
     />
+  <utility
+    component="superorganism.project.projectFactory"
+    name="superorganism.Project"
+    />
 
   <include package="superorganism.gui" />
 

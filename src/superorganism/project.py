@@ -1,5 +1,6 @@
 import zope.interface
 import superorganism.interfaces
+import zope.component.factory
 
 
 class Project(object):
@@ -15,3 +16,8 @@ class Project(object):
         self.title = title
         self.description = description
 
+
+projectFactory = zope.component.factory.Factory(
+    Project,
+    title=u'Create a new Project',
+    description=u'Instantiates a new Project with uid, title, description')
