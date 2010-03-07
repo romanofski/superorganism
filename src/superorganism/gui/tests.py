@@ -53,3 +53,6 @@ class Screen(object):
             if not widgetid:
                 widgetid = '|'
             print '(%s) %s' % (widgetid, printout.strip())
+
+    def get_input(self):
+        return ['q']

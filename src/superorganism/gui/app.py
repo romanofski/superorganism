@@ -4,6 +4,8 @@ import superorganism.interfaces
 import superorganism.project
 import transaction
 import urwid
+import zope.component
+import zope.component.interfaces
 import zope.interface
 
 
@@ -34,10 +36,9 @@ class Dashboard(superorganism.gui.view.BaseView):
                     transaction.commit()
                     return
                 elif key == 'p':
-                    zope.component.getMultiAdapter(
-                        (self.context, self.screen), name='newproject').render()
+                    return self.create_project()
                 elif key == 'd':
-                    zope.component.getMultiAdapter(
+                    return zope.component.getMultiAdapter(
                         (self.context, self.screen), name='dashboard').render()
                 else:
                     self.frame.keypress(self.size, key)
@@ -61,7 +62,14 @@ class Dashboard(superorganism.gui.view.BaseView):
         self.frame.set_focus('footer')
         canvas = self.frame.render(self.size, focus=True)
         self.screen.draw_screen(self.size, canvas)
-        transaction.commit()
+
+    def create_project(self):
+        project = zope.component.getUtility(
+            zope.component.interfaces.IFactory,
+            u'superorganism.Project')(
+                'project', '<Title>', '<Description>')
+        return zope.component.getMultiAdapter(
+            (project, self.screen), name='newproject').render()
 
     def list_bugs(self):
         # read ZODB

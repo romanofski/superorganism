@@ -17,12 +17,14 @@ class Application(object):
             self.configure()
 
     def configure(self):
+        # XXX that doesn't really belong in here
         confdir = self.config['configdir']
         guiconf = ConfigParser.SafeConfigParser()
         guiconf.read(os.path.join(confdir, 'gui.cfg'))
         for name, val in guiconf.items('colors'):
-            fg, bg = val.split(',')
-            self._colors.append((name, fg.strip(), bg.strip(), None))
+            fg, bg, mono = val.split(',')
+            self._colors.append(
+                (name, fg.strip(), bg.strip(), mono.strip()))
         # register projects
         _projects = guiconf.get('app', 'projects')
         for proj in _projects.split('\s'):

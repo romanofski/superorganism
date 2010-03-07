@@ -7,13 +7,18 @@ Projects are container like objects, which hold bug related information.
 Setup
 =====
 
-Before we start with the test, we create the necessary application
-object and a (testing) screen:
+Before we start with the test, we need a blank project we can adapt the
+view on. Additionally we also need a testing screen, which renders the
+form:
 
->>> import superorganism.app
+>>> import zope.component
+>>> import zope.component.interfaces
 >>> import superorganism.gui.tests
->>> app = superorganism.app.Application({})
 >>> screen = superorganism.gui.tests.Screen()
+>>> project = zope.component.getUtility(
+...     zope.component.interfaces.IFactory,
+...     u'superorganism.Project')(
+...         'project', '<Title>', '<Description>')
 
 Adding Projects
 ===============
@@ -22,22 +27,14 @@ Paul arrives at work on Monday morning. His Boss tells him, that he has
 to work on a new project: a system for managing people in an aged care
 facility. "Yet another management system.", he thinks. He quickly writes
 a small spec and starts Superorganism.
+Paul presses the "p" key which opens the dialog to create a new project:
 
->>> import zope.component
->>> view = zope.component.getMultiAdapter((app, screen), name='dashboard')
+>>> view = zope.component.getMultiAdapter(
+...     (project, screen), name='newproject')
 >>> view.render()
-(helpbar) Topbar
-...
-(statusbar)
-
-He opens Superorganism, presses the "p" key and looks at a simple form
-for his input about the new project.
-
->>> project_form = zope.component.getMultiAdapter(
-...     (app, screen), name='newproject')
->>> project_form.render()
 (|) Projecttitle
 (|) Project Description
+(|) Versions
 ...
 
 He fills out the fields about `title` (Adult Care) and a `description`.
