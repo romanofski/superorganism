@@ -36,9 +36,9 @@ class Dashboard(superorganism.gui.view.BaseView):
                     transaction.commit()
                     return
                 elif key == 'p':
-                    self.create_project()
+                    return self.create_project()
                 elif key == 'd':
-                    zope.component.getMultiAdapter(
+                    return zope.component.getMultiAdapter(
                         (self.context, self.screen), name='dashboard').render()
                 else:
                     self.frame.keypress(self.size, key)

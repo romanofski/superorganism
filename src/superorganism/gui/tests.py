@@ -31,6 +31,13 @@ def test_suite():
                 doctest.COMPARISON_FLAGS |
                 doctest.REPORT_ONLY_FIRST_FAILURE),
             setUp=superorganism.tests.db_setup),
+        zope.testing.doctestunit.DocFileSuite(
+            'formwidgets.txt',
+            package='superorganism.gui',
+            optionflags=(
+                doctest.COMPARISON_FLAGS |
+                doctest.REPORT_ONLY_FIRST_FAILURE),
+            setUp=superorganism.tests.db_setup),
     ])
 
 
@@ -53,3 +60,6 @@ class Screen(object):
             if not widgetid:
                 widgetid = '|'
             print '(%s) %s' % (widgetid, printout.strip())
+
+    def get_input(self):
+        return ['q']
