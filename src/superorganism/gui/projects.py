@@ -1,7 +1,9 @@
 import superorganism.gui.view
-import zope.schema
-import urwid
 import transaction
+import urwid
+import zope.component
+import zope.component.interfaces
+import zope.schema
 
 
 class NewProjectForm(superorganism.gui.view.BaseView):
@@ -16,9 +18,9 @@ class NewProjectForm(superorganism.gui.view.BaseView):
         widgets = []
         for name, field in zope.schema.getFieldsInOrder(fields):
             widgets.append(widgetFactory(self.context, field))
+        widgets.append(urwid.Button("Save"))
         self.walker = urwid.SimpleListWalker(widgets)
         self.listbox = urwid.ListBox(self.walker)
-        self.submit = urwid.Button('Create')
 
     def render(self):
         self.update_widgets()
@@ -51,7 +53,7 @@ def widgetFactory(context, field):
     # XXX currently it doesn't really matter which urwid widget we
     # create according to the schema. We expect text input. We have to
     # create more sophisticated widget and fields for validation tho.
-    text = urwid.AttrMap(urwid.Text(field.title), None, 'focus')
-    edit = urwid.AttrMap(urwid.Edit(), None, 'input')
-    return urwid.Columns([text, ('weight', 3, edit)])
-
+    return zope.component.getUtility(
+        zope.component.interfaces.IFactory,
+        u'superorganism.gui.widgets.TextInput')(
+            field.title, field.description)
