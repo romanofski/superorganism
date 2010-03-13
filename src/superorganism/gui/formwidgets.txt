@@ -1,0 +1,53 @@
+==============
+ Form Widgets
+==============
+
+Form widgets are a set of urwid widgets which help the user to enter
+data.
+
+TextInput Widgets
+=================
+
+The input widget consists of a title and an input field, which allows to
+enter data by the user.
+
+>>> import zope.component
+>>> import zope.component.interfaces
+>>> import superorganism.gui.tests
+>>> widget = zope.component.getUtility(
+...     zope.component.interfaces.IFactory,
+...     u'superorganism.gui.widgets.TextInput')(
+...         'Project:')
+
+We verify if the widget implements it's interface:
+
+>>> import zope.interface.verify
+>>> import superorganism.gui.interfaces
+>>> zope.interface.verify.verifyObject(
+...     superorganism.gui.interfaces.ITextInputWidget, widget)
+True
+
+
+If we render the widget, it will only show a title and expects input:
+
+>>> widget.render((50,)).text
+['Project: ...']
+
+A description helps the user about what he should enter:
+
+>>> widget.description = "Enter whatever you like."
+>>> widget.update()
+>>> list(widget.render((120,)).content())
+[[...Project:...'Enter whatever you like.'...
+
+If the user enters a value:
+
+>>> widget.set('entered by user')
+
+We can ask about the value entered:
+
+>>> widget.value
+'entered by user'
+>>> widget.update()
+>>> list(widget.render((120,)).content())
+[[...Project:...entered by user...'Enter whatever you like.'...

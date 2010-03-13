@@ -10,4 +10,10 @@
     factory="superorganism.gui.projects.NewProjectForm"
     name="newproject"
     />
+
+  <utility
+    component="superorganism.gui.formwidgets.textinputFactory"
+    name="superorganism.gui.widgets.TextInput"
+    />
+
 </configure>

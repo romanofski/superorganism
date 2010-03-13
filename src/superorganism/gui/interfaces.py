@@ -50,3 +50,17 @@ class INewProjectForm(ITerminalView):
         value_type=zope.schema.TextLine())
 
 
+class ITextInputWidget(zope.interface.Interface):
+    """A text input widget providing a title and description, as well as
+       an input field.
+    """
+
+    value = zope.interface.Attribute("The widget value")
+
+    def update():
+        """Updates and creates the (internal) widget structure based on
+           urwid widgets.
+        """
+
+    def set(value):
+        """Set the widget text to value."""
