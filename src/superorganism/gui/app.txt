@@ -42,7 +42,7 @@ widgets on the screen.
 >>> view.render()
 (helpbar) Topbar
 ...
-(statusbar)
+(statusbar) ...
 
 We can also change the statusbar text:
 

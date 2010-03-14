@@ -32,9 +32,10 @@ Paul presses the "p" key which opens the dialog to create a new project:
 >>> view = zope.component.getMultiAdapter(
 ...     (project, screen), name='newproject')
 >>> view.render()
-(|) Projecttitle
-(|) Project Description
-(|) Versions
+(focus) Projecttitle
+...
+Project Description
+Versions
 ...
 
 He fills out the fields about `title` (Adult Care) and a `description`.

@@ -21,6 +21,8 @@ def test_suite():
             'app.txt',
             package='superorganism.gui',
             optionflags=(
+                doctest.NORMALIZE_WHITESPACE |
+                doctest.ELLIPSIS |
                 doctest.COMPARISON_FLAGS |
                 doctest.REPORT_ONLY_FIRST_FAILURE),
             setUp=superorganism.tests.db_setup),
@@ -51,15 +53,14 @@ class Screen(object):
         self.has_color = False
 
     def get_cols_rows(self):
-        return (80, 20)
+        return (120, 20)
 
     def draw_screen(self, size, canvas):
         for item in canvas.content():
             # not sure if that's correct
             widgetid, attr, printout = item[0]
-            if not widgetid:
-                widgetid = '|'
-            print '(%s) %s' % (widgetid, printout.strip())
+            print '%s %s' % (widgetid and '(%s)' %widgetid or '',
+                             printout.strip() or '+')
 
     def get_input(self):
         return ['q']
