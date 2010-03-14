@@ -22,8 +22,7 @@ class Dashboard(superorganism.gui.view.BaseView):
     # key-dispatcher utility, which creates the views depending on the
     # keypress. Although I'm not sure if that will work out.
     def run(self):
-        projects = zope.component.getUtilitiesFor(superorganism.interfaces.IProject)
-        self.statusmsg = '%s Project(s)' % len(list(projects))
+        self.statusmsg = '%s Project(s)' % len(list(self.context.keys()))
         self.render()
 
         while 1:
@@ -64,10 +63,15 @@ class Dashboard(superorganism.gui.view.BaseView):
         self.screen.draw_screen(self.size, canvas)
 
     def create_project(self):
+        transaction.commit()
+        transaction.begin()
         project = zope.component.getUtility(
             zope.component.interfaces.IFactory,
             u'superorganism.Project')(
                 'project', '<Title>', '<Description>')
+        name = 'project%s' % len(self.context.keys())
+        self.context[name] = project
+        project.__parent__ = self.context
         return zope.component.getMultiAdapter(
             (project, self.screen), name='newproject').render()
 

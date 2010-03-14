@@ -17,10 +17,9 @@ class NewProjectForm(superorganism.gui.view.BaseView):
         fields = superorganism.gui.interfaces.INewProjectForm
         widgets = []
         for name, field in zope.schema.getFieldsInOrder(fields):
-            widgets.append(widgetFactory(self.context, field))
-        widgets.append(
-            urwid.AttrMap(urwid.Button("Save"), None, 'button')
-        )
+            widgets.append(
+                zope.component.getMultiAdapter(
+                    (field, self), superorganism.gui.interfaces.IWidget))
         self.walker = urwid.SimpleListWalker(widgets)
         self.listbox = urwid.ListBox(self.walker)
 
@@ -38,8 +37,17 @@ class NewProjectForm(superorganism.gui.view.BaseView):
                 if key == 'window resize':
                     self.size = self.screen.get_cols_rows()
                 elif key == 'q':
+                    transaction.abort()
+                    app = superorganism.interfaces.IApplication(
+                        self.context.__parent__)
+                    return zope.component.getMultiAdapter(
+                        (app, self.screen), name='dashboard').run()
+                elif key == 's':
                     transaction.commit()
-                    return
+                    app = superorganism.interfaces.IApplication(
+                        self.context.__parent__)
+                    return zope.component.getMultiAdapter(
+                        (app, self.screen), name='dashboard').run()
                 elif key == 'up':
                     self.listbox.keypress(size, key)
                 elif key == 'down':
@@ -56,7 +64,4 @@ def widgetFactory(context, field):
     # XXX currently it doesn't really matter which urwid widget we
     # create according to the schema. We expect text input. We have to
     # create more sophisticated widget and fields for validation tho.
-    return zope.component.getUtility(
-        zope.component.interfaces.IFactory,
-        u'superorganism.gui.widgets.TextInput')(
-            field.title, field.description, field.get(context))
+    return 

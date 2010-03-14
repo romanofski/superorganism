@@ -11,9 +11,16 @@
     name="newproject"
     />
 
-  <utility
-    component="superorganism.gui.formwidgets.textinputFactory"
-    name="superorganism.gui.widgets.TextInput"
+  <adapter
+    factory="superorganism.gui.formwidgets.TextInputWidget"
+    for="zope.schema.interfaces.ITextLine
+         superorganism.gui.interfaces.IForm"
+    />
+
+  <adapter
+    factory="superorganism.gui.formwidgets.TextInputWidget"
+    for="zope.schema.interfaces.ISet
+         superorganism.gui.interfaces.IForm"
     />
 
 </configure>

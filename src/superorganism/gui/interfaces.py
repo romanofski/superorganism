@@ -31,7 +31,14 @@ class IScreen(zope.interface.Interface):
     """Marker interface for the urwid curses display screen."""
 
 
-class INewProjectForm(ITerminalView):
+class IForm(ITerminalView):
+    """Base class for forms."""
+
+    def update_widgets(self):
+        """Create widgets and set them up."""
+
+
+class INewProjectForm(IForm):
     """Form for creating a new project."""
 
     title = zope.schema.TextLine(
@@ -50,10 +57,8 @@ class INewProjectForm(ITerminalView):
         value_type=zope.schema.TextLine())
 
 
-class ITextInputWidget(zope.interface.Interface):
-    """A text input widget providing a title and description, as well as
-       an input field.
-    """
+class IWidget(zope.interface.Interface):
+    """Abstract base class for widgets."""
 
     value = zope.interface.Attribute("The widget value")
 
@@ -64,3 +69,10 @@ class ITextInputWidget(zope.interface.Interface):
 
     def set(value):
         """Set the widget text to value."""
+
+
+class ITextInputWidget(IWidget):
+    """A text input widget providing a title and description, as well as
+       an input field.
+    """
+

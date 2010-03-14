@@ -1,39 +1,67 @@
 import superorganism.gui.interfaces
 import urwid
-import zope.component.factory
 import zope.interface
+import zope.schema.interfaces
 
 
-class TextInputWidget(urwid.WidgetWrap):
+class BaseWidget(urwid.WidgetWrap):
 
-    zope.interface.implements(superorganism.gui.interfaces.ITextInputWidget)
-
-    def __init__(self, title, description='', value=''):
-        self.title = title
-        self.description = description
-        self._value = value
+    def __init__(self, field, form):
+        self.field = field
+        self.form = form
+        self._value = field.get(form.context)
         self.update()
 
     def update(self):
-        text = urwid.Text(self.title)
+        raise NotImplementedError("Implemented in subclasses.")
+
+    def set(self, value):
+        self.field.set(self.form.context, value)
+
+    @property
+    def value(self):
+        return self.field.get(self.form.context)
+
+
+class TextInputWidget(BaseWidget):
+
+    zope.interface.implements(superorganism.gui.interfaces.ITextInputWidget)
+
+    def __init__(self, field, form):
+        self.field = field
+        self.form = form
+        self._value = field.get(form.context)
+        self.update()
+
+    def update(self):
+        text = urwid.Text(self.field.title)
         edit = urwid.AttrMap(
             urwid.Edit(edit_text=self._value, edit_pos=0), None, 'input')
         edit.highlight = (0, len(self._value))
-        desc = urwid.Text(self.description)
+        desc = urwid.Text(self.field.description)
         self._w = urwid.AttrMap(
             urwid.Columns([text, ('weight', 3, edit), desc]), None,
             'focus')
 
     def set(self, value):
-        self._value = value
+        self.field.set(self.form.context, value)
 
     @property
     def value(self):
-        return self._value
+        return self.field.get(self.form.context)
 
 
+class MultilineInputWidget(urwid.WidgetWrap):
 
-textinputFactory = zope.component.factory.Factory(
-    TextInputWidget,
-    title=u'Creates a new text input widget',
-    description=u'Instantiates a new input widget')
+    zope.interface.implements(superorganism.gui.interfaces.ITextInputWidget)
+
+    def update(self):
+        text = urwid.Text(self.field.title)
+        edit = urwid.AttrMap(
+            urwid.Edit(edit_text=self._value, multiline=True, edit_pos=0),
+            None, 'input')
+        edit.highlight = (0, len(self._value))
+        desc = urwid.Text(self.field.description)
+        self._w = urwid.AttrMap(
+            urwid.Columns([text, ('weight', 3, edit), desc]), None,
+            'focus')

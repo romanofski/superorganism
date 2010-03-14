@@ -3,15 +3,17 @@ import os.path
 import superorganism.interfaces
 import zope.component
 import zope.interface
+import BTrees.OOBTree
 
 
-class Application(object):
+class Application(BTrees.OOBTree.OOBTree):
 
     zope.interface.implements(superorganism.interfaces.IApplication)
 
     _colors = []
 
     def __init__(self, config):
+        super(Application, self).__init__()
         self.config = config
         if config:
             self.configure()
