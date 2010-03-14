@@ -18,7 +18,9 @@ class NewProjectForm(superorganism.gui.view.BaseView):
         widgets = []
         for name, field in zope.schema.getFieldsInOrder(fields):
             widgets.append(widgetFactory(self.context, field))
-        widgets.append(urwid.Button("Save"))
+        widgets.append(
+            urwid.AttrMap(urwid.Button("Save"), None, 'button')
+        )
         self.walker = urwid.SimpleListWalker(widgets)
         self.listbox = urwid.ListBox(self.walker)
 
@@ -57,4 +59,4 @@ def widgetFactory(context, field):
     return zope.component.getUtility(
         zope.component.interfaces.IFactory,
         u'superorganism.gui.widgets.TextInput')(
-            field.title, field.description)
+            field.title, field.description, field.get(context))

@@ -17,7 +17,8 @@ class TextInputWidget(urwid.WidgetWrap):
     def update(self):
         text = urwid.Text(self.title)
         edit = urwid.AttrMap(
-            urwid.Edit(self._value), None, 'input')
+            urwid.Edit(edit_text=self._value, edit_pos=0), None, 'input')
+        edit.highlight = (0, len(self._value))
         desc = urwid.Text(self.description)
         self._w = urwid.AttrMap(
             urwid.Columns([text, ('weight', 3, edit), desc]), None,
