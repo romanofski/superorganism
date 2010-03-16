@@ -23,4 +23,10 @@
          superorganism.gui.interfaces.IForm"
     />
 
+  <adapter
+    factory="superorganism.gui.app.KeyDispatcher" />
+
+  <subscriber
+    handler="superorganism.gui.projects.handle_keypress" />
+
 </configure>
