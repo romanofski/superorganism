@@ -15,10 +15,18 @@ form:
 >>> import zope.component.interfaces
 >>> import superorganism.gui.tests
 >>> screen = superorganism.gui.tests.Screen()
+
+Usually the project is created in the root of the database. Because the
+view relies on that behaviour, we have to set the parent of the project
+to be the application:
+
+>>> import superorganism.app
+>>> app = superorganism.app.Application({})
 >>> project = zope.component.getUtility(
 ...     zope.component.interfaces.IFactory,
 ...     u'superorganism.Project')(
 ...         'project', '<Title>', '<Description>')
+>>> project.__parent__ = app
 
 Adding Projects
 ===============

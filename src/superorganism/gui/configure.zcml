@@ -12,13 +12,13 @@
     />
 
   <adapter
-    factory="superorganism.gui.formwidgets.TextInputWidget"
+    factory="superorganism.gui.widgets.TextInputWidget"
     for="zope.schema.interfaces.ITextLine
          superorganism.gui.interfaces.IForm"
     />
 
   <adapter
-    factory="superorganism.gui.formwidgets.TextInputWidget"
+    factory="superorganism.gui.widgets.TextInputWidget"
     for="zope.schema.interfaces.ISet
          superorganism.gui.interfaces.IForm"
     />

@@ -42,12 +42,6 @@ class NewProjectForm(superorganism.gui.view.BaseView):
                         self.context.__parent__)
                     return zope.component.getMultiAdapter(
                         (app, self.screen), name='dashboard').run()
-                elif key == 's':
-                    transaction.commit()
-                    app = superorganism.interfaces.IApplication(
-                        self.context.__parent__)
-                    return zope.component.getMultiAdapter(
-                        (app, self.screen), name='dashboard').run()
                 elif key == 'up':
                     self.listbox.keypress(size, key)
                 elif key == 'down':
