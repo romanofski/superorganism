@@ -1,0 +1,35 @@
+===============
+ KeyDispatcher
+===============
+
+Kim Chambers is a very good assistent. She can use the computer keyboard
+like nobody, earning also a lot of money winning typing games. Her job?
+KeyDispatcher. She knows the keyboard like no one else and can hear
+which key was pressed.
+
+>>> import superorganism.gui.keys
+>>> kim = superorganism.gui.keys.KeyDispatcher()
+
+Mr. Cameron sneeks in the office today. While Kim is on the phone, Mr.
+Cameron thinks he can play with Kim's Computer watching nude pics of
+Betsy Kimer. He types the 'a' key:
+
+>>> a = superorganism.gui.keys.KeyPressedEvent('a')
+
+Mr. Cameron likes to type on the keyboard like Kim, but he only uses the
+computer for his dirty little things.
+
+>>> import zope.interface.verify
+>>> import superorganism.interfaces
+>>> zope.interface.verify.verifyObject(
+...     superorganism.gui.interfaces.IKeyPressEvent, a)
+True
+
+The sound of the pressed key instantly travels to Kim's ear:
+
+>>> subscriber
+
+She realises, that the 'a' key was pressed and act's accordingly. She
+dispatches instantly a new view for the pressed key:
+
+>>> view
