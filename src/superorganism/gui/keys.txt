@@ -1,0 +1,54 @@
+=========================
+ KeyDispatcher and Views
+=========================
+
+The key dispatcher is a utility, which basically encapsules the main
+loop. Similar to a publisher on a webserver, he notifies the event
+system with which key was pressed. The event system and it's subscribers
+then, can determine if widgets receive the key event or if new anything
+else happens (e.g. views are created).
+
+Setup
+=====
+
+We instantiate a Keydispatcher as a regular object with the screen:
+
+>>> import superorganism.gui.tests
+>>> import superorganism.gui.keys
+>>> screen = superorganism.gui.tests.Screen()
+>>> dispatcher = superorganism.gui.keys.Dispatcher(screen)
+
+Verifying the Interface
+=======================
+
+We quickly verify if the dispatcher implements it's interface:
+
+>>> import zope.interface.verify
+>>> import superorganism.gui.interfaces
+>>> zope.interface.verify.verifyObject(
+...     superorganism.gui.interfaces.IKeyDispatcher, dispatcher)
+True
+
+Running
+=======
+
+In order to successfully test, but stop the dispatcher from continously
+running, we subscribe to a keypress event:
+
+>>> import zope.component
+>>> @zope.component.adapter(superorganism.gui.interfaces.ICharKeyPressEvent)
+... def handle_keypress(event):
+...     raise ValueError(event)
+
+We register the subscriber with the component modell:
+
+>>> zope.component.provideHandler(handle_keypress)
+>>> import zope.component.event
+
+We can start the dispatcher with the run function. It'll basically not
+stop until it receives an exception raised:
+
+>>> dispatcher.dispatch_key_events()
+Traceback (most recent call last):
+ValueError: <superorganism.gui.keys.CharKeyPressed object at 0x...>
+

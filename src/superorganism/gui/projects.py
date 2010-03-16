@@ -43,4 +43,4 @@ class NewProjectForm(superorganism.gui.view.BaseView):
 
 @zope.component.adapter(superorganism.gui.interfaces.ICharKeyPressEvent)
 def handle_keypress(event):
-    raise ValueError(superorganism.gui.interfaces.IWidget.providedBy(event.widget))
+    pass
