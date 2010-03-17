@@ -84,3 +84,4 @@ class Dashboard(superorganism.gui.view.BaseView):
                                                     bug.reported,
                                                     bug.title)))
         return result
+

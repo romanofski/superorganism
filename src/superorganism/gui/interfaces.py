@@ -2,13 +2,26 @@ import zope.interface
 import zope.schema
 
 
-class IKeyPressEvent(zope.interface.Interface):
+class ICharKeyPressEvent(zope.interface.Interface):
     """An adapter providing different views for the application
        depending on the user input.
     """
 
-    key_pressed = zope.interface.Attribute(
+    key = zope.interface.Attribute(
         "The name of the key pressed.")
+
+
+class IFunctionKeyPressEvent(ICharKeyPressEvent):
+    """Marker interface, that a function key (tab, enter, etc) was
+       pressed.
+    """
+
+
+class IKeyDispatcher(zope.interface.Interface):
+    """Adapter to dispatch key events."""
+
+    def is_valid_char(key):
+        """Determines if a valid char key was pressed."""
 
 
 class ITerminalView(zope.interface.Interface):
