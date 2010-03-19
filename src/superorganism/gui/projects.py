@@ -1,12 +1,7 @@
 import superorganism.gui.view
-import superorganism.gui.keys
-import transaction
 import urwid
 import zope.component
-import zope.component.interfaces
-import zope.component.event
 import zope.schema
-import zope.event
 
 
 class NewProjectForm(superorganism.gui.view.BaseView):
