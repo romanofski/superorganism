@@ -1,9 +1,10 @@
 import zope.interface
 import superorganism.interfaces
 import zope.component.factory
+import BTrees.OOBTree
 
 
-class Project(object):
+class Project(BTrees.OOBTree.OOBTree):
 
     zope.interface.implements(superorganism.interfaces.IProject)
 
