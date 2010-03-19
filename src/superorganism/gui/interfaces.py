@@ -29,6 +29,8 @@ class ITerminalView(zope.interface.Interface):
        depending on the user input.
     """
 
+    widget = zope.interface.Attribute("The top most urwid box widget.")
+
     def render():
         """Renders the screen elements."""
 

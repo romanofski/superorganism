@@ -40,13 +40,9 @@ class Dashboard(superorganism.gui.view.BaseView):
                     return zope.component.getMultiAdapter(
                         (self.context, self.screen), name='dashboard').render()
                 else:
-                    self.frame.keypress(self.size, key)
+                    self.widget.keypress(self.size, key)
 
-    def register_colors(self):
-        for name, fg, bg, dummy in self.context.colors:
-            self.screen.register_palette_entry(name, fg.strip(), bg.strip(), None)
-
-    def render(self):
+    def update_widgets(self):
         self.size = self.screen.get_cols_rows()
         self.status = urwid.Text(self.statusmsg, align='left')
 
@@ -55,12 +51,14 @@ class Dashboard(superorganism.gui.view.BaseView):
         self.listbox = urwid.ListBox(self.lines)
 
         self.top = urwid.Pile([urwid.AttrMap(self.helpbar, 'helpbar')])
-        self.frame = urwid.Frame(self.listbox,
+        self.widget = urwid.Frame(self.listbox,
                                  header=urwid.AttrMap(self.helpbar, 'helpbar'),
                                  footer=urwid.AttrMap(self.status, 'statusbar'))
-        self.frame.set_focus('footer')
-        canvas = self.frame.render(self.size, focus=True)
-        self.screen.draw_screen(self.size, canvas)
+        self.widget.set_focus('footer')
+
+    def register_colors(self):
+        for name, fg, bg, dummy in self.context.colors:
+            self.screen.register_palette_entry(name, fg.strip(), bg.strip(), None)
 
     def create_project(self):
         transaction.commit()
@@ -73,7 +71,7 @@ class Dashboard(superorganism.gui.view.BaseView):
         self.context[name] = project
         project.__parent__ = self.context
         return zope.component.getMultiAdapter(
-            (project, self.screen), name='newproject').render()
+            (project, self.screen), name='newproject').run()
 
     def list_bugs(self):
         # read ZODB

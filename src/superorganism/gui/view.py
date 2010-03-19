@@ -10,6 +10,7 @@ class BaseView(object):
         self.render()
 
     def render(self):
-        raise NotImplementedError(
-            "A more specific widget needs to be adapted, "
-            "to be able to render any content.")
+        self.update_widgets()
+        size = self.screen.get_cols_rows()
+        canvas = self.widget.render(size, focus=True)
+        self.screen.draw_screen(size, canvas)

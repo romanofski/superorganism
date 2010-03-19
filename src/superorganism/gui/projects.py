@@ -28,11 +28,11 @@ class NewProjectForm(superorganism.gui.view.BaseView):
         walker = urwid.SimpleListWalker(widgets)
         self.widget = urwid.ListBox(walker)
 
-    def render(self):
-        self.update_widgets()
-        size = self.screen.get_cols_rows()
+    def run(self):
+        self.render()
 
         while 1:
+            size = self.screen.get_cols_rows()
             canvas = self.widget.render(size, focus=True)
             self.screen.draw_screen(size, canvas)
             keys = self.screen.get_input()
