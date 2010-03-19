@@ -23,25 +23,26 @@ class NewProjectForm(superorganism.gui.view.BaseView):
             widgets.append(
                 zope.component.getMultiAdapter(
                     (field, self), superorganism.gui.interfaces.IWidget))
-        self.walker = urwid.SimpleListWalker(widgets)
-        self.listbox = urwid.ListBox(self.walker)
+        button = urwid.Button('Save')
+        widgets.append(button)
+        walker = urwid.SimpleListWalker(widgets)
+        self.widget = urwid.ListBox(walker)
 
     def render(self):
         self.update_widgets()
         size = self.screen.get_cols_rows()
 
         while 1:
-            canvas = self.listbox.render(size, focus=True)
+            canvas = self.widget.render(size, focus=True)
             self.screen.draw_screen(size, canvas)
             keys = self.screen.get_input()
-            widget, pos = self.listbox.get_focus()
+            widget, pos = self.widget.get_focus()
 
-            dispatcher = superorganism.gui.keys.Dispatcher(self.screen)
-            dispatcher.dispatch_key_events()
+            for key in keys:
+                if (hasattr(widget, 'get_label') and\
+                    widget.get_label().startswith('Save') and key == 'q'):
+                    return zope.component.getMultiAdapter(
+                        (self.context.__parent__, self.screen),
+                        name='dashboard').run()
 
-
-
-@zope.component.adapter(superorganism.gui.interfaces.ICharKeyPressEvent)
-def handle_keypress(event):
-    if event.key == 'q':
-        raise ValueError('f')
+                self.widget.keypress(size, key)

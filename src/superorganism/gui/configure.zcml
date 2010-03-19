@@ -23,7 +23,4 @@
          superorganism.gui.interfaces.IForm"
     />
 
-  <subscriber
-    handler="superorganism.gui.projects.handle_keypress" />
-
 </configure>

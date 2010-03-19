@@ -1,5 +1,7 @@
 class BaseView(object):
 
+    widget = None
+
     def __init__(self, context, screen):
         self.context = context
         self.screen = screen
