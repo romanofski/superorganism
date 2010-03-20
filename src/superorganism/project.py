@@ -1,10 +1,10 @@
 import zope.interface
 import superorganism.interfaces
 import zope.component.factory
-import BTrees.OOBTree
+import zope.container.folder
 
 
-class Project(BTrees.OOBTree.OOBTree):
+class Project(zope.container.folder.Folder):
 
     zope.interface.implements(superorganism.interfaces.IProject)
 
@@ -12,7 +12,6 @@ class Project(BTrees.OOBTree.OOBTree):
     versions = []
 
     def __init__(self, uid, title, description):
-        super(Project, self).__init__()
         self.uid = uid
         self.title = title
         self.description = description

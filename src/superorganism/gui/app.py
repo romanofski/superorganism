@@ -54,7 +54,7 @@ class Dashboard(superorganism.gui.view.BaseView):
         self.widget = urwid.Frame(self.listbox,
                                  header=urwid.AttrMap(self.helpbar, 'helpbar'),
                                  footer=urwid.AttrMap(self.status, 'statusbar'))
-        self.widget.set_focus('footer')
+        self.widget.set_focus('body')
 
     def register_colors(self):
         for name, fg, bg, dummy in self.context.colors:
@@ -62,7 +62,6 @@ class Dashboard(superorganism.gui.view.BaseView):
 
     def create_project(self):
         transaction.commit()
-        transaction.begin()
         project = zope.component.getUtility(
             zope.component.interfaces.IFactory,
             u'superorganism.Project')(
@@ -74,12 +73,8 @@ class Dashboard(superorganism.gui.view.BaseView):
             (project, self.screen), name='newproject').run()
 
     def list_bugs(self):
-        # read ZODB
-        root = zope.component.getUtility(superorganism.interfaces.IDatabase).root
         result = []
-        for bug in root.values():
-            result.append(urwid.Text(u'%s %s %s' % (bug.id,
-                                                    bug.reported,
-                                                    bug.title)))
+        for bug in self.context.values():
+            result.append(urwid.Text(u'%s %s' % (bug.uid, bug.title)))
         return result
 

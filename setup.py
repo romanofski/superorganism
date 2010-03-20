@@ -25,12 +25,14 @@ setup(name='superorganism',
       package_dir = {'': 'src'},
       include_package_data=True,
       zip_safe=False,
-      install_requires=['ZODB3',
-                        'setuptools',
-                        'urwid',
-                        'zope.component',
-                        'repoze.zcml',
-                       ],
-    entry_points = """
+      install_requires=[
+          'ZODB3',
+          'repoze.zcml',
+          'setuptools',
+          'urwid',
+          'zope.component',
+          'zope.container',
+      ],
+      entry_points = """
     """
 )
