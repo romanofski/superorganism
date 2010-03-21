@@ -17,7 +17,7 @@ class NewProjectForm(superorganism.gui.view.BaseView):
         for name, field in zope.schema.getFieldsInOrder(fields):
             widgets.append(
                 zope.component.getMultiAdapter(
-                    (field, self), superorganism.gui.interfaces.IWidget))
+                    (field, self), superorganism.gui.interfaces.IFormWidget))
         button = urwid.Button('Save')
         widgets.append(button)
         walker = urwid.SimpleListWalker(widgets)

@@ -72,7 +72,7 @@ class INewProjectForm(IForm):
         value_type=zope.schema.TextLine())
 
 
-class IWidget(zope.interface.Interface):
+class IFormWidget(zope.interface.Interface):
     """Abstract base class for widgets."""
 
     value = zope.interface.Attribute("The widget value")
@@ -86,7 +86,7 @@ class IWidget(zope.interface.Interface):
         """Set the widget text to value."""
 
 
-class ITextInputWidget(IWidget):
+class ITextInputWidget(IFormWidget):
     """A text input widget providing a title and description, as well as
        an input field.
     """

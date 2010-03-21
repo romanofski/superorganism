@@ -4,7 +4,7 @@ import zope.interface
 import zope.schema.interfaces
 
 
-class BaseWidget(urwid.WidgetWrap):
+class BaseFormWidget(urwid.WidgetWrap):
 
     def __init__(self, field, form):
         self.field = field
@@ -23,7 +23,7 @@ class BaseWidget(urwid.WidgetWrap):
         return self.field.get(self.form.context)
 
 
-class TextInputWidget(BaseWidget):
+class TextInputWidget(BaseFormWidget):
 
     zope.interface.implements(superorganism.gui.interfaces.ITextInputWidget)
 
