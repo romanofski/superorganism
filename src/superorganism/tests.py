@@ -9,7 +9,7 @@ import zope.component
 def db_setup(test):
     storage = superorganism.database.TestDatabase()
     zope.component.provideUtility(storage,
-                                   superorganism.interfaces.IDatabase)
+                                  superorganism.interfaces.IDatabase)
 
 
 def test_suite():

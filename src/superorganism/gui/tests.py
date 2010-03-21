@@ -16,7 +16,7 @@ def test_suite():
             optionflags=(
                 doctest.COMPARISON_FLAGS |
                 doctest.REPORT_ONLY_FIRST_FAILURE),
-            setUp=superorganism.tests.db_setup),
+        ),
         zope.testing.doctestunit.DocFileSuite(
             'app.txt',
             package='superorganism.gui',
@@ -32,21 +32,21 @@ def test_suite():
             optionflags=(
                 doctest.COMPARISON_FLAGS |
                 doctest.REPORT_ONLY_FIRST_FAILURE),
-            setUp=superorganism.tests.db_setup),
+        ),
         zope.testing.doctestunit.DocFileSuite(
             'formwidgets.txt',
             package='superorganism.gui',
             optionflags=(
                 doctest.COMPARISON_FLAGS |
                 doctest.REPORT_ONLY_FIRST_FAILURE),
-            setUp=superorganism.tests.db_setup),
+        ),
         zope.testing.doctestunit.DocFileSuite(
             'keys.txt',
             package='superorganism.gui',
             optionflags=(
                 doctest.COMPARISON_FLAGS |
                 doctest.REPORT_ONLY_FIRST_FAILURE),
-            setUp=superorganism.tests.db_setup),
+        ),
     ])
 
 
