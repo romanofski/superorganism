@@ -24,6 +24,10 @@ class IKeyDispatcher(zope.interface.Interface):
         """Determines if a valid char key was pressed."""
 
 
+class IScreen(zope.interface.Interface):
+    """Marker interface for the urwid curses display screen."""
+
+
 class ITerminalView(zope.interface.Interface):
     """An adapter providing different views for the application
        depending on the user input.
@@ -42,8 +46,19 @@ class IDashboard(ITerminalView):
         """Creates a new project."""
 
 
-class IScreen(zope.interface.Interface):
-    """Marker interface for the urwid curses display screen."""
+class ILayoutWidget(ITerminalView):
+    """View widgets define the overall application layout. They're based
+       on a Frame, with a header and a footer. The footer is usually a
+       statusbar which displays helpful information.
+    """
+
+    def set_statusmsg(self, msg):
+        """Sets a statusmessage and renders it."""
+
+    def set_body_content(self, content):
+        """Sets the body content which should be a widget (e.g. Walker
+           or ListBox), which will be set as the Frames body.
+        """
 
 
 class IForm(ITerminalView):
@@ -90,4 +105,5 @@ class ITextInputWidget(IFormWidget):
     """A text input widget providing a title and description, as well as
        an input field.
     """
+
 

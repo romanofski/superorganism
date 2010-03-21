@@ -64,3 +64,35 @@ class MultilineInputWidget(urwid.WidgetWrap):
         self._w = urwid.AttrMap(
             urwid.Columns([text, ('weight', 3, edit), desc]), None,
             'focus')
+
+
+class DashboardWidget(urwid.WidgetWrap):
+
+    body = None
+    header = None
+    footer = None
+
+    def __init__(self, body, focus='body'):
+        self.focus = focus
+        self.set_body_content(body)
+        self.update_widgets()
+
+    def update_widgets(self):
+        self.footer = urwid.Text('', align='left')
+
+        self.header = urwid.AttrMap(urwid.Text(u'Topbar'), 'helpbar')
+        self.body_widget = urwid.ListBox(self.body)
+
+        self._w = urwid.Frame(urwid.AttrMap(self.body_widget, 'background'),
+                              header=urwid.AttrMap(self.header, 'helpbar'),
+                              footer=urwid.AttrMap(self.footer, 'statusbar'))
+        self._w.set_focus(self.focus)
+
+    def set_body_content(self, content):
+        self.body = content
+
+    def set_statusmsg(self, msg):
+        self.footer.set_text(msg)
+
+    def get_focus(self):
+        return self.body_widget.get_focus()

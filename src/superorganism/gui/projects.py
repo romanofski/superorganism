@@ -11,29 +11,17 @@ class NewProjectForm(superorganism.gui.view.BaseView):
         superorganism.interfaces.IProject,
         superorganism.gui.interfaces.IScreen)
 
-    def update_widgets(self):
-        fields = superorganism.gui.interfaces.INewProjectForm
-        widgets = []
-        for name, field in zope.schema.getFieldsInOrder(fields):
-            widgets.append(
-                zope.component.getMultiAdapter(
-                    (field, self), superorganism.gui.interfaces.IFormWidget))
-        button = urwid.Button('Save')
-        widgets.append(button)
-        walker = urwid.SimpleListWalker(widgets)
-        self.widget = urwid.ListBox(walker)
+    fields = superorganism.gui.interfaces.INewProjectForm
 
     def run(self):
-        self.render()
-
         while 1:
             size = self.screen.get_cols_rows()
-            canvas = self.widget.render(size, focus=True)
-            self.screen.draw_screen(size, canvas)
+            self.render()
             keys = self.screen.get_input()
             widget, pos = self.widget.get_focus()
 
             for key in keys:
+                self.widget.set_statusmsg('Key: %s' % key)
                 if (hasattr(widget, 'get_label') and\
                     widget.get_label().startswith('Save') and key == 'q'):
                     return zope.component.getMultiAdapter(
@@ -41,3 +29,17 @@ class NewProjectForm(superorganism.gui.view.BaseView):
                         name='dashboard').run()
 
                 self.widget.keypress(size, key)
+
+    def update_widgets(self):
+        self.widget = superorganism.gui.widgets.DashboardWidget(
+            self.get_form_contents())
+
+    def get_form_contents(self):
+        widgets = []
+        for name, field in zope.schema.getFieldsInOrder(self.fields):
+            widgets.append(
+                zope.component.getMultiAdapter(
+                    (field, self), superorganism.gui.interfaces.IFormWidget))
+        button = urwid.Button('Save')
+        widgets.append(button)
+        return urwid.SimpleListWalker(widgets)
