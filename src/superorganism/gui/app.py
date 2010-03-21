@@ -12,7 +12,7 @@ import zope.interface
 
 class Dashboard(superorganism.gui.view.BaseView):
 
-    zope.interface.implements(superorganism.gui.interfaces.IDashboard)
+    zope.interface.implements(superorganism.gui.interfaces.ITerminalView)
     zope.component.adapts(
         superorganism.interfaces.IApplication,
         superorganism.gui.interfaces.IScreen)

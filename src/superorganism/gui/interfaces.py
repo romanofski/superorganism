@@ -39,13 +39,6 @@ class ITerminalView(zope.interface.Interface):
         """Renders the screen elements."""
 
 
-class IDashboard(ITerminalView):
-    """Dashboard screen."""
-
-    def create_project():
-        """Creates a new project."""
-
-
 class ILayoutWidget(ITerminalView):
     """View widgets define the overall application layout. They're based
        on a Frame, with a header and a footer. The footer is usually a

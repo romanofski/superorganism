@@ -16,7 +16,7 @@ if __name__ == '__main__':
     database = superorganism.database.Database(ZCONFIG)
     zope.component.provideUtility(database, superorganism.interfaces.IDatabase)
     app = superorganism.app.Application($buildout['config'])
-    view = zope.component.getMultiAdapter((app, tui), name='dashboard')
+    view = zope.component.getMultiAdapter((app, tui),
+        superorganism.gui.interfaces.ITerminalView)
     view.register_colors()
     tui.run_wrapper(view.run) #XXX keydispatcher?
-

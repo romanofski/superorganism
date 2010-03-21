@@ -24,7 +24,8 @@ True
 We can now adapt the view.
 
 >>> import zope.component
->>> view = zope.component.getMultiAdapter((app, screen), name='dashboard')
+>>> view = zope.component.getMultiAdapter((app, screen),
+...     superorganism.gui.interfaces.ITerminalView)
 
 Before we test any methods on the view, we verify if the view implements
 it's interface:
@@ -32,7 +33,7 @@ it's interface:
 >>> import zope.interface.verify
 >>> import superorganism.interfaces
 >>> zope.interface.verify.verifyObject(
-...     superorganism.gui.interfaces.IDashboard, view)
+...     superorganism.gui.interfaces.ITerminalView, view)
 True
 
 Let's render the initial dashboard screen. Most of the widgets are only

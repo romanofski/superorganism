@@ -26,7 +26,7 @@ class NewProjectForm(superorganism.gui.view.BaseView):
                     if (widget.get_label().startswith('Save') and key == 'enter'):
                         return zope.component.getMultiAdapter(
                             (self.context.__parent__, self.screen),
-                            name='dashboard').run()
+                            superorganism.gui.interfaces.ITerminalView).run()
                 self.widget.keypress(size, key)
 
     def update_widgets(self):

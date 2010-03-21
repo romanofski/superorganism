@@ -3,7 +3,6 @@
 
   <adapter
     factory="superorganism.gui.app.Dashboard"
-    name="dashboard"
     />
 
   <adapter
