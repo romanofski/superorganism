@@ -14,3 +14,7 @@ class BaseView(object):
         size = self.screen.get_cols_rows()
         canvas = self.widget.render(size, focus=True)
         self.screen.draw_screen(size, canvas)
+
+    def update_widgets(self):
+        # XXX implemented in subclasses
+        pass

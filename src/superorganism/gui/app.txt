@@ -46,7 +46,7 @@ widgets on the screen.
 
 We can also change the statusbar text:
 
->>> view.statusmsg = u'Foobar'
+>>> view.widget.set_statusmsg(u'Foobar')
 >>> view.render()
 (helpbar) Topbar
 ...

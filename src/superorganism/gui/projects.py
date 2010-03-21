@@ -22,12 +22,11 @@ class NewProjectForm(superorganism.gui.view.BaseView):
 
             for key in keys:
                 self.widget.set_statusmsg('Key: %s' % key)
-                if (hasattr(widget, 'get_label') and\
-                    widget.get_label().startswith('Save') and key == 'q'):
-                    return zope.component.getMultiAdapter(
-                        (self.context.__parent__, self.screen),
-                        name='dashboard').run()
-
+                if superorganism.gui.interfaces.IButton.providedBy(widget):
+                    if (widget.get_label().startswith('Save') and key == 'enter'):
+                        return zope.component.getMultiAdapter(
+                            (self.context.__parent__, self.screen),
+                            name='dashboard').run()
                 self.widget.keypress(size, key)
 
     def update_widgets(self):
@@ -40,6 +39,10 @@ class NewProjectForm(superorganism.gui.view.BaseView):
             widgets.append(
                 zope.component.getMultiAdapter(
                     (field, self), superorganism.gui.interfaces.IFormWidget))
-        button = urwid.Button('Save')
-        widgets.append(button)
+        widgets.append(
+            urwid.GridFlow(
+                [superorganism.gui.widgets.DialogButton("Save"),
+                 superorganism.gui.widgets.DialogButton("Cancel")],
+                10, 3, 1, 'center'
+            ))
         return urwid.SimpleListWalker(widgets)

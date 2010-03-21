@@ -101,6 +101,13 @@ class IFormWidget(zope.interface.Interface):
         """Set the widget text to value."""
 
 
+class IButton(zope.interface.Interface):
+    """Marker interface for a button."""
+
+    signals = zope.interface.Attribute(
+        "A list of signals associated with the button.")
+
+
 class ITextInputWidget(IFormWidget):
     """A text input widget providing a title and description, as well as
        an input field.

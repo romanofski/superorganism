@@ -4,6 +4,26 @@ import zope.interface
 import zope.schema.interfaces
 
 
+class DialogButton(urwid.Button):
+
+    zope.interface.implements(superorganism.gui.interfaces.IButton)
+
+    def __init__(self, label, on_press=None, user_data=None):
+        self._label = urwid.SelectableIcon("", 0)
+        self._w = urwid.AttrMap(urwid.Columns([
+            ('fixed', 1, urwid.Text("<")),
+            self._label,
+            ('fixed', 1, urwid.Text(">"))],
+            dividechars=1), 'button', 'focus')
+
+        # The old way of listening for a change was to pass the callback
+        # in to the constructor.  Just convert it to the new way:
+        if on_press:
+            connect_signal(self, 'click', on_press, user_data)
+
+        self.set_label(label)
+
+
 class BaseFormWidget(urwid.WidgetWrap):
 
     def __init__(self, field, form):
