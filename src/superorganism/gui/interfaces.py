@@ -38,6 +38,11 @@ class ITerminalView(zope.interface.Interface):
     def render():
         """Renders the screen elements."""
 
+    def contents():
+        """Returns the contents (as widget(s)) used to display in the
+           setup ILayoutWidget.
+        """
+
 
 class ILayoutWidget(ITerminalView):
     """View widgets define the overall application layout. They're based
@@ -54,14 +59,7 @@ class ILayoutWidget(ITerminalView):
         """
 
 
-class IForm(ITerminalView):
-    """Base class for forms."""
-
-    def update_widgets(self):
-        """Create widgets and set them up."""
-
-
-class INewProjectForm(IForm):
+class INewProjectForm(ITerminalView):
     """Form for creating a new project."""
 
     title = zope.schema.TextLine(

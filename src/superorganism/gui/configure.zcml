@@ -2,24 +2,24 @@
   xmlns="http://namespaces.repoze.org/bfg">
 
   <adapter
-    factory="superorganism.gui.app.Dashboard"
+    factory="superorganism.gui.app.BugList"
     />
 
   <adapter
-    factory="superorganism.gui.projects.NewProjectForm"
-    name="newproject"
+    factory="superorganism.gui.projects.EditProject"
+    name="editproject"
     />
 
   <adapter
     factory="superorganism.gui.widgets.TextInputWidget"
     for="zope.schema.interfaces.ITextLine
-         superorganism.gui.interfaces.IForm"
+         superorganism.gui.interfaces.ITerminalView"
     />
 
   <adapter
     factory="superorganism.gui.widgets.TextInputWidget"
     for="zope.schema.interfaces.ISet
-         superorganism.gui.interfaces.IForm"
+         superorganism.gui.interfaces.ITerminalView"
     />
 
 </configure>

@@ -10,9 +10,8 @@ import zope.component.interfaces
 import zope.interface
 
 
-class Dashboard(superorganism.gui.view.BaseView):
+class BugList(superorganism.gui.view.BaseView):
 
-    zope.interface.implements(superorganism.gui.interfaces.ITerminalView)
     zope.component.adapts(
         superorganism.interfaces.IApplication,
         superorganism.gui.interfaces.IScreen)
@@ -37,10 +36,6 @@ class Dashboard(superorganism.gui.view.BaseView):
 
                 self.widget.keypress(size, key)
 
-    def update_widgets(self):
-        self.widget = superorganism.gui.widgets.DashboardWidget(
-            self.list_bugs())
-
     def register_colors(self):
         for name, fg, bg, dummy in self.context.colors:
             self.screen.register_palette_entry(name, fg.strip(), bg.strip(), None)
@@ -57,7 +52,7 @@ class Dashboard(superorganism.gui.view.BaseView):
         return zope.component.getMultiAdapter(
             (project, self.screen), name='newproject').run()
 
-    def list_bugs(self):
+    def contents(self):
         result = []
         for bug in self.context.values():
             widget = urwid.Text(u'%s %s' % (bug.uid, bug.title))

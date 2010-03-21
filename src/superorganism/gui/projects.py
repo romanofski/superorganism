@@ -4,9 +4,8 @@ import zope.component
 import zope.schema
 
 
-class NewProjectForm(superorganism.gui.view.BaseView):
+class EditProject(superorganism.gui.view.BaseView):
 
-    zope.interface.implements(superorganism.gui.interfaces.INewProjectForm)
     zope.component.adapts(
         superorganism.interfaces.IProject,
         superorganism.gui.interfaces.IScreen)
@@ -29,11 +28,7 @@ class NewProjectForm(superorganism.gui.view.BaseView):
                             superorganism.gui.interfaces.ITerminalView).run()
                 self.widget.keypress(size, key)
 
-    def update_widgets(self):
-        self.widget = superorganism.gui.widgets.DashboardWidget(
-            self.get_form_contents())
-
-    def get_form_contents(self):
+    def contents(self):
         widgets = []
         for name, field in zope.schema.getFieldsInOrder(self.fields):
             widgets.append(

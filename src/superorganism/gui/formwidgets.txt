@@ -29,7 +29,7 @@ We need to setup a form as well, which is a view:
 ...     u'superorganism.Project')(
 ...         'project', 'Bugzilla Project', '<Description>')
 >>> form = zope.component.getMultiAdapter(
-...     (project, screen), name='newproject')
+...     (project, screen), name='editproject')
 
 
 TextInput Widgets

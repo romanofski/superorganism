@@ -28,8 +28,8 @@ to be the application:
 ...         'project', '<Title>', '<Description>')
 >>> project.__parent__ = app
 
-Adding Projects
-===============
+Editing Projects
+================
 
 Paul arrives at work on Monday morning. His Boss tells him, that he has
 to work on a new project: a system for managing people in an aged care
@@ -37,8 +37,12 @@ facility. "Yet another management system.", he thinks. He quickly writes
 a small spec and starts Superorganism.
 Paul presses the "p" key which opens the dialog to create a new project:
 
+XXX Needs to be refactored - the initial newproject form is rather an
+XXX editproject form.
+
+
 >>> view = zope.component.getMultiAdapter(
-...     (project, screen), name='newproject')
+...     (project, screen), name='editproject')
 >>> view.render()
 (helpbar) Topbar
 (focus) Projecttitle
