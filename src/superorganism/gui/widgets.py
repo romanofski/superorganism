@@ -36,7 +36,7 @@ class TextInputWidget(BaseWidget):
     def update(self):
         text = urwid.Text(self.field.title)
         edit = urwid.AttrMap(
-            urwid.Edit(edit_text=self._value, edit_pos=0), None, 'input')
+            urwid.Edit(edit_text=self._value, edit_pos=0), 'input')
         edit.highlight = (0, len(self._value))
         desc = urwid.Text(self.field.description)
         self._w = urwid.AttrMap(
@@ -58,8 +58,7 @@ class MultilineInputWidget(urwid.WidgetWrap):
     def update(self):
         text = urwid.Text(self.field.title)
         edit = urwid.AttrMap(
-            urwid.Edit(edit_text=self._value, multiline=True, edit_pos=0),
-            None, 'input')
+            urwid.Edit(edit_text=self._value, multiline=True, edit_pos=0),'input')
         edit.highlight = (0, len(self._value))
         desc = urwid.Text(self.field.description)
         self._w = urwid.AttrMap(
