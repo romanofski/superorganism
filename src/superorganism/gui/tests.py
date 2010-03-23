@@ -71,3 +71,7 @@ class Screen(object):
 
     def get_input(self):
         return ['q']
+
+    def register_palette_entry(self, name, fg, bg, mono=None, fghigh=None,
+                               bghigh=None):
+        print "color palette registered for %s" % name

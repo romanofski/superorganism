@@ -4,10 +4,16 @@ import zope.interface
 class IConfiguration(zope.interface.Interface):
     """Low-level application configuration utility."""
 
-    def reconfigure(configfile):
-        """Reconfigure the application by reloading the configuration or
-           reading another configuration file.
+    def configure_colors(screen):
+        """Configures and registers the colors for the given screen."""
+
+    def get_registered_views():
+        """Returns a list of views, where the configuration utility has
+           configured keys for.
         """
+
+    def get_keys_for(viewname):
+        """Return a mapping of (key, action) for the given view."""
 
 
 class IDatabase(zope.interface.Interface):

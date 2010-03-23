@@ -36,10 +36,6 @@ class BugList(superorganism.gui.view.BaseView):
 
                 self.widget.keypress(size, key)
 
-    def register_colors(self):
-        for name, fg, bg, dummy in self.context.colors:
-            self.screen.register_palette_entry(name, fg.strip(), bg.strip(), None)
-
     def create_project(self):
         transaction.commit()
         project = zope.component.getUtility(

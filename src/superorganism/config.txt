@@ -12,30 +12,50 @@ Basic Configuration
 
 A basic configuration file would look like this:
 
->>> import StringIO
 >>> app_cfg = """
 ... [app]
-... projects = superorganism
 ... colors = colors
+... keys = keys
 ... 
 ... [colors]
-... statusbar = white, dark cyan
-... 
-... [superorganism]
-... title = Internal Project
-... description = Meta bugtracking project
+... statusbar = white, dark cyan,
+... background = black, white,
+... focus = black, dark cyan, standout
+...
+... [keys]
+... views = buglist
+...         newproject
+...
+... [buglist]
+... f1 = help
+... f2 = list_bugs
 ... """
+>>> import tempfile
+>>> configfile = tempfile.mktemp(suffix='.cfg')
+>>> open(configfile, 'w').write(app_cfg)
 
 We instantiate the configuration with the configuration file:
 
 >>> import superorganism.config
->>> cfg = superorganism.config.Configuration(StringIO.StringIO(app_cfg))
+>>> superorganism.config.Configuration('/tmp/foobar_not_existing_config.cfg')
+Traceback (most recent call last):
+IOError: Supplied configfile doesn't exist: /tmp/foobar_not_existing_config.cfg
+
+Whoops - that was the wrong path to the configuration file.
+
+>>> cfg = superorganism.config.Configuration(configfile)
 >>> cfg
 <superorganism.config.Configuration object at 0x...>
 
 
-Application Configuration
-=========================
+Color Configuration
+===================
 
-To configure the application, wie adapt IConfigurationItem to our
-application:
+Colors are registered with the applications screen.
+
+>>> screen = superorganism.gui.tests.Screen()
+>>> cfg.configure_colors(screen)
+color palette registered for statusbar
+color palette registered for focus
+color palette registered for background
+
