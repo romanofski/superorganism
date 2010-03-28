@@ -16,26 +16,6 @@ class BugList(superorganism.gui.view.BaseView):
         superorganism.interfaces.IApplication,
         superorganism.gui.interfaces.IScreen)
 
-    # XXX Todo: that should be refactored into some sort of
-    # key-dispatcher utility, which creates the views depending on the
-    # keypress. Although I'm not sure if that will work out.
-    def run(self):
-        util = zope.component.getUtility(
-            superorganism.interfaces.IConfiguration)
-        while 1:
-            size = self.screen.get_cols_rows()
-            self.render()
-            keys = self.screen.get_input()
-            widget, pos = self.widget.get_focus()
-
-            for key in keys:
-                self.widget.set_statusmsg('Key: %s (%s)' % (key, pos))
-                mapping = util.get_keys_for(self.__class__.__name__)
-                if mapping.has_key(key):
-                    return getattr(self, mapping[key])()
-
-                self.widget.keypress(size, key)
-
     def create_project(self):
         transaction.commit()
         project = zope.component.getUtility(

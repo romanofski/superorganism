@@ -12,26 +12,6 @@ class EditProject(superorganism.gui.view.BaseView):
 
     fields = superorganism.gui.interfaces.INewProjectForm
 
-    def run(self):
-        util = zope.component.getUtility(
-            superorganism.interfaces.IConfiguration)
-        while 1:
-            size = self.screen.get_cols_rows()
-            self.render()
-            keys = self.screen.get_input()
-            widget, pos = self.widget.get_focus()
-
-            for key in keys:
-                mapping = util.get_keys_for(self.__class__.__name__)
-                if mapping.has_key(key):
-                    return getattr(self, mapping[key])()
-                if superorganism.gui.interfaces.IButton.providedBy(widget):
-                    if (widget.get_label().startswith('Save') and key == 'enter'):
-                        return zope.component.getMultiAdapter(
-                            (self.context.__parent__, self.screen),
-                            superorganism.gui.interfaces.ITerminalView).run()
-                self.widget.keypress(size, key)
-
     def contents(self):
         widgets = []
         for name, field in zope.schema.getFieldsInOrder(self.fields):

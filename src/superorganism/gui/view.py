@@ -25,6 +25,21 @@ class BaseView(object):
     def setup_widgets(self):
         self.widget = superorganism.gui.interfaces.ILayoutWidget(self)
 
+    def run(self):
+        util = zope.component.getUtility(
+            superorganism.interfaces.IConfiguration)
+        while 1:
+            size = self.screen.get_cols_rows()
+            self.render()
+            keys = self.screen.get_input()
+            widget, pos = self.widget.get_focus()
+
+            for key in keys:
+                mapping = util.get_keys_for(self.__class__.__name__)
+                if mapping.has_key(key):
+                    return getattr(self, mapping[key])()
+                self.widget.keypress(size, key)
+
     def contents(self):
         return []
 
