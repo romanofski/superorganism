@@ -1,4 +1,4 @@
-import superorganism.gui.widgets
+import superorganism.gui.app
 import superorganism.gui.interfaces
 import zope.interface
 
@@ -22,7 +22,7 @@ class BaseView(object):
         self.screen.draw_screen(size, canvas)
 
     def setup_widgets(self):
-        self.widget = superorganism.gui.widgets.DashboardWidget(
+        self.widget = superorganism.gui.app.DashboardWidget(
             self.contents())
 
     def contents(self):

@@ -17,18 +17,10 @@ bugtracker a bug:
 >>> bug = superorganism.bug.Bug(1, u'New Bug', u'Bla bla')
 
 We create now a Dashboard screen. The screen is an urwid display screen
-object. We just use a dummy type which
-implements IDashboard for this, otherwise we may screw up the tests with
-the ncurses behaviour:
+object. We use a screen mock:
 
->>> import zope.interface
->>> class IDashboard(zope.interface.Interface):
-...     """Dashboard screen."""
-...
->>> class Dashboard(object):
-...     zope.interface.implements(IDashboard)
-...     name = u'Dashboard'
-
+>>> import superorganism.gui.tests
+>>> screen = superorganism.gui.tests.Screen()
 
 For the bug to be rendered, we also need to create a View which renders
 the bug on the users screen. The view is a multiadapter adapting the
@@ -42,10 +34,9 @@ content:
 >>> class BugView(superorganism.gui.view.BaseView):
 ...
 ...     zope.interface.implements(superorganism.gui.interfaces.ITerminalView)
-...     zope.component.adapts(superorganism.interfaces.IBug, IDashboard)
+...     zope.component.adapts(superorganism.interfaces.IBug,
+...                           superorganism.gui.interfaces.IScreen)
 ...
-...     def render(self):
-...         print (self.context, self.screen)
 
 The adapter now needs to be registered with the component architecture:
 
@@ -54,7 +45,8 @@ The adapter now needs to be registered with the component architecture:
 
 Let's try out our view:
 
->>> dash = Dashboard()
->>> view = zope.component.getMultiAdapter((bug, dash))
+>>> view = zope.component.getMultiAdapter((bug, screen))
 >>> view.render()
-(<Bug 1>, <Dashboard object at 0x...>)
+(helpbar) Topbar
+(background)...
+(statusbar)...
