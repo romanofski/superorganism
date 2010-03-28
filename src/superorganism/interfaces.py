@@ -13,7 +13,7 @@ class IConfiguration(zope.interface.Interface):
         """
 
     def get_keys_for(viewname):
-        """Return a mapping of (key, action) for the given view."""
+        """Return a mapping of {key:action} for the given view."""
 
 
 class IDatabase(zope.interface.Interface):

@@ -31,5 +31,7 @@ class Configuration(object):
     def get_keys_for(self, viewname):
         if viewname not in self.get_registered_viewnames():
             raise ValueError("Not registered viewname: %s" % viewname)
-        return sorted([(name, val) for name, val in
-                       self.conf.items(viewname)])
+        result = {}
+        for name, val in self.conf.items(viewname):
+            result[name] = val
+        return result

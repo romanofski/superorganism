@@ -44,19 +44,17 @@ class ITerminalView(zope.interface.Interface):
         """
 
 
-class ILayoutWidget(ITerminalView):
+class ILayoutWidget(zope.interface.Interface):
     """View widgets define the overall application layout. They're based
        on a Frame, with a header and a footer. The footer is usually a
        statusbar which displays helpful information.
     """
 
-    def set_statusmsg(self, msg):
-        """Sets a statusmessage and renders it."""
+    def update_widgets(self):
+        """Creates the widget internal structure."""
 
-    def set_body_content(self, content):
-        """Sets the body content which should be a widget (e.g. Walker
-           or ListBox), which will be set as the Frames body.
-        """
+    def get_focus():
+        """Returns the current focused widget and it's possition."""
 
 
 class INewProjectForm(ITerminalView):

@@ -20,6 +20,8 @@ class BugList(superorganism.gui.view.BaseView):
     # key-dispatcher utility, which creates the views depending on the
     # keypress. Although I'm not sure if that will work out.
     def run(self):
+        util = zope.component.getUtility(
+            superorganism.interfaces.IConfiguration)
         while 1:
             size = self.screen.get_cols_rows()
             self.render()
@@ -28,11 +30,9 @@ class BugList(superorganism.gui.view.BaseView):
 
             for key in keys:
                 self.widget.set_statusmsg('Key: %s (%s)' % (key, pos))
-                if key == 'q':
-                    transaction.commit()
-                    return
-                elif key == 'p':
-                    return self.create_project()
+                mapping = util.get_keys_for(self.__class__.__name__)
+                if mapping.has_key(key):
+                    return getattr(self, mapping[key])()
 
                 self.widget.keypress(size, key)
 
@@ -58,31 +58,61 @@ class BugList(superorganism.gui.view.BaseView):
 
 class DashboardWidget(urwid.WidgetWrap):
 
+    zope.interface.implements(superorganism.gui.interfaces.ILayoutWidget)
+    zope.component.adapts(superorganism.gui.interfaces.ITerminalView)
+
     body = None
     header = None
     footer = None
 
-    def __init__(self, body, focus='body'):
-        self.focus = focus
-        self.set_body_content(body)
+    def __init__(self, context):
+        self.focus = 'body'
+        self.context = context
         self.update_widgets()
 
     def update_widgets(self):
-        self.footer = urwid.Text('', align='left')
+        keybar = zope.component.getAdapter(self.context,
+            interface=superorganism.gui.interfaces.ILayoutWidget,
+            name='keyswidget')
+        self.status = urwid.Text('', align='left')
+        footer = urwid.Pile([keybar, self.status])
 
         self.header = urwid.AttrMap(urwid.Text(u'Topbar'), 'helpbar')
-        self.body_widget = urwid.ListBox(self.body)
+        self.body = urwid.ListBox(self.context.contents())
 
-        self._w = urwid.Frame(urwid.AttrMap(self.body_widget, 'background'),
+        self._w = urwid.Frame(urwid.AttrMap(self.body, 'background'),
                               header=urwid.AttrMap(self.header, 'helpbar'),
-                              footer=urwid.AttrMap(self.footer, 'statusbar'))
+                              footer=urwid.AttrMap(footer, 'statusbar'))
         self._w.set_focus(self.focus)
 
-    def set_body_content(self, content):
-        self.body = content
-
     def set_statusmsg(self, msg):
-        self.footer.set_text(msg)
+        self.status.set_text(msg)
 
     def get_focus(self):
-        return self.body_widget.get_focus()
+        return self.body.get_focus()
+
+
+class KeysWidget(urwid.WidgetWrap):
+
+    zope.interface.implements(superorganism.gui.interfaces.ILayoutWidget)
+    zope.component.adapts(superorganism.gui.interfaces.ITerminalView)
+
+    def __init__(self, view):
+        self.view = view
+        self.update_widgets()
+
+    def update_widgets(self):
+        cfg = zope.component.getUtility(
+            superorganism.interfaces.IConfiguration)
+        name = self.view.__class__.__name__
+        widgets = []
+        for key,val in cfg.get_keys_for(name).items():
+            widget = urwid.Columns([
+                ('fixed', 3, urwid.AttrMap(urwid.Text(key.upper()), 'input')),
+                urwid.AttrMap(urwid.Text(val), 'focus'),
+            ])
+            widgets.append(widget)
+        self._w = urwid.Columns(widgets)
+
+    def get_focus(self):
+        return self._w.get_focus()

@@ -1,6 +1,7 @@
 import superorganism.gui.app
 import superorganism.gui.interfaces
 import zope.interface
+import transaction
 
 
 class BaseView(object):
@@ -22,8 +23,11 @@ class BaseView(object):
         self.screen.draw_screen(size, canvas)
 
     def setup_widgets(self):
-        self.widget = superorganism.gui.app.DashboardWidget(
-            self.contents())
+        self.widget = superorganism.gui.interfaces.ILayoutWidget(self)
 
     def contents(self):
         return []
+
+    def quit(self):
+        transaction.commit()
+        return

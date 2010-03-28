@@ -81,7 +81,7 @@ can asked about the registered viewnames first:
 And the registered keys with their actions afterwards:
 
 >>> cfg.get_keys_for('buglist')
-[('f1', 'help'), ('f2', 'list_bugs')]
+{'f1': 'help', 'f2': 'list_bugs'}
 
 Providing a viewname, which we haven't keys registered for results in an
 error:

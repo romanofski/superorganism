@@ -39,6 +39,7 @@ def test_suite():
             optionflags=(
                 doctest.COMPARISON_FLAGS |
                 doctest.REPORT_ONLY_FIRST_FAILURE),
+            setUp=superorganism.tests.db_setup,
         ),
         zope.testing.doctestunit.DocFileSuite(
             'keys.txt',

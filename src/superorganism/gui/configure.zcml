@@ -2,6 +2,15 @@
   xmlns="http://namespaces.repoze.org/bfg">
 
   <adapter
+    factory="superorganism.gui.app.DashboardWidget"
+    />
+
+  <adapter
+    factory="superorganism.gui.app.KeysWidget"
+    name='keyswidget'
+    />
+
+  <adapter
     factory="superorganism.gui.app.BugList"
     />
 
