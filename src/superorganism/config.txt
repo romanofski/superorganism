@@ -47,6 +47,15 @@ Whoops - that was the wrong path to the configuration file.
 >>> cfg
 <superorganism.config.Configuration object at 0x...>
 
+Let's also verify, that the configuration utility implements it's
+interface:
+
+>>> import zope.interface.verify
+>>> import superorganism.interfaces
+>>> zope.interface.verify.verifyObject(
+...     superorganism.interfaces.IConfiguration, cfg)
+True
+
 
 Color Configuration
 ===================
@@ -59,3 +68,24 @@ color palette registered for statusbar
 color palette registered for focus
 color palette registered for background
 
+Keys
+====
+
+Keys can be registered for actions for each view. Each view provides
+therefore a number of actions, which will be implemented as adapters. We
+can asked about the registered viewnames first:
+
+>>> cfg.get_registered_viewnames()
+['buglist', 'newproject']
+
+And the registered keys with their actions afterwards:
+
+>>> cfg.get_keys_for('buglist')
+[('f1', 'help'), ('f2', 'list_bugs')]
+
+Providing a viewname, which we haven't keys registered for results in an
+error:
+
+>>> cfg.get_keys_for('foobar')
+Traceback (most recent call last):
+ValueError: Not registered viewname: foobar

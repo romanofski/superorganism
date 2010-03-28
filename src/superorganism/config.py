@@ -24,8 +24,12 @@ class Configuration(object):
             screen.register_palette_entry(
                 name, fg.strip(), bg.strip(), mono)
 
-    def get_registered_views(self):
-        pass
+    def get_registered_viewnames(self):
+        for name, val in self.conf.items('keys'):
+            return val.split()
 
     def get_keys_for(self, viewname):
-        pass
+        if viewname not in self.get_registered_viewnames():
+            raise ValueError("Not registered viewname: %s" % viewname)
+        return sorted([(name, val) for name, val in
+                       self.conf.items(viewname)])

@@ -7,8 +7,8 @@ class IConfiguration(zope.interface.Interface):
     def configure_colors(screen):
         """Configures and registers the colors for the given screen."""
 
-    def get_registered_views():
-        """Returns a list of views, where the configuration utility has
+    def get_registered_viewnames():
+        """Returns a list of view-names, where the configuration utility has
            configured keys for.
         """
 
