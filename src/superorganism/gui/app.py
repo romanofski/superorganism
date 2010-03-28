@@ -46,7 +46,7 @@ class BugList(superorganism.gui.view.BaseView):
         self.context[name] = project
         project.__parent__ = self.context
         return zope.component.getMultiAdapter(
-            (project, self.screen), name='newproject').run()
+            (project, self.screen), name='editproject').run()
 
     def contents(self):
         result = []

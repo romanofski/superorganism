@@ -33,6 +33,4 @@ setup(name='superorganism',
           'zope.component',
           'zope.container',
       ],
-      entry_points = """
-    """
 )

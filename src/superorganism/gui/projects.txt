@@ -21,7 +21,7 @@ view relies on that behaviour, we have to set the parent of the project
 to be the application:
 
 >>> import superorganism.app
->>> app = superorganism.app.Application({})
+>>> app = superorganism.app.Application()
 >>> project = zope.component.getUtility(
 ...     zope.component.interfaces.IFactory,
 ...     u'superorganism.Project')(

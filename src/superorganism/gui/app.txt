@@ -9,7 +9,7 @@ To create an application view, we first need to instantiate the
 application itself:
 
 >>> import superorganism.app
->>> app = superorganism.app.Application({})
+>>> app = superorganism.app.Application()
 >>> superorganism.interfaces.IApplication.providedBy(app)
 True
 

@@ -1,5 +1,3 @@
-import ConfigParser
-import os.path
 import superorganism.interfaces
 import zope.component
 import zope.interface
@@ -8,9 +6,6 @@ import zope.interface
 class Application(object):
 
     zope.interface.implements(superorganism.interfaces.IApplication)
-
-    def __init__(self, config):
-        super(Application, self).__init__()
 
     @property
     def dbroot(self):

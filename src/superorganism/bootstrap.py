@@ -7,21 +7,19 @@ import urwid.curses_display
 import zope.component
 import zope.interface
 
-ZCONFIG = """$buildout['superorganism']['database']"""
 
-
-if __name__ == '__main__':
+def main(ZCONFIG, configfile):
     tui = urwid.curses_display.Screen()
     zope.interface.directlyProvides(tui,
                                     superorganism.gui.interfaces.IScreen)
     database = superorganism.database.Database(ZCONFIG)
     zope.component.provideUtility(database, superorganism.interfaces.IDatabase)
 
-    cfg = superorganism.config.Configuration('$buildout['config']['configfile']')
+    cfg = superorganism.config.Configuration(configfile)
     cfg.configure_colors(tui)
     zope.component.provideUtility(cfg, superorganism.interfaces.IConfiguration)
 
-    app = superorganism.app.Application($buildout['config'])
+    app = superorganism.app.Application()
     view = zope.component.getMultiAdapter((app, tui),
         superorganism.gui.interfaces.ITerminalView)
     tui.run_wrapper(view.run) #XXX keydispatcher?
