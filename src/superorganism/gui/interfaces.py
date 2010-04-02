@@ -50,6 +50,8 @@ class ILayoutWidget(zope.interface.Interface):
        statusbar which displays helpful information.
     """
 
+    _w = zope.interface.Attribute("A property to the 'root' widget.")
+
     def update_widgets(self):
         """Creates the widget internal structure."""
 

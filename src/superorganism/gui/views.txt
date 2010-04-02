@@ -35,7 +35,7 @@ content:
 >>> import superorganism.gui.interfaces
 >>> import superorganism.gui.view
 >>> import zope.component
->>> class BugView(superorganism.gui.view.BaseView):
+>>> class BugList(superorganism.gui.view.BaseView):
 ...
 ...     zope.interface.implements(superorganism.gui.interfaces.ITerminalView)
 ...     zope.component.adapts(superorganism.interfaces.IBug,
@@ -45,7 +45,7 @@ content:
 The adapter now needs to be registered with the component architecture:
 
 >>> import zope.component
->>> zope.component.provideAdapter(BugView)
+>>> zope.component.provideAdapter(BugList)
 
 Let's try out our view:
 

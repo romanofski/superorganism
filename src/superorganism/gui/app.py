@@ -36,7 +36,7 @@ class BugList(superorganism.gui.view.BaseView):
         return urwid.SimpleListWalker(result)
 
 
-class DashboardWidget(urwid.WidgetWrap):
+class ApplicationLayout(urwid.WidgetWrap):
 
     zope.interface.implements(superorganism.gui.interfaces.ILayoutWidget)
     zope.component.adapts(superorganism.gui.interfaces.ITerminalView)
@@ -51,9 +51,7 @@ class DashboardWidget(urwid.WidgetWrap):
         self.update_widgets()
 
     def update_widgets(self):
-        keybar = zope.component.getAdapter(self.context,
-            interface=superorganism.gui.interfaces.ILayoutWidget,
-            name='keyswidget')
+        keybar = KeyConfigurationWidget(self.context)
         self.status = urwid.Text('', align='left')
         footer = urwid.Pile([keybar, self.status])
 
@@ -72,10 +70,7 @@ class DashboardWidget(urwid.WidgetWrap):
         return self.body.get_focus()
 
 
-class KeysWidget(urwid.WidgetWrap):
-
-    zope.interface.implements(superorganism.gui.interfaces.ILayoutWidget)
-    zope.component.adapts(superorganism.gui.interfaces.ITerminalView)
+class KeyConfigurationWidget(urwid.WidgetWrap):
 
     def __init__(self, view):
         self.view = view
