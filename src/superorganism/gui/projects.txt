@@ -2,6 +2,9 @@
  Project Views
 ===============
 
+:doctest:
+:setup: superorganism.tests.setUp
+
 Projects are container like objects, which hold bug related information.
 
 Setup
@@ -13,8 +16,8 @@ form:
 
 >>> import zope.component
 >>> import zope.component.interfaces
->>> import superorganism.gui.tests
->>> screen = superorganism.gui.tests.Screen()
+>>> import superorganism.tests
+>>> screen = superorganism.tests.Screen()
 
 Usually the project is created in the root of the database. Because the
 view relies on that behaviour, we have to set the parent of the project

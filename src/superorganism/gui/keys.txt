@@ -2,6 +2,8 @@
  KeyDispatcher
 ===============
 
+:doctest:
+
 The key dispatcher is a utility, which basically encapsules the main
 loop. Similar to a publisher on a webserver, he notifies the event
 system with which key was pressed. The event system and it's subscribers
@@ -13,9 +15,9 @@ Setup
 
 We instantiate a Keydispatcher as a regular object with the screen:
 
->>> import superorganism.gui.tests
+>>> import superorganism.tests
 >>> import superorganism.gui.keys
->>> screen = superorganism.gui.tests.Screen()
+>>> screen = superorganism.tests.Screen()
 >>> dispatcher = superorganism.gui.keys.Dispatcher(screen)
 
 Verifying the Interface
@@ -38,7 +40,7 @@ running, we subscribe to a keypress event:
 >>> import zope.component
 >>> @zope.component.adapter(superorganism.gui.interfaces.ICharKeyPressEvent)
 ... def handle_keypress(event):
-...     raise ValueError(event)
+...     print "Key pressed: %s" % (event)
 
 We register the subscriber with the component modell:
 
@@ -49,5 +51,4 @@ We can start the dispatcher with the run function. It'll basically not
 stop until it receives an exception raised:
 
 >>> dispatcher.dispatch_key_events()
-Traceback (most recent call last):
-ValueError: <superorganism.gui.keys.CharKeyPressed object at 0x...>
+Key pressed: <superorganism.gui.keys.CharKeyPressed object at 0x...>

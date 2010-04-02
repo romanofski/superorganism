@@ -2,6 +2,8 @@
  Projects
 ==========
 
+:doctest:
+
 Projects provide generel information about a software project (a.k.a.
 product).
 

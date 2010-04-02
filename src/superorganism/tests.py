@@ -1,10 +1,10 @@
+import superorganism.config
 import superorganism.database
 import superorganism.interfaces
-import doctest
-import unittest
-import zope.testing.doctestunit
-import zope.component
 import tempfile
+import z3c.testsetup
+import zope.component
+import zope.interface
 
 APP_CFG = """
 [app]
@@ -33,7 +33,8 @@ f1 = help
 f10 = quit
 """
 
-def db_setup(test):
+
+def setUp(test):
     configfile = tempfile.mktemp(suffix='.cfg')
     open(configfile, 'w').write(APP_CFG)
     cfg_utility = superorganism.config.Configuration(configfile)
@@ -44,28 +45,31 @@ def db_setup(test):
                                   superorganism.interfaces.IDatabase)
 
 
-def test_suite():
-    """ returns the test suite """
-    return unittest.TestSuite([
-        zope.testing.doctestunit.DocFileSuite(
-           'bug.txt', package='superorganism',
-           optionflags=(
-               doctest.COMPARISON_FLAGS |
-               doctest.REPORT_ONLY_FIRST_FAILURE)),
-        zope.testing.doctestunit.DocFileSuite(
-           'project.txt', package='superorganism',
-           optionflags=(
-               doctest.COMPARISON_FLAGS |
-               doctest.REPORT_ONLY_FIRST_FAILURE)),
-        zope.testing.doctestunit.DocFileSuite(
-           'config.txt', package='superorganism',
-           optionflags=(
-               doctest.COMPARISON_FLAGS |
-               doctest.REPORT_ONLY_FIRST_FAILURE)),
-        zope.testing.doctestunit.DocFileSuite(
-           'database.txt', package='superorganism',
-           optionflags=(doctest.COMPARISON_FLAGS |
-                        doctest.REPORT_ONLY_FIRST_FAILURE),
-           setUp=db_setup),
-    ])
+class Screen(object):
+    """A testing screen which draws the UI as a printout."""
 
+    zope.interface.implements(superorganism.gui.interfaces.IScreen)
+
+    def __init__(self):
+        self._started = True
+        self.has_color = False
+
+    def get_cols_rows(self):
+        return (120, 20)
+
+    def draw_screen(self, size, canvas):
+        for item in canvas.content():
+            # not sure if that's correct
+            widgetid, attr, printout = item[0]
+            print '%s %s' % (widgetid and '(%s)' %widgetid or '',
+                             printout.strip() or '+')
+
+    def get_input(self):
+        return ['q']
+
+    def register_palette_entry(self, name, fg, bg, mono=None, fghigh=None,
+                               bghigh=None):
+        print "color palette registered for %s" % name
+
+
+test_suite = z3c.testsetup.register_all_tests('superorganism')

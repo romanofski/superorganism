@@ -2,6 +2,8 @@
  Configuration
 ===============
 
+:doctest:
+
 The configuration utility provides low level parsing of the application
 configuration and access to configuration options.
 
@@ -62,7 +64,8 @@ Color Configuration
 
 Colors are registered with the applications screen.
 
->>> screen = superorganism.gui.tests.Screen()
+>>> import superorganism.tests
+>>> screen = superorganism.tests.Screen()
 >>> cfg.configure_colors(screen)
 color palette registered for statusbar
 color palette registered for focus

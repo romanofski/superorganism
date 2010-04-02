@@ -2,6 +2,10 @@
  The Superorganism Application
 ===============================
 
+:doctest:
+:setup: superorganism.tests.setUp
+
+
 Application View
 ================
 
@@ -16,8 +20,8 @@ True
 Now we also need a screen to render anything on. The screen mock already
 implements IScreen:
 
->>> import superorganism.gui.tests
->>> screen = superorganism.gui.tests.Screen()
+>>> import superorganism.tests
+>>> screen = superorganism.tests.Screen()
 >>> superorganism.gui.interfaces.IScreen.providedBy(screen)
 True
 

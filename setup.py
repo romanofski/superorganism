@@ -32,5 +32,6 @@ setup(name='superorganism',
           'urwid',
           'zope.component',
           'zope.container',
+          'z3c.testsetup',
       ],
 )

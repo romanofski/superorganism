@@ -2,6 +2,9 @@
  Form Widgets
 ==============
 
+:doctest:
+:setup: superorganism.tests.setUp
+
 Form widgets are a set of urwid widgets which help the user to enter
 data.
 
@@ -22,8 +25,8 @@ We need to setup a form as well, which is a view:
 
 >>> import zope.component
 >>> import zope.component.interfaces
->>> import superorganism.gui.tests
->>> screen = superorganism.gui.tests.Screen()
+>>> import superorganism.tests
+>>> screen = superorganism.tests.Screen()
 >>> project = zope.component.getUtility(
 ...     zope.component.interfaces.IFactory,
 ...     u'superorganism.Project')(

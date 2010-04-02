@@ -2,6 +2,8 @@
  Buginformation
 ================
 
+:doctest:
+
 A bug reflects one distinguishable problem in a software system.
 
 >>> import zope.component

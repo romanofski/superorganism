@@ -2,6 +2,10 @@
  Views
 =======
 
+:doctest:
+:setup: superorganism.tests.setUp
+
+
 Views render the application, it's widgets and handle the input from the
 user. A basic view is a named adapter, adapting a content object and the
 app with a setup urwid screen. Depending on which key is pressed by the
@@ -19,8 +23,8 @@ bugtracker a bug:
 We create now a Dashboard screen. The screen is an urwid display screen
 object. We use a screen mock:
 
->>> import superorganism.gui.tests
->>> screen = superorganism.gui.tests.Screen()
+>>> import superorganism.tests
+>>> screen = superorganism.tests.Screen()
 
 For the bug to be rendered, we also need to create a View which renders
 the bug on the users screen. The view is a multiadapter adapting the
