@@ -31,6 +31,7 @@ class FormWidget(object):
     name = ''
     __name__ = ''
     label = ''
+    widgetfactory = 'superorganism.gui.widgets.default'
     value = None
     field = None
     context = None
@@ -47,9 +48,9 @@ class FormWidget(object):
             self.value = self.field.default
         if (superorganism.gui.interfaces.IContextAware.providedBy(self)\
             and self.ignoreContext == False):
-            self.value = self.field.get(self.context)      
+            self.value = self.field.get(self.context)
         self.layout = zope.component.getUtility(
-            zope.component.interfaces.IFactory)(self)
+            zope.component.interfaces.IFactory, name=self.widgetfactory)(self)
 
     @property
     def _w(self):

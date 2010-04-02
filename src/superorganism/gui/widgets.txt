@@ -65,20 +65,37 @@ template is used to render a HTML form widget.
 ...         size = self.context.screen.get_cols_rows()
 ...         return self._w.render(size)
 
-Next, we have to create a factory for the widget:
+Next, we have to create a factory for the widget. The default FormWidget
+implementation calls the factory with a default name:
+
+>>> defaultfactoryname = age.widgetfactory
+>>> defaultfactoryname
+'superorganism.gui.widgets.default'
+
+This name is used to retrieve the factory. If we change the factory
+name, a different layoutwidget is used obviously:
+
+>>> age.widgetfactory = u'notyetexistingfactory'
+>>> age.update()
+Traceback (most recent call last):
+ComponentLookupError: (<InterfaceClass zope.component.interfaces.IFactory>, u'notyetexistingfactory')
+>>> age.widgetfactory = defaultfactoryname
+
+We register the defaultfactory:
 
 >>> import zope.component.factory
 >>> import zope.component.interfaces
 >>> formwidgetfactory = zope.component.factory.Factory(
 ...     FormWidgetLayout, title=u'New layout')
 >>> zope.component.provideUtility(formwidgetfactory,
-...     zope.component.interfaces.IFactory)
+...     zope.component.interfaces.IFactory, name=age.widgetfactory)
 
 Once everything is set up, the widget is updated and then rendered:
 
 >>> age.update()
 >>> age.render().text
 ['Age: 39 ...]
+
 
 
 Creating and Using Field Widgets
