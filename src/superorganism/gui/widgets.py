@@ -24,26 +24,53 @@ class DialogButton(urwid.Button):
         self.set_label(label)
 
 
-class BaseFormWidget(urwid.WidgetWrap):
+class FormWidget(object):
 
-    def __init__(self, field, form):
-        self.field = field
-        self.form = form
-        self._value = field.get(form.context)
-        self.update()
+    zope.interface.implements(superorganism.gui.interfaces.IFormWidget)
+
+    name = ''
+    __name__ = ''
+    label = ''
+    value = None
+    field = None
+    context = None
+    ignoreContext = False
+    required = False
+
+    def __init__(self, screen):
+        self.screen = screen
 
     def update(self):
-        raise NotImplementedError("Implemented in subclasses.")
-
-    def set(self, value):
-        self.field.set(self.form.context, value)
+        value = ''
+        if (superorganism.gui.interfaces.IFormFieldWidget.providedBy(self)\
+            and not self.field.missing_value):
+            self.value = self.field.default
+        if (superorganism.gui.interfaces.IContextAware.providedBy(self)\
+            and self.ignoreContext == False):
+            self.value = self.field.get(self.context)      
+        self.layout = zope.component.getUtility(
+            zope.component.interfaces.IFactory)(self)
 
     @property
-    def value(self):
-        return self.field.get(self.form.context)
+    def _w(self):
+        return self.widget
+
+    def render(self):
+        return self.layout.render()
 
 
-class TextInputWidget(BaseFormWidget):
+def FormFieldWidget(field, widget):
+    widget.field = field
+    if not superorganism.gui.interfaces.IFormFieldWidget.providedBy(widget):
+        zope.interface.alsoProvides(
+            widget, superorganism.gui.interfaces.IFormFieldWidget)
+    widget.__name__ = field.__name__
+    widget.label = field.title
+    widget.required = field.required
+    return widget
+
+
+class TextInputWidget(urwid.WidgetWrap):
 
     zope.interface.implements(superorganism.gui.interfaces.ITextInputWidget)
 

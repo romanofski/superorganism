@@ -79,15 +79,51 @@ class INewProjectForm(ITerminalView):
 class IFormWidget(zope.interface.Interface):
     """Abstract base class for widgets."""
 
-    value = zope.interface.Attribute("The widget value")
+    value = zope.schema.Field(
+        title=u'Widget Value',
+    )
+
+    label = zope.schema.TextLine(
+        title=u'Label',
+        description=u'The widgets descriptive label.'
+    )
+
+    mode = zope.schema.TextLine(
+        title=u'Mode',
+        description=u'The mode the widget is in (readonly, input)',
+    )
+
+    field = zope.schema.Field(
+        title=u'Field',
+        description=u'Associated zope.schema Field'
+    )
 
     def update():
         """Updates and creates the (internal) widget structure based on
            urwid widgets.
         """
 
-    def set(value):
-        """Set the widget text to value."""
+
+class IFormFieldWidget(zope.interface.Interface):
+
+    field = zope.schema.Field(
+        title=u'Schema Field',
+        description=u'Schema field the widget is representing.')
+
+
+class IContextAware(zope.interface.Interface):
+
+    context = zope.schema.Field(
+        title=u'Context',
+        description=u'The context in which the widget is displayed.'
+    )
+
+    ignoreContext = zope.schema.Bool(
+        title=u'Ignore Context',
+        description=(u'A flag when set, forces the widget to not look'
+                     ' at a context for a value.'),
+        default=False,
+    )
 
 
 class IButton(zope.interface.Interface):

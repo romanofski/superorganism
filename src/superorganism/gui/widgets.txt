@@ -1,0 +1,161 @@
+==============
+ Form Widgets
+==============
+
+:doctest:
+:setup: superorganism.tests.setUp
+
+Form widgets are a set of urwid widgets which help the user to enter
+data.
+
+Being a fan of z3c.form, I tried to follow some principles of this
+package. I don't want to replicate everything from z3c.form, so bear
+with me if this only reflects a 'poor-mans' widget library.
+
+I used parts of the z3c.form.widget testsetup for this test.
+
+
+Creating simple widgets
+=======================
+
+We create a simple widget. The widget has to be passed a screen as a
+paramter. The screen is essential to render anything:
+
+>>> from superorganism.gui import widgets
+>>> import superorganism.tests
+>>> age = widgets.FormWidget(superorganism.tests.Screen())
+
+In this case we instantiated a generic widget. Since no helper
+components are around to fill the attributes of the widget, we have to
+do it by hand:
+
+>>> age.name = 'age'
+>>> age.label = 'Age:'
+>>> age.value = '39'
+
+The most important attributes are the "name" and the "value". The name is used
+to identify the widget within the form. The value is either the value to be
+manipulated or the default value. The value must be provided in the form the
+widget needs it.
+
+Before we can render the widget, we register a layoutwidget for the
+formwidget. That sounds a bit strange since we're talking about widgets
+all the time here. A layoutwidget is used to render the, like a HTML
+template is used to render a HTML form widget.
+
+>>> import zope.interface
+>>> import urwid
+>>> class FormWidgetLayout(object):
+...
+...     zope.interface.implements(superorganism.gui.interfaces.ILayoutWidget)
+...
+...     def __init__(self, context, mode='input'):
+...         self.context = context
+...         self.mode = mode
+...         self.update_widgets()
+...
+...     def update_widgets(self):
+...         self._w = urwid.Filler(urwid.Text("%s %s" % (
+...             self.context.label, self.context.value)), 'top')
+...
+...     def get_focus(self):
+...         return (self._w, 0)
+...
+...     def render(self):
+...         size = self.context.screen.get_cols_rows()
+...         return self._w.render(size)
+
+Next, we have to create a factory for the widget:
+
+>>> import zope.component.factory
+>>> import zope.component.interfaces
+>>> formwidgetfactory = zope.component.factory.Factory(
+...     FormWidgetLayout, title=u'New layout')
+>>> zope.component.provideUtility(formwidgetfactory,
+...     zope.component.interfaces.IFactory)
+
+Once everything is set up, the widget is updated and then rendered:
+
+>>> age.update()
+>>> age.render().text
+['Age: 39 ...]
+
+
+Creating and Using Field Widgets
+================================
+
+An extended form of the widget allows fields to control several of the
+widget's properties. Let's create a field first:
+
+>>> import zope.schema
+>>> ageField = zope.schema.Int(
+...     __name__ = 'age',
+...     title = u'Age:',
+...     min = 0,
+...     max = 130)
+
+We can now use our simple widget and create a field widget from it:
+
+>>> ageWidget = widgets.FormFieldWidget(ageField, age)
+
+Of course, this is more commonly done using an adapter. Commonly those
+adapters look like this:
+
+>>> import superorganism.gui.interfaces
+>>> @zope.component.adapter(zope.schema.Int)
+... @zope.interface.implementer(superorganism.gui.interfaces.IFormFieldWidget)
+... def IntWidget(field):
+...     return widgets.FormFieldWidget(field,
+...         widgets.FormWidget(superorganism.tests.Screen()))
+
+>>> zope.component.provideAdapter(IntWidget)
+>>> ageWidget = zope.component.getAdapter(ageField,
+...     superorganism.gui.interfaces.IFormFieldWidget)
+
+Now we just have to update and render the widget:
+
+>>> ageWidget.update()
+>>> print ageWidget.render().text
+['Age: None...]
+
+There is no initial value for the widget, since the field does not
+provide a default. Let's now give our field a default value and see what
+happens:
+
+>>> ageField.default = 30
+>>> ageWidget.update()
+>>> print ageWidget.render().text
+['Age: 30 ...]
+
+z3c.form uses a data manager wich converts between field and widget
+value. Because of the current size of the project, I decided to go
+without until we really need one.
+
+
+Creating and Using Context Widgets
+==================================
+
+When widgets represent an attribute value of an object, then this object
+must be set as the context of the widget:
+
+>>> class Person(object):
+...     age = 45
+
+>>> ageWidget.context = Person()
+>>> zope.interface.alsoProvides(ageWidget,
+...     superorganism.gui.interfaces.IContextAware)
+
+Now the age value of the person takes precedence to be displayed as the
+widgets value:
+
+>>> ageWidget.update()
+>>> print ageWidget.render().text
+['Age: 45 ...]
+
+The context can be explicitly ignored:
+
+>>> ageWidget.ignoreContext = True
+>>> ageWidget.update()
+>>> print ageWidget.render().text
+['Age: 30 ...]
+
