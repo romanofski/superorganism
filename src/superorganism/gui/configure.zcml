@@ -13,7 +13,7 @@
 
   <!-- views -->
   <adapter
-    factory="superorganism.gui.app.BugList"
+    factory="superorganism.gui.app.Projects"
     />
 
   <adapter

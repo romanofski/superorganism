@@ -10,7 +10,7 @@ import zope.component.interfaces
 import zope.interface
 
 
-class BugList(superorganism.gui.view.BaseView):
+class Projects(superorganism.gui.view.BaseView):
 
     zope.component.adapts(
         superorganism.interfaces.IApplication,
