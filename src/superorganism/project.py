@@ -12,6 +12,7 @@ class Project(zope.container.folder.Folder):
     versions = []
 
     def __init__(self, uid, title, description):
+        super(Project, self).__init__()
         self.uid = uid
         self.title = title
         self.description = description
