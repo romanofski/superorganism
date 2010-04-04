@@ -1,3 +1,4 @@
+import doctest
 import os
 import superorganism.config
 import superorganism.database
@@ -7,6 +8,8 @@ import z3c.testsetup
 import zope.component
 import zope.interface
 
+
+OPTIONS = doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS
 
 def setUp(test):
     configfile = os.environ.get('configfile')
@@ -45,4 +48,5 @@ class Screen(object):
         print "color palette registered for %s" % name
 
 
-test_suite = z3c.testsetup.register_all_tests('superorganism')
+test_suite = z3c.testsetup.register_all_tests(
+    'superorganism', optionflags=OPTIONS)
