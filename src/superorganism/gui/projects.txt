@@ -49,10 +49,11 @@ XXX editproject form.
 >>> view.render()
 (helpbar) Topbar
 (focus) Projecttitle
-...
 (background) Project Description
 (background) Versions
 ...
+(input) F10
+(statusbar)...
 
 He fills out the fields about `title` (Adult Care) and a `description`.
 Two text widgets allow entering keyword information. He adds two

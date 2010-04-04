@@ -45,7 +45,7 @@ template is used to render a HTML form widget.
 
 >>> import zope.interface
 >>> import urwid
->>> class FormWidgetLayout(object):
+>>> class FormWidgetLayout(urwid.WidgetWrap):
 ...
 ...     zope.interface.implements(superorganism.gui.interfaces.ILayoutWidget)
 ...
@@ -60,10 +60,6 @@ template is used to render a HTML form widget.
 ...
 ...     def get_focus(self):
 ...         return (self._w, 0)
-...
-...     def render(self):
-...         size = self.context.screen.get_cols_rows()
-...         return self._w.render(size)
 
 Next, we have to create a factory for the widget. The default FormWidget
 implementation calls the factory with a default name:
@@ -93,7 +89,7 @@ We register the defaultfactory:
 Once everything is set up, the widget is updated and then rendered:
 
 >>> age.update()
->>> age.render().text
+>>> age.render((80,120)).text
 ['Age: 39 ...]
 
 
@@ -119,20 +115,21 @@ Of course, this is more commonly done using an adapter. Commonly those
 adapters look like this:
 
 >>> import superorganism.gui.interfaces
->>> @zope.component.adapter(zope.schema.Int)
+>>> @zope.component.adapter(zope.schema.Int,
+...                         superorganism.gui.interfaces.IScreen)
 ... @zope.interface.implementer(superorganism.gui.interfaces.IFormFieldWidget)
-... def IntWidget(field):
+... def IntWidget(field, screen):
 ...     return widgets.FormFieldWidget(field,
-...         widgets.FormWidget(superorganism.tests.Screen()))
+...         widgets.FormWidget(screen))
 
 >>> zope.component.provideAdapter(IntWidget)
->>> ageWidget = zope.component.getAdapter(ageField,
+>>> ageWidget = zope.component.getMultiAdapter((ageField, age.screen),
 ...     superorganism.gui.interfaces.IFormFieldWidget)
 
 Now we just have to update and render the widget:
 
 >>> ageWidget.update()
->>> print ageWidget.render().text
+>>> print ageWidget.render((80,120)).text
 ['Age: None...]
 
 There is no initial value for the widget, since the field does not
@@ -141,7 +138,7 @@ happens:
 
 >>> ageField.default = 30
 >>> ageWidget.update()
->>> print ageWidget.render().text
+>>> print ageWidget.render((80,120)).text
 ['Age: 30 ...]
 
 z3c.form uses a data manager wich converts between field and widget
@@ -166,13 +163,13 @@ Now the age value of the person takes precedence to be displayed as the
 widgets value:
 
 >>> ageWidget.update()
->>> print ageWidget.render().text
+>>> print ageWidget.render((80,120)).text
 ['Age: 45 ...]
 
 The context can be explicitly ignored:
 
 >>> ageWidget.ignoreContext = True
 >>> ageWidget.update()
->>> print ageWidget.render().text
+>>> print ageWidget.render((80,120)).text
 ['Age: 30 ...]
 

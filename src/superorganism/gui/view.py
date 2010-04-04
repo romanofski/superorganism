@@ -8,6 +8,7 @@ class BaseView(object):
 
     zope.interface.implements(superorganism.gui.interfaces.ITerminalView)
     widget = None
+    layout = ''
 
     def __init__(self, context, screen):
         self.context = context
@@ -23,7 +24,9 @@ class BaseView(object):
         self.screen.draw_screen(size, canvas)
 
     def setup_widgets(self):
-        self.widget = superorganism.gui.interfaces.ILayoutWidget(self)
+        self.widget = zope.component.getAdapter(
+            self, superorganism.gui.interfaces.ILayoutWidget,
+            name=self.layout)
 
     def run(self):
         util = zope.component.getUtility(

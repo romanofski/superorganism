@@ -2,6 +2,7 @@ import superorganism.gui.interfaces
 import urwid
 import zope.interface
 import zope.schema.interfaces
+import zope.component.factory
 
 
 class DialogButton(urwid.Button):
@@ -24,7 +25,7 @@ class DialogButton(urwid.Button):
         self.set_label(label)
 
 
-class FormWidget(object):
+class FormWidget(urwid.WidgetWrap):
 
     zope.interface.implements(superorganism.gui.interfaces.IFormWidget)
 
@@ -49,15 +50,8 @@ class FormWidget(object):
         if (superorganism.gui.interfaces.IContextAware.providedBy(self)\
             and self.ignoreContext == False):
             self.value = self.field.get(self.context)
-        self.layout = zope.component.getUtility(
+        self._w = zope.component.getUtility(
             zope.component.interfaces.IFactory, name=self.widgetfactory)(self)
-
-    @property
-    def _w(self):
-        return self.widget
-
-    def render(self):
-        return self.layout.render()
 
 
 def FormFieldWidget(field, widget):
@@ -68,47 +62,51 @@ def FormFieldWidget(field, widget):
     widget.__name__ = field.__name__
     widget.label = field.title
     widget.required = field.required
+    widget.update()
     return widget
 
 
-class TextInputWidget(urwid.WidgetWrap):
+class TextInputWidgetLayout(urwid.WidgetWrap):
 
-    zope.interface.implements(superorganism.gui.interfaces.ITextInputWidget)
+    zope.interface.implements(superorganism.gui.interfaces.ILayoutWidget)
 
-    def __init__(self, field, form):
-        self.field = field
-        self.form = form
-        self._value = field.get(form.context)
-        self.update()
+    def __init__(self, widget, mode='input'):
+        self.widget = widget
+        self.mode = mode
+        self.update_widgets()
 
-    def update(self):
-        text = urwid.Text(self.field.title)
+    def update_widgets(self):
+        text = urwid.Text(self.widget.label)
         edit = urwid.AttrMap(
-            urwid.Edit(edit_text=self._value, edit_pos=0), 'input')
-        edit.highlight = (0, len(self._value))
-        desc = urwid.Text(self.field.description)
+            urwid.Edit(edit_text=self.widget.value, edit_pos=0), self.mode)
+        if superorganism.gui.interfaces.IFormFieldWidget.providedBy(self):
+            desc = urwid.Text(self.widget.description)
+        else:
+            desc = urwid.Text('')
         self._w = urwid.AttrMap(
             urwid.Columns([text, ('weight', 3, edit), desc]), None,
             'focus')
 
-    def set(self, value):
-        self.field.set(self.form.context, value)
 
-    @property
-    def value(self):
-        return self.field.get(self.form.context)
+textinputwidgetlayout = zope.component.factory.Factory(
+    TextInputWidgetLayout,
+    title=u'New textinput widget layout')
 
 
-class MultilineInputWidget(urwid.WidgetWrap):
+@zope.component.adapter(zope.schema.TextLine,
+                        superorganism.gui.interfaces.IScreen)
+@zope.interface.implementer(superorganism.gui.interfaces.IFormFieldWidget)
+def TextInputFieldWidget(field, screen):
+    formwidget = FormWidget(screen)
+    formwidget.widgetfactory = 'superorganism.gui.widgets.textinput'
+    return FormFieldWidget(field, formwidget)
 
-    zope.interface.implements(superorganism.gui.interfaces.ITextInputWidget)
 
-    def update(self):
-        text = urwid.Text(self.field.title)
-        edit = urwid.AttrMap(
-            urwid.Edit(edit_text=self._value, multiline=True, edit_pos=0),'input')
-        edit.highlight = (0, len(self._value))
-        desc = urwid.Text(self.field.description)
-        self._w = urwid.AttrMap(
-            urwid.Columns([text, ('weight', 3, edit), desc]), None,
-            'focus')
+# XXX
+@zope.component.adapter(zope.schema.Set,
+                        superorganism.gui.interfaces.IScreen)
+@zope.interface.implementer(superorganism.gui.interfaces.IFormFieldWidget)
+def TextareaFieldWidget(field, screen):
+    formwidget = FormWidget(screen)
+    formwidget.widgetfactory = 'superorganism.gui.widgets.textinput'
+    return FormFieldWidget(field, formwidget)

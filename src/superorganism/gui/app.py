@@ -28,13 +28,6 @@ class BugList(superorganism.gui.view.BaseView):
         return zope.component.getMultiAdapter(
             (project, self.screen), name='editproject').run()
 
-    def contents(self):
-        result = []
-        for bug in self.context.values():
-            widget = urwid.Text(u'%s %s' % (bug.uid, bug.title))
-            result.append(urwid.AttrMap(widget, None, 'focus'))
-        return urwid.SimpleListWalker(result)
-
 
 class ApplicationLayout(urwid.WidgetWrap):
 
@@ -45,23 +38,30 @@ class ApplicationLayout(urwid.WidgetWrap):
     header = None
     footer = None
 
-    def __init__(self, context):
+    def __init__(self, view):
         self.focus = 'body'
-        self.context = context
+        self.view = view
         self.update_widgets()
 
     def update_widgets(self):
-        keybar = KeyConfigurationWidget(self.context)
+        keybar = KeyConfigurationWidget(self.view)
         self.status = urwid.Text('', align='left')
         footer = urwid.Pile([keybar, self.status])
 
         self.header = urwid.AttrMap(urwid.Text(u'Topbar'), 'helpbar')
-        self.body = urwid.ListBox(self.context.contents())
+        self.body = urwid.ListBox(self.create_body())
 
         self._w = urwid.Frame(urwid.AttrMap(self.body, 'background'),
                               header=urwid.AttrMap(self.header, 'helpbar'),
                               footer=urwid.AttrMap(footer, 'statusbar'))
         self._w.set_focus(self.focus)
+
+    def create_body(self):
+        result = []
+        for bug in self.view.context.values():
+            widget = urwid.Text(u'%s %s' % (bug.uid, bug.title))
+            result.append(urwid.AttrMap(widget, None, 'focus'))
+        return urwid.SimpleListWalker(result)
 
     def set_statusmsg(self, msg):
         self.status.set_text(msg)

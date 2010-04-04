@@ -15,21 +15,28 @@ Basic View
 ==========
 
 We first create we need a content object. That will be obviously for a
-bugtracker a bug:
+bugtracker a project:
 
->>> import superorganism.bug
->>> bug = superorganism.bug.Bug(1, u'New Bug', u'Bla bla')
+>>> import zope.component
+>>> import zope.component.interfaces
+>>> project = zope.component.getUtility(
+...     zope.component.interfaces.IFactory,
+...     u'superorganism.Project')(
+...         'project', '<Title>', '<Description>')
 
-We create now a Dashboard screen. The screen is an urwid display screen
-object. We use a screen mock:
+In order to render the project, we also need a screen. Because our
+application is a Terminal application, the screen or canvas we're
+drawing on would take care of the lower level conversion between our
+program and the terminal. The screen is an urwid display screen object.
+We use a screen mock:
 
 >>> import superorganism.tests
 >>> screen = superorganism.tests.Screen()
 
-For the bug to be rendered, we also need to create a View which renders
-the bug on the users screen. The view is a multiadapter adapting the
-content object and the screen in which we would like to render the
-content:
+For the project to be rendered, we also need to create a view which
+renders the project on the users screen. The view is a multiadapter
+adapting the content object and the screen in which we would like to
+render the content:
 
 >>> import superorganism.interfaces
 >>> import superorganism.gui.interfaces
@@ -38,7 +45,7 @@ content:
 >>> class BugList(superorganism.gui.view.BaseView):
 ...
 ...     zope.interface.implements(superorganism.gui.interfaces.ITerminalView)
-...     zope.component.adapts(superorganism.interfaces.IBug,
+...     zope.component.adapts(superorganism.interfaces.IProject,
 ...                           superorganism.gui.interfaces.IScreen)
 ...
 
@@ -49,8 +56,16 @@ The adapter now needs to be registered with the component architecture:
 
 Let's try out our view:
 
->>> view = zope.component.getMultiAdapter((bug, screen))
+>>> view = zope.component.getMultiAdapter((project, screen))
 >>> view.render()
 (helpbar) Topbar
 (background)...
+(input) F2
 (statusbar)...
+
+We want to verify if the view implements it's interface:
+
+>>> import zope.interface.verify
+>>> zope.interface.verify.verifyObject(
+...     superorganism.gui.interfaces.ITerminalView, view)
+True

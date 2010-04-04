@@ -1,5 +1,6 @@
 import superorganism.gui.view
 import superorganism.gui.interfaces
+import superorganism.gui.app
 import urwid
 import zope.component
 import zope.schema
@@ -12,15 +13,19 @@ class EditProject(superorganism.gui.view.BaseView):
         superorganism.gui.interfaces.IScreen)
 
     fields = superorganism.gui.interfaces.INewProjectForm
+    layout = "projectdialog"
 
-    def contents(self):
+
+class ProjectDialog(superorganism.gui.app.ApplicationLayout):
+
+    def create_body(self):
         widgets = []
-        for name, field in zope.schema.getFieldsInOrder(self.fields):
-            widgets.append(
-                zope.component.getMultiAdapter(
-                    (field, self), superorganism.gui.interfaces.IFormWidget))
+        for name, field in zope.schema.getFieldsInOrder(self.view.fields):
+            widget = zope.component.getMultiAdapter(
+                (field, self.view.screen),
+                superorganism.gui.interfaces.IFormFieldWidget)
+            widgets.append(widget)
         save = superorganism.gui.widgets.DialogButton("Save")
-        urwid.connect_signal(save, 'click', save_clicked, self)
         widgets.append(
             urwid.GridFlow(
                 [save,
@@ -28,9 +33,3 @@ class EditProject(superorganism.gui.view.BaseView):
                 10, 3, 1, 'center'
             ))
         return urwid.SimpleListWalker(widgets)
-
-def save_clicked(button, view):
-    app = view.context.__parent__
-    return zope.component.getMultiAdapter(
-        (app, view.screen),
-        superorganism.gui.interfaces.ITerminalView)

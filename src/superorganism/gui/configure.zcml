@@ -1,10 +1,17 @@
 <configure 
   xmlns="http://namespaces.repoze.org/bfg">
 
+  <!-- layout widgets -->
   <adapter
     factory="superorganism.gui.app.ApplicationLayout"
     />
 
+  <adapter
+    factory="superorganism.gui.projects.ProjectDialog"
+    name="projectdialog"
+    />
+
+  <!-- views -->
   <adapter
     factory="superorganism.gui.app.BugList"
     />
@@ -14,16 +21,17 @@
     name="editproject"
     />
 
-  <adapter
-    factory="superorganism.gui.widgets.TextInputWidget"
-    for="zope.schema.interfaces.ITextLine
-         superorganism.gui.interfaces.ITerminalView"
+  <!-- widgets for forms -->
+  <utility
+    component="superorganism.gui.widgets.textinputwidgetlayout"
+    name="superorganism.gui.widgets.textinput"
     />
 
   <adapter
-    factory="superorganism.gui.widgets.TextInputWidget"
-    for="zope.schema.interfaces.ISet
-         superorganism.gui.interfaces.ITerminalView"
+    factory="superorganism.gui.widgets.TextInputFieldWidget"
     />
 
+  <adapter
+    factory="superorganism.gui.widgets.TextareaFieldWidget"
+    />
 </configure>

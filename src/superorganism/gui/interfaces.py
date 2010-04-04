@@ -35,13 +35,17 @@ class ITerminalView(zope.interface.Interface):
 
     widget = zope.interface.Attribute("The top most urwid box widget.")
 
+    layout = zope.schema.TextLine(
+        title=u'LayoutWidget',
+        description=(u'The name of the ILayoutWidget, which is used to'
+            ' create the layout of this view.')
+    )
+
     def render():
         """Renders the screen elements."""
 
-    def contents():
-        """Returns the contents (as widget(s)) used to display in the
-           setup ILayoutWidget.
-        """
+    def setup_widgets():
+        """Creates and sets up the widget structure."""
 
 
 class ILayoutWidget(zope.interface.Interface):
@@ -59,7 +63,7 @@ class ILayoutWidget(zope.interface.Interface):
         """Returns the current focused widget and it's possition."""
 
 
-class INewProjectForm(ITerminalView):
+class INewProjectForm(zope.interface.Interface):
     """Form for creating a new project."""
 
     title = zope.schema.TextLine(
