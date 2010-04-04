@@ -32,7 +32,6 @@ class FormWidget(urwid.WidgetWrap):
     name = ''
     __name__ = ''
     label = ''
-    description = ''
     widgetfactory = 'superorganism.gui.widgets.default'
     value = None
     field = None
@@ -48,12 +47,18 @@ class FormWidget(urwid.WidgetWrap):
         if (superorganism.gui.interfaces.IFormFieldWidget.providedBy(self)\
             and not self.field.missing_value):
             self.value = self.field.default
-            self.description = self.field.description
         if (superorganism.gui.interfaces.IContextAware.providedBy(self)\
             and self.ignoreContext == False):
             self.value = self.field.get(self.context)
         self._w = zope.component.getUtility(
             zope.component.interfaces.IFactory, name=self.widgetfactory)(self)
+
+    @property
+    def description(self):
+        desc = ''
+        if superorganism.gui.interfaces.IFormFieldWidget.providedBy(self):
+            desc = self.field.description
+        return desc
 
 
 def FormFieldWidget(field, widget):

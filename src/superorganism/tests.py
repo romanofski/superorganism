@@ -26,6 +26,8 @@ class Screen(object):
 
     zope.interface.implements(superorganism.gui.interfaces.IScreen)
 
+    input = []
+
     def __init__(self):
         self._started = True
         self.has_color = False
@@ -41,7 +43,7 @@ class Screen(object):
                              printout.strip() or '+')
 
     def get_input(self):
-        return ['q']
+        return self.input
 
     def register_palette_entry(self, name, fg, bg, mono=None, fghigh=None,
                                bghigh=None):

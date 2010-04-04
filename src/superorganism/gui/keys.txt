@@ -20,6 +20,11 @@ We instantiate a Keydispatcher as a regular object with the screen:
 >>> screen = superorganism.tests.Screen()
 >>> dispatcher = superorganism.gui.keys.Dispatcher(screen)
 
+To sucessfully dispatch any key events, we emulate pressing any keys, by
+setting the input parameter of the screen:
+
+>>> screen.input = ['q']
+
 Verifying the Interface
 =======================
 
@@ -30,6 +35,7 @@ We quickly verify if the dispatcher implements it's interface:
 >>> zope.interface.verify.verifyObject(
 ...     superorganism.gui.interfaces.IKeyDispatcher, dispatcher)
 True
+
 
 Running
 =======

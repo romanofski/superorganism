@@ -23,13 +23,19 @@ a small spec and starts Superorganism.  Paul opens Superorganism,
 >>> app = superorganism.app.Application()
 >>> screen = superorganism.tests.Screen()
 
+Note: We have to set the input buttons to quit the view, otherwise the
+save action runs the BugList view into a while loop and the tests won't
+finish:
+
+>>> screen.input = ['f10']
+
 presses the "f2" key for creating a new project:
 
 >>> view = zope.component.getMultiAdapter(
 ...     (app, screen), name='addproject')
 >>> view.render()
 (helpbar) Topbar
-(focus) Projecttitle
+(focus) Projecttitle...
 (background) Project Description
 (background) Versions
 ...
@@ -52,7 +58,16 @@ versions, for the `versions` field and two components for the
 >>> data = view.extractData()
 >>> data
 {'versions': None, 'description': u'Project about adult care', 'title': u'Adult Care'}
+
+The user is redirected to the buglist after saving the form. XXX The project
+appears currently in the bug list.
+
 >>> view.save()
+(helpbar) Topbar
+(focus) Adult Care
+...
+(input) F2
+(statusbar) ...
 
 Paul created a new project:
 
@@ -74,7 +89,7 @@ He selects the project in Superorganism and edits it:
 ...     (project, screen), name='editproject')
 >>> view.render()
 (helpbar) Topbar
-(focus) Projecttitle
+(focus) Projecttitle...
 (background) Project Description
 (background) Versions
 ...
