@@ -63,7 +63,7 @@ class ILayoutWidget(zope.interface.Interface):
         """Returns the current focused widget and it's possition."""
 
 
-class INewProjectForm(zope.interface.Interface):
+class IProjectForm(zope.interface.Interface):
     """Form for creating a new project."""
 
     title = zope.schema.TextLine(

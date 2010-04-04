@@ -21,6 +21,11 @@
     name="editproject"
     />
 
+  <adapter
+    factory="superorganism.gui.projects.AddProject"
+    name="addproject"
+    />
+
   <!-- widgets for forms -->
   <utility
     component="superorganism.gui.widgets.textinputwidgetlayout"

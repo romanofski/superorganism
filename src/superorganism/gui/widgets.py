@@ -32,6 +32,7 @@ class FormWidget(urwid.WidgetWrap):
     name = ''
     __name__ = ''
     label = ''
+    description = ''
     widgetfactory = 'superorganism.gui.widgets.default'
     value = None
     field = None
@@ -47,6 +48,7 @@ class FormWidget(urwid.WidgetWrap):
         if (superorganism.gui.interfaces.IFormFieldWidget.providedBy(self)\
             and not self.field.missing_value):
             self.value = self.field.default
+            self.description = self.field.description
         if (superorganism.gui.interfaces.IContextAware.providedBy(self)\
             and self.ignoreContext == False):
             self.value = self.field.get(self.context)
@@ -79,10 +81,7 @@ class TextInputWidgetLayout(urwid.WidgetWrap):
         text = urwid.Text(self.widget.label)
         edit = urwid.AttrMap(
             urwid.Edit(edit_text=self.widget.value, edit_pos=0), self.mode)
-        if superorganism.gui.interfaces.IFormFieldWidget.providedBy(self):
-            desc = urwid.Text(self.widget.description)
-        else:
-            desc = urwid.Text('')
+        desc = urwid.Text(self.widget.description)
         self._w = urwid.AttrMap(
             urwid.Columns([text, ('weight', 3, edit), desc]), None,
             'focus')

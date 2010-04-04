@@ -16,7 +16,11 @@ class BugList(superorganism.gui.view.BaseView):
         superorganism.interfaces.IApplication,
         superorganism.gui.interfaces.IScreen)
 
-    def create_project(self):
+    def add_project(self):
+        return zope.component.getMultiAdapter(
+            (self.context, self.screen), name='addproject').run()
+
+    def edit_project(self):
         transaction.commit()
         project = zope.component.getUtility(
             zope.component.interfaces.IFactory,
@@ -59,7 +63,7 @@ class ApplicationLayout(urwid.WidgetWrap):
     def create_body(self):
         result = []
         for bug in self.view.context.values():
-            widget = urwid.Text(u'%s %s' % (bug.uid, bug.title))
+            widget = urwid.Text(u'%s' % (bug.title))
             result.append(urwid.AttrMap(widget, None, 'focus'))
         return urwid.SimpleListWalker(result)
 

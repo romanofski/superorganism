@@ -7,42 +7,68 @@
 
 Projects are container like objects, which hold bug related information.
 
-Setup
-=====
 
-Before we start with the test, we need a blank project we can adapt the
-view on. Additionally we also need a testing screen, which renders the
-form:
-
->>> import zope.component
->>> import zope.component.interfaces
->>> import superorganism.tests
->>> screen = superorganism.tests.Screen()
-
-Usually the project is created in the root of the database. Because the
-view relies on that behaviour, we have to set the parent of the project
-to be the application:
-
->>> import superorganism.app
->>> app = superorganism.app.Application()
->>> project = zope.component.getUtility(
-...     zope.component.interfaces.IFactory,
-...     u'superorganism.Project')(
-...         'project', '<Title>', '<Description>')
->>> project.__parent__ = app
-
-Editing Projects
-================
+Adding Projects
+===============
 
 Paul arrives at work on Monday morning. His Boss tells him, that he has
 to work on a new project: a system for managing people in an aged care
 facility. "Yet another management system.", he thinks. He quickly writes
-a small spec and starts Superorganism.
-Paul presses the "p" key which opens the dialog to create a new project:
+a small spec and starts Superorganism.  Paul opens Superorganism,
 
-XXX Needs to be refactored - the initial newproject form is rather an
-XXX editproject form.
+>>> import zope.component
+>>> import zope.component.interfaces
+>>> import superorganism.tests
+>>> import superorganism.app
+>>> app = superorganism.app.Application()
+>>> screen = superorganism.tests.Screen()
 
+presses the "f2" key for creating a new project:
+
+>>> view = zope.component.getMultiAdapter(
+...     (app, screen), name='addproject')
+>>> view.render()
+(helpbar) Topbar
+(focus) Projecttitle
+(background) Project Description
+(background) Versions
+...
+(input) F10
+(statusbar)...
+
+He fills out the fields about `title` (Adult Care) and a `description`.
+
+>>> view.formwidgets[0].label
+u'Projecttitle'
+>>> view.formwidgets[0].value = u'Adult Care'
+>>> view.formwidgets[1].label
+u'Project Description'
+>>> view.formwidgets[1].value = u'Project about adult care'
+
+Two text widgets allow entering keyword information. He adds two
+versions, for the `versions` field and two components for the
+`component` field. He saves the form by pressing the `f3` key.
+
+>>> data = view.extractData()
+>>> data
+{'versions': None, 'description': u'Project about adult care', 'title': u'Adult Care'}
+>>> view.save()
+
+Paul created a new project:
+
+>>> project = app.values()[0]
+>>> project.title == data['title']
+True
+>>> project.description == data['description']
+True
+
+Editing Projects
+================
+
+Paul mixed the project title up with a different project. He has to
+change the title.
+
+He selects the project in Superorganism and edits it:
 
 >>> view = zope.component.getMultiAdapter(
 ...     (project, screen), name='editproject')
@@ -54,9 +80,17 @@ XXX editproject form.
 ...
 (input) F10
 (statusbar)...
+>>> view.formwidgets[0].label == 'Projecttitle'
+True
+>>> view.formwidgets[0].value
+u'Adult Care'
 
-He fills out the fields about `title` (Adult Care) and a `description`.
-Two text widgets allow entering keyword information. He adds two
-versions, for the `versions` field and two components for the
-`component` field. He navigates to the `Save` button, presses the
-`Enter` key, saves the form and the new Project is created.
+Paul changes the title to:
+
+>>> view.formwidgets[0].value = u'Superorganism Project'
+
+And saves his changes:
+
+>>> view.save()
+>>> project.title
+u'Superorganism Project'
