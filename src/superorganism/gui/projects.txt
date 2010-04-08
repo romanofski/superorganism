@@ -36,8 +36,8 @@ presses the "f2" key for creating a new project:
 >>> view.render()
 (helpbar) Topbar
 (focus) Projecttitle...
-(background) Project Description
-(background) Versions
+(background) Project Description...
+(background) Versions...
 ...
 (input) F10
 (statusbar)...
@@ -46,10 +46,10 @@ He fills out the fields about `title` (Adult Care) and a `description`.
 
 >>> view.formwidgets[0].label
 u'Projecttitle'
->>> view.formwidgets[0].value = u'Adult Care'
+>>> view.formwidgets[0]._w.edit.set_edit_text(u'Adult Care')
 >>> view.formwidgets[1].label
 u'Project Description'
->>> view.formwidgets[1].value = u'Project about adult care'
+>>> view.formwidgets[1]._w.edit.set_edit_text(u'Project about adult care')
 
 Two text widgets allow entering keyword information. He adds two
 versions, for the `versions` field and two components for the
@@ -57,7 +57,7 @@ versions, for the `versions` field and two components for the
 
 >>> data = view.extractData()
 >>> data
-{'versions': None, 'description': u'Project about adult care', 'title': u'Adult Care'}
+{'versions': '', 'description': u'Project about adult care', 'title': u'Adult Care'}
 
 The user is redirected to the list of projects after saving the form. XXX The project
 appears currently in the bug list.
@@ -90,8 +90,8 @@ He selects the project in Superorganism and edits it:
 >>> view.render()
 (helpbar) Topbar
 (focus) Projecttitle...
-(background) Project Description
-(background) Versions
+(background) Project Description...
+(background) Versions...
 ...
 (input) F10
 (statusbar)...
@@ -102,7 +102,7 @@ u'Adult Care'
 
 Paul changes the title to:
 
->>> view.formwidgets[0].value = u'Superorganism Project'
+>>> view.formwidgets[0]._w.edit.set_edit_text(u'Superorganism Project')
 
 And saves his changes:
 

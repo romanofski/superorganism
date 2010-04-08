@@ -3,34 +3,10 @@ import superorganism.gui.view
 import superorganism.gui.widgets
 import superorganism.interfaces
 import superorganism.project
-import transaction
 import urwid
 import zope.component
 import zope.component.interfaces
 import zope.interface
-
-
-class Projects(superorganism.gui.view.BaseView):
-
-    zope.component.adapts(
-        superorganism.interfaces.IApplication,
-        superorganism.gui.interfaces.IScreen)
-
-    def add_project(self):
-        return zope.component.getMultiAdapter(
-            (self.context, self.screen), name='addproject').run()
-
-    def edit_project(self):
-        transaction.commit()
-        project = zope.component.getUtility(
-            zope.component.interfaces.IFactory,
-            u'superorganism.Project')(
-                'project', '<Title>', '<Description>')
-        name = 'project%s' % len(self.context.keys())
-        self.context[name] = project
-        project.__parent__ = self.context
-        return zope.component.getMultiAdapter(
-            (project, self.screen), name='editproject').run()
 
 
 class ApplicationLayout(urwid.WidgetWrap):

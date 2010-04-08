@@ -13,7 +13,7 @@
 
   <!-- views -->
   <adapter
-    factory="superorganism.gui.app.Projects"
+    factory="superorganism.gui.projects.Projects"
     />
 
   <adapter

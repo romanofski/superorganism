@@ -33,7 +33,7 @@ class FormWidget(urwid.WidgetWrap):
     __name__ = ''
     label = ''
     widgetfactory = 'superorganism.gui.widgets.default'
-    value = None
+    value = ''
     field = None
     context = None
     ignoreContext = False
@@ -60,6 +60,9 @@ class FormWidget(urwid.WidgetWrap):
             desc = self.field.description
         return desc
 
+    def extract(self):
+        return self._w.extract()
+
 
 def FormFieldWidget(field, widget):
     widget.field = field
@@ -84,12 +87,15 @@ class TextInputWidgetLayout(urwid.WidgetWrap):
 
     def update_widgets(self):
         text = urwid.Text(self.widget.label)
-        edit = urwid.AttrMap(
-            urwid.Edit(edit_text=self.widget.value, edit_pos=0), self.mode)
+        self.edit = urwid.Edit(edit_text=self.widget.value or '', edit_pos=0)
         desc = urwid.Text(self.widget.description)
         self._w = urwid.AttrMap(
-            urwid.Columns([text, ('weight', 3, edit), desc]), None,
-            'focus')
+            urwid.Columns([text,
+                           ('weight', 3, urwid.AttrMap(self.edit, self.mode)),
+                           desc]), None, 'focus')
+
+    def extract(self):
+        return self.edit.get_text()[0]
 
 
 textinputwidgetlayout = zope.component.factory.Factory(

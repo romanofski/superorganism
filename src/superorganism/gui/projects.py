@@ -1,22 +1,50 @@
 import superorganism.gui.view
 import superorganism.gui.interfaces
 import superorganism.gui.app
+import transaction
 import urwid
 import zope.component
 import zope.schema
+
+
+class Projects(superorganism.gui.view.BaseView):
+
+    zope.component.adapts(
+        superorganism.interfaces.IApplication,
+        superorganism.gui.interfaces.IScreen)
+
+    def add_project(self):
+        return zope.component.getMultiAdapter(
+            (self.context, self.screen), name='addproject').run()
+
+    def edit_project(self):
+        transaction.commit()
+        project = zope.component.getUtility(
+            zope.component.interfaces.IFactory,
+            u'superorganism.Project')(
+                'project', '<Title>', '<Description>')
+        name = 'project%s' % len(self.context.keys())
+        self.context[name] = project
+        project.__parent__ = self.context
+        return zope.component.getMultiAdapter(
+            (project, self.screen), name='editproject').run()
 
 
 class BaseForm(superorganism.gui.view.BaseView):
 
     fields = None
     layout = None
-    formwidgets = None
     ignoreContext = False
+
+    def __init__(self, context, screen):
+        self.formwidgets = []
+        super(BaseForm, self).__init__(context, screen)
+
 
     def extractData(self):
         info = {}
         for widget in self.formwidgets:
-            info[widget.__name__] = widget.value
+            info[widget.__name__] = widget.extract()
         return info
 
 
@@ -53,6 +81,7 @@ class EditProject(BaseForm):
 
     fields = superorganism.gui.interfaces.IProjectForm
     layout = "projectdialog"
+    formwidgets = []
 
     def save(self):
         data = self.extractData()
@@ -75,6 +104,7 @@ class ProjectDialog(superorganism.gui.app.ApplicationLayout):
                     widget, superorganism.gui.interfaces.IContextAware)
             widget.ignoreContext = self.view.ignoreContext
             widget.update()
+            self.view.formwidgets.append(widget)
             widgets.append(widget)
-        self.view.formwidgets = widgets
-        return urwid.SimpleListWalker(self.view.formwidgets)
+            widgets.append(urwid.Divider())
+        return urwid.SimpleListWalker(widgets)
