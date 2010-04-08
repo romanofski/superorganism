@@ -18,14 +18,10 @@ class Projects(superorganism.gui.view.BaseView):
             (self.context, self.screen), name='addproject').run()
 
     def edit_project(self):
-        transaction.commit()
-        project = zope.component.getUtility(
-            zope.component.interfaces.IFactory,
-            u'superorganism.Project')(
-                'project', '<Title>', '<Description>')
-        name = 'project%s' % len(self.context.keys())
-        self.context[name] = project
-        project.__parent__ = self.context
+        widget, pos = self.widget.get_focus()
+        # XXX we assume that the widget position equals the project in
+        # the list of values
+        project = self.context.values()[pos]
         return zope.component.getMultiAdapter(
             (project, self.screen), name='editproject').run()
 
@@ -88,6 +84,13 @@ class EditProject(BaseForm):
         context = self.context
         for name, field in zope.schema.getFieldsInOrder(self.fields):
             field.set(context, data[name])
+        self.nextview()
+
+    def nextview(self):
+        app = superorganism.interfaces.IApplication(self.context.__parent__)
+        return zope.component.getMultiAdapter(
+            (app, self.screen),
+            superorganism.gui.interfaces.ITerminalView).run()
 
 
 class ProjectDialog(superorganism.gui.app.ApplicationLayout):

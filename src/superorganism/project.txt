@@ -20,3 +20,13 @@ We check if the bug really imports it's interface:
 >>> zope.interface.verify.verifyObject(
 ...     superorganism.interfaces.IProject, project)
 True
+
+Adding a project to the application object correctly sets the __parent__
+and the name:
+
+>>> app = superorganism.app.Application()
+>>> app['foo'] = project
+>>> app['foo'].__name__
+u'foo'
+>>> app['foo'].__parent__ == app
+True

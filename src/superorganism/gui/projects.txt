@@ -83,6 +83,19 @@ Editing Projects
 Paul mixed the project title up with a different project. He has to
 change the title.
 
+>>> screen = superorganism.tests.Screen()
+>>> screen.input = ['f10']
+>>> projectlist = zope.component.getMultiAdapter(
+...     (app, screen), superorganism.gui.interfaces.ITerminalView)
+>>> projectlist.edit_project()
+(helpbar) Topbar
+(focus) Projecttitle...
+(background) Project Description...
+(background) Versions...
+...
+(input) F10
+(statusbar)...
+
 He selects the project in Superorganism and edits it:
 
 >>> view = zope.component.getMultiAdapter(
@@ -107,5 +120,6 @@ Paul changes the title to:
 And saves his changes:
 
 >>> view.save()
+(helpbar) ...
 >>> project.title
 u'Superorganism Project'
