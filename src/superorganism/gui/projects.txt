@@ -123,3 +123,23 @@ And saves his changes:
 (helpbar) ...
 >>> project.title
 u'Superorganism Project'
+
+
+Deleting Projects
+=================
+
+The project paul created was not the one he wanted. Instead of editing
+it again, he's sick and tired of it and deletes it:
+
+>>> len(app.values()) == 1
+True
+>>> projectlist = zope.component.getMultiAdapter(
+...     (app, screen), superorganism.gui.interfaces.ITerminalView)
+>>> projectlist.delete_project()
+(helpbar) ...
+
+The internal widget (which is a listwalker widget here) is used to
+determine the currently focused project. This project will be deleted:
+
+>>> len(app.values()) == 0
+True

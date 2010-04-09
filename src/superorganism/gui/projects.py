@@ -25,6 +25,14 @@ class Projects(superorganism.gui.view.BaseView):
         return zope.component.getMultiAdapter(
             (project, self.screen), name='editproject').run()
 
+    def delete_project(self):
+        widget, pos = self.widget.get_focus()
+        project = self.context.values()[pos]
+        del self.context[project.__name__]
+        return zope.component.getMultiAdapter(
+            (self.context, self.screen),
+            superorganism.gui.interfaces.ITerminalView).run()
+
 
 class BaseForm(superorganism.gui.view.BaseView):
 
